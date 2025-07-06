@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
+            <div class="tabs">
+                <a href="Consejos.html" class="tab active">Consejos</a>
+                <a href="Gramatica.html" class="tab">Gramática</a>
+                <a href="Canciones.html" class="tab">Canciones</a>
+                <a href="Textos.html" class="tab">Textos</a>
+                <button class="tab settings-tab" id="settingsTab">
+                    <i class="fas fa-cog"></i>
+                    Ajustes
+                </button>
+            </div>
+        </header>
+
+        <!-- Notice -->
+        <div class="notice">
+            <i class="fas fa-info-circle"></i>
+            <span>Requiere registro previo</span>
+        </div>
+
+        <!-- Description -->
+        <div class="description">
+            <p>Materiales didácticos y contenido complementario para tu progreso</p>
+        </div>
+
+
+        <!-- Levels Section -->
+        <div class="levels-grid">
+            <!-- Nivel A1 -->
+            <div class="level-card">
+                <div class="level-header">
+                    <h3>Nivel A1</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="NivelA1.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Acceder al Nivel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nivel A2 -->
+            <div class="level-card">
+                <div class="level-header">
+                    <h3>Nivel A2</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="NivelA2.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Acceder al Nivel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nivel B1 -->
+            <div class="level-card">
+                <div class="level-header">
+                    <h3>Nivel B1</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="NivelB1.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Acceder al Nivel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nivel B2 -->
+            <div class="level-card">
+                <div class="level-header">
+                    <h3>Nivel B2</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="NivelB2.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Acceder al Nivel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nivel C1 -->
+            <div class="level-card">
+                <div class="level-header">
+                    <h3>Nivel C1</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="NivelC1.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Acceder al Nivel
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Vocabulario y Extra -->
+            <div class="level-card special">
+                <div class="level-header">
+                    <h3>Proximamente Flashcards</h3>
+                </div>
+                <div class="level-actions">
+                    <a href="#" class="btn btn-generate" aria-label="Generar flashcards personalizadas">
+                        <span class="icon-magic"></span>
+                        Registrate
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel Overlay -->
+        <div class="settings-overlay" id="settingsOverlay">
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h2>Configuración</h2>
+                    <button class="close-btn" id="closeSettings">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Perfil</h3>
+                            <p>Configurar información personal</p>
+                        </div>
+                        <div class="setting-action">
+                            <a href="Perfil.html" class="btn btn-outline">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tema Oscuro</h3>
+                            <p>Cambiar apariencia de la aplicación</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
+                        </div>
+                        <div class="setting-action">
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <span class="made-with">Made by LatinCTC</span>
+                <i class="fas fa-heart heart-icon"></i>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Settings panel functionality
+        const settingsTab = document.getElementById('settingsTab');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const closeSettings = document.getElementById('closeSettings');
+
+        settingsTab.addEventListener('click', function(e) {
+            e.preventDefault();
+            settingsOverlay.classList.add('active');
+        });
+
+        closeSettings.addEventListener('click', function() {
+            settingsOverlay.classList.remove('active');
+        });
+
+        // Close settings when clicking outside
+        settingsOverlay.addEventListener('click', function(e) {
+            if (e.target === settingsOverlay) {
+                settingsOverlay.classList.remove('active');
+            }
+        });
+
+        // Close settings with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
+                settingsOverlay.classList.remove('active');
+            }
+        });
+
+        // Button interactions
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+
+        // Language selector
+        const languageSelect = document.querySelector('.setting-select');
+        languageSelect.addEventListener('change', function() {
+            console.log('Idioma cambiado a:', this.value);
+            // Aquí puedes agregar la lógica para cambiar el idioma
+        });
+    </script>
+</body>
+</html>
