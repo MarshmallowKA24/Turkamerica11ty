@@ -812,3 +812,47 @@
         }
         }
    
+        /* 1) Asegura que cada tarjeta sea contenedor relativo */
+.content-card {
+  position: relative;
+}
+
+/* 2) Anula cualquier posicionamiento absoluto global en .delete-btn */
+.delete-btn {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  margin: 0 0 1 9px; /* ajusta el espacio al gusto */
+}
+
+/* 3) Asegura que el contenedor de acciones quede bien posicionado */
+.content-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+/* --- Ajustes de alineación en las tarjetas de libro --- */
+
+/* Organiza los botones en columna y centrados */
+.content-card .content-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+/* Hace que todos los botones tengan ancho completo, con máximo */
+.content-card .content-actions .btn {
+  width: 100%;
+  max-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajusta icono + texto dentro del botón */
+.content-card .content-actions .btn i {
+  margin-right: 8px;
+}
+

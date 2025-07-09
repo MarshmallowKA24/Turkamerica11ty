@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libros - Recursos de Aprendizaje de Turco</title>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="texto.css">
+   <link rel="stylesheet" href="texto.css">
+    <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
     <div class="container">
@@ -15,9 +16,11 @@
         <header class="header">
             <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
             <div class="tabs">
+                <a href="index.html" class="tab">
+                <i class="fas fa-home"></i>
+                Inicio
                 <a href="index.html" class="tab">Consejos</a>
                 <a href="Gramatica.html" class="tab">Gramática</a>
-          
                 <a href="Textos.html" class="tab active">Textos</a>
              
                 <button class="tab settings-tab" id="settingsTab">
@@ -189,6 +192,7 @@
                     </div>
                 </div>
                 
+                
                 <div class="content-card" data-level="B2" data-genre="hikaye" data-book-id="2">
                     <div class="content-header">
                         <div class="content-icon">
@@ -252,23 +256,6 @@
 
                     <div class="setting-item">
                         <div class="setting-icon">
-                            <i class="fas fa-language"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Idioma</h3>
-                            <p>Cambiar idioma de la interfaz</p>
-                        </div>
-                        <div class="setting-action">
-                            <select class="setting-select">
-                                <option value="es">Español</option>
-                                <option value="en">English</option>
-                                <option value="tr">Türkçe</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
                             <i class="fas fa-bell"></i>
                         </div>
                         <div class="setting-content">
@@ -289,7 +276,7 @@
                         </div>
                         <div class="setting-content">
                             <h3>Tema Oscuro</h3>
-                            <p>Cambiar apariencia de la interfaz</p>
+                            <p>Cambiar apariencia de la aplicación</p>
                         </div>
                         <div class="setting-action">
                             <label class="toggle-switch">
@@ -301,37 +288,39 @@
 
                     <div class="setting-item">
                         <div class="setting-icon">
-                            <i class="fas fa-shield-alt"></i>
+                            <i class="fas fa-volume-up"></i>
                         </div>
                         <div class="setting-content">
-                            <h3>Privacidad</h3>
-                            <p>Configurar privacidad de datos</p>
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
                         </div>
                         <div class="setting-action">
-                            <button class="btn btn-outline">
-                                <i class="fas fa-external-link-alt"></i>
-                            </button>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
                         </div>
                     </div>
 
                     <div class="setting-item">
                         <div class="setting-icon">
-                            <i class="fas fa-question-circle"></i>
+                            <i class="fas fa-font"></i>
                         </div>
                         <div class="setting-content">
-                            <h3>Ayuda</h3>
-                            <p>Obtener ayuda y soporte</p>
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
                         </div>
                         <div class="setting-action">
-                            <button class="btn btn-outline">
-                                <i class="fas fa-external-link-alt"></i>
-                            </button>
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Reader Modal -->
         <div class="modal-overlay" id="readerModal" style="display: none;">
             <div class="modal-content">

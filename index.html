@@ -14,9 +14,11 @@
         <header class="header">
             <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
             <div class="tabs">
+                <a href="index.html" class="tab">
+                <i class="fas fa-home"></i>
+                Inicio
                 <a href="Consejos.html" class="tab active">Consejos</a>
                 <a href="Gramatica.html" class="tab">Gramática</a>
-               
                 <a href="Textos.html" class="tab">Textos</a>
                 <button class="tab settings-tab" id="settingsTab">
                     <i class="fas fa-cog"></i>
@@ -275,12 +277,6 @@
             document.body.classList.toggle('dark-mode');
         });
 
-        // Language selector
-        const languageSelect = document.querySelector('.setting-select');
-        languageSelect.addEventListener('change', function() {
-            console.log('Idioma cambiado a:', this.value);
-            // Aquí puedes agregar la lógica para cambiar el idioma
-        });
     </script>
 </body>
 </html>
