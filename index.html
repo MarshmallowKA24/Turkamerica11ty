@@ -14,10 +14,11 @@
         <header class="header">
             <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
             <div class="tabs">
-                <a href="index.html" class="tab">
-                <i class="fas fa-home"></i>
-                Inicio
-                <a href="Consejos.html" class="tab active">Consejos</a>
+                <a href="index.html" class="tab active">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+                <a href="Consejos.html" class="tab">Consejos</a>
                 <a href="Gramatica.html" class="tab">Gramática</a>
                 <a href="Textos.html" class="tab">Textos</a>
                 <button class="tab settings-tab" id="settingsTab">
@@ -222,61 +223,7 @@
             </div>
         </footer>
     </div>
-
-    <script>
-        // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Settings panel functionality
-        const settingsTab = document.getElementById('settingsTab');
-        const settingsOverlay = document.getElementById('settingsOverlay');
-        const closeSettings = document.getElementById('closeSettings');
-
-        settingsTab.addEventListener('click', function(e) {
-            e.preventDefault();
-            settingsOverlay.classList.add('active');
-        });
-
-        closeSettings.addEventListener('click', function() {
-            settingsOverlay.classList.remove('active');
-        });
-
-        // Close settings when clicking outside
-        settingsOverlay.addEventListener('click', function(e) {
-            if (e.target === settingsOverlay) {
-                settingsOverlay.classList.remove('active');
-            }
-        });
-
-        // Close settings with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
-                settingsOverlay.classList.remove('active');
-            }
-        });
-
-        // Button interactions
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Add click animation
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
-
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('change', function() {
-            document.body.classList.toggle('dark-mode');
-        });
-
-    </script>
+          <script src="index.js"></script>
+ 
 </body>
 </html>
