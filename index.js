@@ -1,4 +1,15 @@
-
+// Check authentication status on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize auth system
+    if (typeof window.auth !== 'undefined') {
+        window.auth.init();
+    }
+    
+    // Update user data manager
+    if (window.auth && window.auth.isLoggedIn()) {
+        window.userDataManager.setCurrentUser(window.auth.getCurrentUser());
+    }
+});
  // Tab functionality
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {

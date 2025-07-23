@@ -1,3 +1,16 @@
+// Replace global arrays with user-specific data
+function loadUserTexts() {
+    if (window.auth && window.auth.isLoggedIn()) {
+        return window.userDataManager.getTexts();
+    }
+    return [];
+}
+
+function saveUserText(text) {
+    if (window.auth && window.auth.isLoggedIn()) {
+        window.userDataManager.saveText(text);
+    }
+}
 // Global variables
 let books = [];
 let nextBookId = 3;

@@ -216,50 +216,6 @@ body.dark-mode .tab.active {
 .made-with {
     color: var(--footer-text);
 }
-
-/* Secciones aprendidas */
-.learned-section {
-    background: var(--learned-bg);
-    border-left: 5px solid var(--learned-border);
-    transition: all 0.3s ease;
-}
-
-.learned-deck {
-    background: var(--learned-deck-bg);
-    border: 2px solid var(--learned-border);
-    transition: all 0.3s ease;
-}
-
-.unlearned-count {
-    background: var(--unlearned-bg);
-    color: var(--unlearned-color);
-}
-
-.all-learned {
-    background: var(--all-learned-bg);
-    color: var(--all-learned-color);
-}
-
-/* Action Cards */
-.action-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-}
-
-.action-card:hover {
-    box-shadow: 0 4px 20px var(--shadow-hover);
-}
-
-.action-content h3 {
-    color: var(--text-primary);
-}
-
-.action-content p {
-    color: var(--text-secondary);
-}
-
 /* Setting Items */
 .setting-item {
     background: var(--bg-primary);
