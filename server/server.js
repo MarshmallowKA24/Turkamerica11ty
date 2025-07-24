@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -37,13 +38,22 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static('public'));
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/turkamerica', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+// --- Database connection (Updated) ---
+const mongoURI = process.env.MONGODB_URI;
+
+// Basic check for MONGODB_URI in production-like environments (optional, but helpful)
+if (!mongoURI && (process.env.NODE_ENV === 'production' || process.env.RENDER)) {
+  console.error("❌ CRITICAL: MONGODB_URI environment variable is not set. Database connection will fail.");
+  // Optionally exit here if the DB is critical: process.exit(1);
+}
+
+mongoose.connect(mongoURI || 'mongodb://localhost:27017/turkamerica') // Removed deprecated options
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err);
+    // Optionally, exit the process if DB connection is critical for your app
+    // process.exit(1);
+  });
 
 // Routes
 app.use('/api/auth', authRoutes);
