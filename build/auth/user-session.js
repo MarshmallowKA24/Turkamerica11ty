@@ -1,70 +1,75 @@
-// User session management
 class UserSession {
     constructor() {
+        this.authService = null;
         this.init();
     }
 
-    init() {
-        // Check authentication on protected pages
-        this.checkPageAuth();
+    async init() {
+        // Esperar a que AuthService esté disponible
+        await this.waitForAuthService();
         this.updateNavigation();
+        this.setupEventListeners();
     }
 
-    checkPageAuth() {
-        const protectedPages = ['flashcard.html', 'Textos.html'];
-        const currentPage = window.location.pathname.split('/').pop();
-        
-        if (protectedPages.includes(currentPage)) {
-            if (!window.auth.isLoggedIn()) {
-                alert('Debes iniciar sesión para acceder a esta página');
-                window.location.href = 'auth/login.html';
-                return;
-            }
-        }
+    // Método para esperar a que AuthService esté disponible
+    async waitForAuthService() {
+        return new Promise((resolve) => {
+            const checkAuthService = () => {
+                if (window.AuthService) {
+                    this.authService = window.AuthService;
+                    resolve();
+                } else {
+                    setTimeout(checkAuthService, 100);
+                }
+            };
+            checkAuthService();
+        });
     }
 
     updateNavigation() {
-        // Update navigation based on auth status
-        const authButton = document.getElementById('authButton');
+        // Verificar que authService existe antes de usarlo
+        if (!this.authService) {
+            console.error('AuthService no está disponible');
+            return;
+        }
+
+        const isLoggedIn = this.authService.isLoggedIn();
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
-        
-        if (window.auth.isLoggedIn()) {
-            const user = window.auth.getCurrentUser();
-            if (authButton) {
-                authButton.innerHTML = `<span>Hola, ${user.username}</span> | <a href="#" onclick="window.auth.logout()">Cerrar Sesión</a>`;
+
+        if (isLoggedIn) {
+            const currentUser = this.authService.getCurrentUser();
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'block';
+            if (userInfo) {
+                userInfo.style.display = 'block';
+                userInfo.textContent = `¡Hola, ${currentUser.name}!`;
             }
         } else {
-            if (authButton) {
-                authButton.innerHTML = `<a href="auth/login.html">Iniciar Sesión</a> | <a href="auth/register.html">Registrarse</a>`;
-            }
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            if (userInfo) userInfo.style.display = 'none';
         }
     }
 
-    getUserData(dataType) {
-        const user = window.auth.getCurrentUser();
-        if (!user) return [];
-        
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const currentUser = users.find(u => u.id === user.id);
-        
-        return currentUser ? currentUser[dataType] || [] : [];
-    }
-
-    saveUserData(dataType, data) {
-        const user = window.auth.getCurrentUser();
-        if (!user) return;
-        
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const userIndex = users.findIndex(u => u.id === user.id);
-        
-        if (userIndex !== -1) {
-            users[userIndex][dataType] = data;
-            localStorage.setItem('users', JSON.stringify(users));
+    setupEventListeners() {
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                if (this.authService) {
+                    this.authService.logout();
+                    this.updateNavigation();
+                }
+            });
         }
     }
 }
 
-// Initialize session management
+// Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    window.userSession = new UserSession();
+    // Asegurarse de que no haya múltiples instancias
+    if (!window.userSession) {
+        window.userSession = new UserSession();
+    }
 });
