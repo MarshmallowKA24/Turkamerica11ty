@@ -36,10 +36,12 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// --- Serve Frontend Static Files (if bundled with backend) ---
-// This assumes you have run 'npm run build' in your frontend project
-// and committed the resulting 'build' folder to your repository root.
-const buildPath = path.join(__dirname, 'build');
+// --- Serve Frontend Static Files ---
+// Adjust the path to look for 'build' in the project root directory.
+// __dirname is '/opt/render/project/src/server', so '../..' goes up to '/opt/render/project/src'
+const buildPath = path.join(__dirname, '..', '..', 'build'); // <-- Corrected path
+console.log('Looking for frontend build in:', buildPath); // Log for debugging
+
 app.use(express.static(buildPath));
 
 // Database connection (Updated: Removed deprecated options)
@@ -74,7 +76,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// --- Catch-all route for frontend (if bundled with backend) ---
+// --- Catch-all route for frontend ---
 // This should come AFTER your API routes but BEFORE the 404 handler.
 // It sends the React app (or other SPA) for any non-API route.
 app.get('*', (req, res) => {
@@ -90,17 +92,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler (This will now primarily catch API routes that don't exist)
-app.use('*', (req, res) => {
+// 404 handler (Adjusted to be more specific to API routes)
+// This will now primarily catch API routes that don't exist
+app.use('/api/*', (req, res) => { // <-- Adjusted to only apply to /api paths
   res.status(404).json({ error: 'API Route not found' });
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  // Note: FRONTEND_URL might not be relevant if serving frontend from here
-  if (process.env.FRONTEND_URL && process.env.FRONTEND_URL !== 'http://localhost:3000') {
-    console.log(`📱 Expected Frontend URL (if separate): ${process.env.FRONTEND_URL}`);
-  }
+  console.log('✅ MongoDB connection status check completed.');
+  console.log(`📱 Serving frontend static files from: ${buildPath}`); // Log path being used
 });
-
