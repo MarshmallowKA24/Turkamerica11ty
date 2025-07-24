@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
+const path = require('path'); // Import path module
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -35,19 +36,22 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
-app.use(express.static('public'));
+// --- Serve Frontend Static Files (if bundled with backend) ---
+// This assumes you have run 'npm run build' in your frontend project
+// and committed the resulting 'build' folder to your repository root.
+const buildPath = path.join(__dirname, 'build');
+app.use(express.static(buildPath));
 
-// --- Database connection (Updated) ---
+// Database connection (Updated: Removed deprecated options)
 const mongoURI = process.env.MONGODB_URI;
 
 // Basic check for MONGODB_URI in production-like environments (optional, but helpful)
 if (!mongoURI && (process.env.NODE_ENV === 'production' || process.env.RENDER)) {
   console.error("❌ CRITICAL: MONGODB_URI environment variable is not set. Database connection will fail.");
-  // Optionally exit here if the DB is critical: process.exit(1);
+  // Consider exiting if DB is critical: process.exit(1);
 }
 
-mongoose.connect(mongoURI || 'mongodb://localhost:27017/turkamerica') // Removed deprecated options
+mongoose.connect(mongoURI || 'mongodb://localhost:27017/turkamerica')
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => {
     console.error('❌ MongoDB connection error:', err);
@@ -70,6 +74,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// --- Catch-all route for frontend (if bundled with backend) ---
+// This should come AFTER your API routes but BEFORE the 404 handler.
+// It sends the React app (or other SPA) for any non-API route.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -79,13 +90,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
+// 404 handler (This will now primarily catch API routes that don't exist)
 app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'API Route not found' });
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📱 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+  // Note: FRONTEND_URL might not be relevant if serving frontend from here
+  if (process.env.FRONTEND_URL && process.env.FRONTEND_URL !== 'http://localhost:3000') {
+    console.log(`📱 Expected Frontend URL (if separate): ${process.env.FRONTEND_URL}`);
+  }
 });
+
