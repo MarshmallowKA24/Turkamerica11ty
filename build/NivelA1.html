@@ -4,22 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turco para Latinos - Nivel A1</title>
-    <!-- 
-        Note: The original CSP header had 'unsafe-inline' for script-src and script-src-attr.
-        To fully comply with avoiding inline handlers, you might consider removing 'unsafe-inline'
-        from script-src-attr if possible, but it's currently needed for the inline script tag 
-        containing the window.onclick assignment. A better approach would be to move that logic 
-        to nivel-a1.js as well.
-    -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-        script-src 'self' 'unsafe-inline'; /* Consider removing 'unsafe-inline' later if possible */
+        script-src 'self' 'unsafe-inline';
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-        script-src-attr 'none'; /* This explicitly blocks inline handlers, which we are now avoiding */
+        script-src-attr 'none';
         img-src 'self' data: https:;
         connect-src 'self';
     ">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
