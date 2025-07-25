@@ -5,14 +5,12 @@ function openExplanation(topic) {
     const modal = document.getElementById('explanationModal');
     const title = document.getElementById('modalTitle');
     const content = document.getElementById('modalContent');
-    
     const explanations = {
         'alfabeto': {
             title: 'Türk Alfabesi',
             content: `
                 <h4>Alfabeto Turco: 29 Letras</h4>
                 <p>Cada letra representa un solo sonido. Esto hace que el turco sea fácil de pronunciar una vez aprendes el alfabeto.</p>
-
                 <table class="comparison-table">
                 <tr>
                     <th>Letra</th>
@@ -21,7 +19,6 @@ function openExplanation(topic) {
                     <th>Ejemplo</th>
                     <th>Traducción</th>
                 </tr>
-
                 <tr>
                     <td>A</td>
                     <td>como "a" en "casa"</td>
@@ -29,7 +26,6 @@ function openExplanation(topic) {
                     <td>Araba</td>
                     <td>coche</td>
                 </tr>
-
                 <tr>
                     <td>B</td>
                     <td>como "b" en "barco"</td>
@@ -37,7 +33,6 @@ function openExplanation(topic) {
                     <td>Balık</td>
                     <td>pez</td>
                 </tr>
-
                 <tr>
                     <td>C</td>
                     <td>como "j" en "jugo" (inglés) Juice</td>
@@ -45,7 +40,6 @@ function openExplanation(topic) {
                     <td>Cevap</td>
                     <td>respuesta</td>
                 </tr>
-
                 <tr>
                     <td>Ç</td>
                     <td>como "ch" en "chico"</td>
@@ -53,7 +47,6 @@ function openExplanation(topic) {
                     <td>Çay</td>
                     <td>té</td>
                 </tr>
-
                 <tr>
                     <td>D</td>
                     <td>como "d" en "día"</td>
@@ -61,7 +54,6 @@ function openExplanation(topic) {
                     <td>Deniz</td>
                     <td>mar</td>
                 </tr>
-
                 <tr>
                     <td>E</td>
                     <td>como "e" en "mesa"</td>
@@ -69,7 +61,6 @@ function openExplanation(topic) {
                     <td>Elma</td>
                     <td>manzana</td>
                 </tr>
-
                 <tr>
                     <td>F</td>
                     <td>como "f" en "foca"</td>
@@ -77,7 +68,6 @@ function openExplanation(topic) {
                     <td>Fil</td>
                     <td>elefante</td>
                 </tr>
-
                 <tr>
                     <td>G</td>
                     <td>como "g" suave, nunca jota</td>
@@ -85,7 +75,6 @@ function openExplanation(topic) {
                     <td>Gün</td>
                     <td>día</td>
                 </tr>
-
                 <tr>
                     <td>Ğ</td>
                     <td>alarga la vocal anterior</td>
@@ -93,7 +82,6 @@ function openExplanation(topic) {
                     <td>Dağ</td>
                     <td>montaña</td>
                 </tr>
-
                 <tr>
                     <td>H</td>
                     <td>como la j</td>
@@ -101,7 +89,6 @@ function openExplanation(topic) {
                     <td>Hayat</td>
                     <td>vida</td>
                 </tr>
-
                 <tr>
                     <td>I (sin punto)</td>
                     <td>cerrada, gutural</td>
@@ -109,7 +96,6 @@ function openExplanation(topic) {
                     <td>Kapı</td>
                     <td>puerta</td>
                 </tr>
-
                 <tr>
                     <td>İ (con punto)</td>
                     <td>como "i" en "vino"</td>
@@ -117,7 +103,6 @@ function openExplanation(topic) {
                     <td>İnek</td>
                     <td>vaca</td>
                 </tr>
-
                 <tr>
                     <td>J</td>
                     <td>como "zh" francesa (journal)</td>
@@ -125,7 +110,6 @@ function openExplanation(topic) {
                     <td>Jale</td>
                     <td>nombre propio</td>
                 </tr>
-
                 <tr>
                     <td>K</td>
                     <td>como "k" en "kilómetro"</td>
@@ -133,7 +117,6 @@ function openExplanation(topic) {
                     <td>Köpek</td>
                     <td>perro</td>
                 </tr>
-
                 <tr>
                     <td>L</td>
                     <td>como "l" en "luna"</td>
@@ -141,7 +124,6 @@ function openExplanation(topic) {
                     <td>Lamba</td>
                     <td>lámpara</td>
                 </tr>
-
                 <tr>
                     <td>M</td>
                     <td>como "m" en "mano"</td>
@@ -149,7 +131,6 @@ function openExplanation(topic) {
                     <td>Maske</td>
                     <td>mascarilla</td>
                 </tr>
-
                 <tr>
                     <td>N</td>
                     <td>como "n" en "nube"</td>
@@ -157,7 +138,6 @@ function openExplanation(topic) {
                     <td>Ne</td>
                     <td>¿Qué?</td>
                 </tr>
-
                 <tr>
                     <td>O</td>
                     <td>como "o" en "sol"</td>
@@ -165,7 +145,6 @@ function openExplanation(topic) {
                     <td>Okul</td>
                     <td>escuela</td>
                 </tr>
-
                 <tr>
                     <td>Ö</td>
                     <td>como "eu" en francés</td>
@@ -173,7 +152,6 @@ function openExplanation(topic) {
                     <td>Öğrenci</td>
                     <td>estudiante</td>
                 </tr>
-
                 <tr>
                     <td>P</td>
                     <td>como "p" en "pato"</td>
@@ -181,7 +159,6 @@ function openExplanation(topic) {
                     <td>Para</td>
                     <td>dinero</td>
                 </tr>
-
                 <tr>
                     <td>R</td>
                     <td>ligera, vibrante</td>
@@ -189,7 +166,6 @@ function openExplanation(topic) {
                     <td>Renk</td>
                     <td>color</td>
                 </tr>
-
                 <tr>
                     <td>S</td>
                     <td>como "s" en "sol"</td>
@@ -197,7 +173,6 @@ function openExplanation(topic) {
                     <td>Su</td>
                     <td>agua</td>
                 </tr>
-
                 <tr>
                     <td>Ş</td>
                     <td>como "sh" en inglés</td>
@@ -205,7 +180,6 @@ function openExplanation(topic) {
                     <td>Şarkı</td>
                     <td>canción</td>
                 </tr>
-
                 <tr>
                     <td>T</td>
                     <td>como "t" en "taza"</td>
@@ -213,7 +187,6 @@ function openExplanation(topic) {
                     <td>Telefon</td>
                     <td>teléfono</td>
                 </tr>
-
                 <tr>
                     <td>U</td>
                     <td>como "u" en "luz"</td>
@@ -221,7 +194,6 @@ function openExplanation(topic) {
                     <td>Umut</td>
                     <td>esperanza</td>
                 </tr>
-
                 <tr>
                     <td>Ü</td>
                     <td>como "ü" alemana</td>
@@ -229,7 +201,6 @@ function openExplanation(topic) {
                     <td>Üzüm</td>
                     <td>uva</td>
                 </tr>
-
                 <tr>
                     <td>V</td>
                     <td>como "b" suave</td>
@@ -237,7 +208,6 @@ function openExplanation(topic) {
                     <td>Var</td>
                     <td>hay</td>
                 </tr>
-
                 <tr>
                     <td>Y</td>
                     <td>como "y" o "ll"</td>
@@ -245,7 +215,6 @@ function openExplanation(topic) {
                     <td>Yemek</td>
                     <td>comida</td>
                 </tr>
-
                 <tr>
                     <td>Z</td>
                     <td>como "z" en "zapato" pronunciación de manera española </td>
@@ -254,7 +223,6 @@ function openExplanation(topic) {
                     <td>tiempo</td>
                 </tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-spell-check"></i>
                 <strong>Consejo:</strong> Aprende primero las letras especiales (Ç, Ş, Ğ, I, İ, Ö, Ü) y practica leyendo palabras en voz alta, separando cada sílaba.
@@ -266,13 +234,11 @@ function openExplanation(topic) {
             content: `
                 <h4>¿Qué expresa?</h4>
                 <p>El caso locativo indica <strong>ubicación estática</strong>, equivalente a "en", "dentro de", o "sobre". Se expresa con los sufijos: <strong>-de / -da / -te / -ta</strong>.</p>
-
                 <h4>Reglas para formar el locativo:</h4>
                 <ul>
                 <li><strong>Armonía vocálica:</strong> se adapta a la última vocal de la palabra.</li>
                 <li><strong>Consonante final:</strong> si termina en consonante sorda (f,s,t,k,ç,ş,h,p ), se usa la variante sorda (-ta / -te).</li>
                 </ul>
-
                 <table class="comparison-table">
                 <tr><th>Palabra</th><th>Vocal</th><th>Final</th><th>Locativo</th><th>Traducción</th></tr>
                 <tr><td>ev</td><td>e</td><td>v</td><td><strong>evde</strong></td><td>en la casa</td></tr>
@@ -280,7 +246,6 @@ function openExplanation(topic) {
                 <tr><td>sınıf</td><td>ı</td><td>f</td><td><strong>sınıfta</strong></td><td>en el aula</td></tr>
                 <tr><td>kütüphane</td><td>e</td><td>e</td><td><strong>kütüphanede</strong></td><td>en la biblioteca</td></tr>
                 </table>
-
                 <h4>Con sufijos personales:</h4>
                 <table class="comparison-table">
                 <tr><th>Pronombre</th><th>Forma completa</th><th>Traducción</th></tr>
@@ -291,7 +256,6 @@ function openExplanation(topic) {
                 <tr><td>Siz</td><td>Ev<strong>desiniz</strong></td><td>Están en casa (Uds.)</td></tr>
                 <tr><td>Onlar</td><td>Ev<strong>deler</strong></td><td>Están en casa (Ellos)</td></tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-map-marker-alt"></i>
                 Recuerda: El sufijo locativo se usa solo cuando alguien o algo ya está en un lugar.
@@ -407,13 +371,11 @@ function openExplanation(topic) {
             content: `
                 <h4>¿Qué es?</h4>
                 <p>Este sufijo convierte afirmaciones en <strong>preguntas de sí/no</strong> cuando se usa con adjetivos.</p>
-
                 <h4>Reglas básicas</h4>
                 <ul>
                 <li>Va separado del adjetivo, <strong>nunca se une</strong> a la palabra anterior.</li>
                 <li>Sigue la <strong>armonía vocálica</strong> según la última vocal.</li>
                 </ul>
-
                 <h4>Variantes según la vocal:</h4>
                 <table class="comparison-table">
                 <tr><th>Vocal anterior</th><th>Forma del sufijo</th><th>Ejemplo</th></tr>
@@ -422,9 +384,7 @@ function openExplanation(topic) {
                 <tr><td>o / u</td><td><strong>mu</strong></td><td>Mutlu <strong>mu</strong>?</td></tr>
                 <tr><td>ö / ü</td><td><strong>mü</strong></td><td>Üzgün <strong>mü</strong>?</td></tr>
                 </table>
-
                 <h4>Uso con pronombres personales (Ej: "mutlu" = feliz)</h4>
-
                 <table class="comparison-table">
                 <tr><th>Pronombre</th><th>Forma completa</th><th>Traducción</th></tr>
                 <tr><td>Ben (yo)</td><td>Mutlu <strong>muyum</strong>?</td><td>¿Soy feliz?</td></tr>
@@ -434,7 +394,6 @@ function openExplanation(topic) {
                 <tr><td>Siz (vosotros/ustedes)</td><td>Mutlu <strong>musunuz</strong>?</td><td>¿Son felices?</td></tr>
                 <tr><td>Onlar (ellos)</td><td>Mutlu <strong>mular</strong>?</td><td>¿Son felices?</td></tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-lightbulb"></i>
                 <strong>Recuerda:</strong> este sufijo se usa con adjetivos y va siempre separado También puede recibir sufijos personales.
@@ -448,7 +407,6 @@ function openExplanation(topic) {
             content: `
                 <h4>¿Qué expresa?</h4>
                 <p>El Şimdiki Zaman indica una acción en curso: "estar + gerundio" (–ndo) en español, pero en turco se forma sin verbo auxiliar, como tambien tiene la funcion del presente simple.</p>
-
                 <h4>Formación básica</h4>
                 <p><strong>Raíz del verbo</strong> + <strong>-yor</strong> (variante según armonía vocálica) + <strong>terminación personal</strong>.</p>
                 <ul>
@@ -456,7 +414,6 @@ function openExplanation(topic) {
                 <li>Sen <strong>okuyorsun</strong> – Tú estás leyendo / Tú lees.</li>
                 <li>O <strong>okuyor</strong> – Él/Ella está leyendo / Él/Ella lee.</li>
                 </ul>
-
                 <h4>Reglas a tener en cuenta</h4>
                 <ul>
                 <li><strong>Armonía vocálica</strong> en <em>-yor</em>:
@@ -475,7 +432,6 @@ function openExplanation(topic) {
                     </ul>
                 </li>
                 </ul>
-
                 <h4>Conjugación de ejemplo para varios verbos</h4>
                 <table class="comparison-table">
                 <tr>
@@ -498,7 +454,7 @@ function openExplanation(topic) {
                     <td>Sen</td>
                     <td>An<strong>lıyor</strong>sun</td>
                     <td>Oku<strong>yor</strong>sun</td>
-                    <td>Gi<strong>diyor</strong>sun</td>
+                    <td>Gi<strong>diyor</strong>sin</td>
                     <td>Ta<strong>dıyor</strong>sun</td>
                     <td>E<strong>diyor</strong>sun</td>
                 </tr>
@@ -535,7 +491,6 @@ function openExplanation(topic) {
                     <td>E<strong>diyorlar</strong></td>
                 </tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-lightbulb"></i>
                 <strong>Recuerda:</strong>  
@@ -555,7 +510,6 @@ function openExplanation(topic) {
                 –<strong>-yA</strong> (Yöneleme) indica <em>movimiento hacia</em>: "a", "hacia".<br>
                 –<strong>-DAn</strong> (Ayrılma) indica <em>origen o procedencia</em>: "de", "desde".
                 </p>
-
                 <h4>Reglas generales</h4>
                 <ul>
                 <li><strong>Armonía vocálica:</strong>
@@ -568,7 +522,6 @@ function openExplanation(topic) {
                 </li>
                 <li><strong>Consonante sorda final:</strong> f,s,t,k,ç,ş,h,p  → variantes sordas: <em>-ta / -tan</em> o <em>-te / -ten</em>.</li>
                 </ul>
-
                 <h4>Ejemplos con verbos</h4>
                 <table class="comparison-table">
                 <tr><th>Caso</th><th>Verbo + caso</th><th>Turco</th><th>Español</th></tr>
@@ -597,7 +550,6 @@ function openExplanation(topic) {
                     <td>Salgo de la casa.</td>
                 </tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-map-marker-alt"></i>
                 <strong>Recuerda:</strong>  
@@ -614,13 +566,11 @@ function openExplanation(topic) {
             content: `
                 <h4>¿Qué expresa?</h4>
                 <p>Para decir "querer hacer algo", se combina el <strong>infinitivo</strong> del verbo (<em>-mak / -mek</em>) + <strong>istemek</strong>.</p>
-
                 <h4>Formación</h4>
                 <p>
                 <strong>Raíz del verbo +</strong> <em>-mak/-mek</em> + <strong>istemek</strong>  
                 + <strong>terminación personal</strong>.
                 </p>
-
                 <h4>Conjugación con un verbo</h4>
                 <table class="comparison-table">
                 <tr><th>Pronombre</th><th>okumak istiyor…</th><th>Traducción</th></tr>
@@ -631,14 +581,12 @@ function openExplanation(topic) {
                 <tr><td>Siz</td><td><em>Okumak istiyorsunuz</em></td><td>Quieren leer</td></tr>
                 <tr><td>Onlar</td><td><em>Okumak istiyorlar</em></td><td>Quieren leer</td></tr>
                 </table>
-
                 <h4>Verbos con asimilaciones comunes</h4>
                 <ul>
                 <li><em>Gitmek → Gitmek istiyorum</em> (no hay cambio interno)</li>
                 <li><em>Etmek → Etmek istiyorum</em></li>
                 <li><em>Sevmek → Sevmek istiyorum</em></li>
                 </ul>
-
                 <h4>Adjetivos con "olmak" + istemek</h4>
                 <p>Para "querer estar/ponerse" + adjetivo, usamos <em>adjetivo + olmak</em> en infinitivo:</p>
                 <table class="comparison-table">
@@ -648,7 +596,6 @@ function openExplanation(topic) {
                 <tr><td>O</td><td><em>Hazır olmak istiyor</em></td><td>Quiere estar listo</td></tr>
                 <tr><td>Biz</td><td><em>Başarılı olmak istiyoruz</em></td><td>Queremos ser éxitosos</td></tr>
                 </table>
-
                 <div class="tip-box">
                 <i class="fas fa-star"></i>
                 <strong>Recuerda:</strong>  
@@ -664,13 +611,11 @@ function openExplanation(topic) {
             content: `
                 <h4>¿Qué expresan?</h4>
                 <p>Los sufijos de relación unen dos sustantivos para indicar <strong>posesión</strong>, <strong>pertenencia</strong>, o <strong>relaciones espaciales</strong>.</p>
-
                 <h4>Principales sufijos</h4>
                 <ul>
                 <li><strong>-ın / -in / -un / -ün</strong> (genitivo) – posesión o pertenencia.  
                     <br><em>Kitabın sayfası</em> – la página de tu libro.</li>
                 </ul>
-
                 <h4>Reglas generales</h4>
                 <ol>
                 <li><strong>Armonía vocálica</strong> según la última vocal de la palabra:</li>
@@ -684,16 +629,14 @@ function openExplanation(topic) {
                 <li><strong>Consonante final sorda</strong> (k, t, ç, p,): use variante sorda de locativo <em>-ta / -te</em> y genitivo igual pero raíz sin cambio.  
                     <br><em>Kitap → kitabın</em>, <em>kitapta</em>; <em>çocuk → çocuğun</em>, <em>çocuktan</em>.</li>
                 </ol>
-
                 <h4>Excepciones en raíz (asibilación y sonorización)</h4>
                 <p>Algunos grupos consonánticos k/t/ç/h/p cambian internamente:</p>
                 <ul>
-                <li><strong>k &gt; ğ</strong> ante sufijo: <em>bebek + -in → bebeğin</em> (bebe →  tu bebe).</li>
-                <li><strong>p &gt; b</strong> ante sufijo: <em>kitap + -ın → kitabın</em> (libro →  tu libro).</li>
-                <li><strong>t &gt; d</strong> ante sufijo: <em>tat + -ın → tadın</em> (sabor →  tu sabor).</li>
-                <li><strong>ç &gt; c </strong>ante sufijo: <em>ağaç + -ın →ağacın </em> (arbol→ tu arbol).</li>
+                <li><strong>k > ğ</strong> ante sufijo: <em>bebek + -in → bebeğin</em> (bebe →  tu bebe).</li>
+                <li><strong>p > b</strong> ante sufijo: <em>kitap + -ın → kitabın</em> (libro →  tu libro).</li>
+                <li><strong>t > d</strong> ante sufijo: <em>tat + -ın → tadın</em> (sabor →  tu sabor).</li>
+                <li><strong>ç > c </strong>ante sufijo: <em>ağaç + -ın →ağacın </em> (arbol→ tu arbol).</li>
                 </ul>
-
                 <div class="tip-box">
                 <i class="fas fa-link"></i>
                 <strong>Recuerda:</strong>
@@ -736,7 +679,6 @@ function openExplanation(topic) {
             `
         }
     };
-
     if (explanations[topic]) {
         title.textContent = explanations[topic].title;
         content.innerHTML = explanations[topic].content;
@@ -746,19 +688,40 @@ function openExplanation(topic) {
 
 // Función para cerrar modal
 function closeModal() {
-    document.getElementById('explanationModal').style.display = 'none';
+    const modal = document.getElementById('explanationModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Click fuera del modal para cerrar
-    window.onclick = function(e) {
+
+    // Agregar event listeners a los botones de explicación
+    const explanationButtons = document.querySelectorAll('.explanation-btn');
+    explanationButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const topic = this.getAttribute('data-topic');
+            if (topic) {
+                openExplanation(topic);
+            }
+        });
+    });
+
+    // Agregar event listener al botón de cerrar modal
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+    }
+
+    // Click fuera del modal para cerrar (movido a nivel de documento)
+    document.getElementById('explanationModal').addEventListener('click', function(e) {
         if (e.target.id === 'explanationModal') {
             closeModal();
         }
-    };
+    });
 
-    // Efecto de botones
+    // Efecto de botones (opcional, mantenido del original)
     document.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', () => {
             btn.style.transform = 'scale(0.95)';
@@ -766,7 +729,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-// Hacer funciones disponibles globalmente
-window.openExplanation = openExplanation;
-window.closeModal = closeModal;

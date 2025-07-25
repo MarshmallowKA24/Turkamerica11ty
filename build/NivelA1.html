@@ -4,33 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turco para Latinos - Nivel A1</title>
+    <!-- 
+        Note: The original CSP header had 'unsafe-inline' for script-src and script-src-attr.
+        To fully comply with avoiding inline handlers, you might consider removing 'unsafe-inline'
+        from script-src-attr if possible, but it's currently needed for the inline script tag 
+        containing the window.onclick assignment. A better approach would be to move that logic 
+        to nivel-a1.js as well.
+    -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-        script-src 'self' 'unsafe-inline';
+        script-src 'self' 'unsafe-inline'; /* Consider removing 'unsafe-inline' later if possible */
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-        script-src-attr 'unsafe-inline';
+        script-src-attr 'none'; /* This explicitly blocks inline handlers, which we are now avoiding */
         img-src 'self' data: https:;
         connect-src 'self';
     ">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <link rel="stylesheet" href="styles.css">
 </head>
+<body>
   <div class="container">
     <!-- Back Button -->
     <a href="index.html" class="back-btn">
       <i class="fas fa-arrow-left"></i>
       Volver al inicio
     </a>
-
     <!-- Header -->
     <header class="level-page-header">
       <h1 class="level-title">Nivel A1</h1>
       <p class="level-description">Fundamentos básicos del idioma turco</p>
     </header>
-
     <!-- PDF Actions -->
      <div class="level-content">
               <div class="pdf-actions">
@@ -50,7 +55,6 @@
         <i class="fas fa-book"></i>
         Gramática Nivel A1
       </h2>
-
       <div class="grammar-cards">
         <!-- 1. Türk Alfabeti -->
         <div class="grammar-card">
@@ -61,12 +65,11 @@
           <p class="card-description">
             Las 29 letras del alfabeto turco con sus sonidos específicos.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('alfabeto')">
+          <button class="btn btn-primary explanation-btn" data-topic="alfabeto">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 2. Caso Locativo da,de /ta,te -->
         <div class="grammar-card">
           <div class="card-header">
@@ -76,12 +79,11 @@
           <p class="card-description">
             Equivalente de la preposición "en".
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('preposicion')">
+          <button class="btn btn-primary explanation-btn" data-topic="preposicion">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 3. Var y Yok - Existencia -->
         <div class="grammar-card">
           <div class="card-header">
@@ -91,12 +93,11 @@
           <p class="card-description">
             Expresa la presencia o ausencia de algo con "var" (hay/existe) y "yok" (no hay/no existe).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('var-yok')">
+          <button class="btn btn-primary explanation-btn" data-topic="var-yok">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 4. Orden de Oraciones (SOV) -->
         <div class="grammar-card">
           <div class="card-header">
@@ -106,12 +107,11 @@
           <p class="card-description">
             Comprende el orden típico Turco: Sujeto + Objeto + Verbo, a diferencia del Español SVO.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('orden')">
+          <button class="btn btn-primary explanation-btn" data-topic="orden">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 5. Preguntas Básicas -->
         <div class="grammar-card">
           <div class="card-header">
@@ -121,12 +121,11 @@
           <p class="card-description">
             Interrogativos fundamentales: nerede, ne zaman, neden, ne kadar, kaç, nerelisin, nere(ye).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('preguntas-basicas')">
+          <button class="btn btn-primary explanation-btn" data-topic="preguntas-basicas">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 6. Demostrativos: Bu • Şu • O -->
         <div class="grammar-card">
           <div class="card-header">
@@ -136,12 +135,11 @@
           <p class="card-description">
             Indica proximidad: bu (cerca del hablante), şu (cerca del oyente), o (lejos de ambos).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('demostrativos')">
+          <button class="btn btn-primary explanation-btn" data-topic="demostrativos">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 7. Çoğul eki (-lAr) -->
         <div class="grammar-card">
           <div class="card-header">
@@ -151,12 +149,11 @@
           <p class="card-description">
             Sufijo plural aplicando armonía vocálica: -lar / -ler.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('plural')">
+          <button class="btn btn-primary explanation-btn" data-topic="plural">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 8. Soru eki (mi/mı/mu/mü) -->
         <div class="grammar-card">
           <div class="card-header">
@@ -166,12 +163,11 @@
           <p class="card-description">
             Enclítico interrogativo ajustado a la vocal precedente.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('sufijo-pregunta')">
+          <button class="btn btn-primary explanation-btn" data-topic="sufijo-pregunta">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 9. Presente Simple (Şimdiki Zaman) -->
         <div class="grammar-card">
           <div class="card-header">
@@ -181,12 +177,11 @@
           <p class="card-description">
             Raíz verbal + -yor + terminaciones personales.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('tiempo-presente')">
+          <button class="btn btn-primary explanation-btn" data-topic="tiempo-presente">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 10. Casos Locativos (-yA / -DAn) -->
         <div class="grammar-card">
           <div class="card-header">
@@ -196,12 +191,11 @@
           <p class="card-description">
             -yA para dirección (a), -DAn para origen (de).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('casos')">
+          <button class="btn btn-primary explanation-btn" data-topic="casos">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 11. -mAk istemek -->
         <div class="grammar-card">
           <div class="card-header">
@@ -211,12 +205,11 @@
           <p class="card-description">
             Infinitivo + istemek para expresar deseo o intención.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('deseo')">
+          <button class="btn btn-primary explanation-btn" data-topic="deseo">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 12. İlişki Ekleri -->
         <div class="grammar-card">
           <div class="card-header">
@@ -226,12 +219,11 @@
           <p class="card-description">
             Sufijos de posesión (-ın/-in) y ubicación (-de/-da).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('relacion')">
+          <button class="btn btn-primary explanation-btn" data-topic="relacion">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 13. Países y Gentilicios -->
         <div class="grammar-card">
           <div class="card-header">
@@ -241,12 +233,11 @@
           <p class="card-description">
             Nombres de países y lenguas: Türkiye, İspanya, İngilizce, vs.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('paises')">
+          <button class="btn btn-primary explanation-btn" data-topic="paises">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 14. Kendi & Hep -->
         <div class="grammar-card">
           <div class="card-header">
@@ -256,12 +247,11 @@
           <p class="card-description">
             Palabras de énfasis: kendi (propio), hep (siempre).
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('enfasis')">
+          <button class="btn btn-primary explanation-btn" data-topic="enfasis">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
-
         <!-- 15. Intervalos de Tiempo -->
         <div class="grammar-card">
           <div class="card-header">
@@ -271,14 +261,13 @@
           <p class="card-description">
             -DAn hasta -(y)A kadar, antes/después y desde hace.
           </p>
-          <button class="btn btn-primary" onclick="openExplanation('tiempo-intervalos')">
+          <button class="btn btn-primary explanation-btn" data-topic="tiempo-intervalos">
             <i class="fas fa-play"></i>
             Ver Explicación
           </button>
         </div>
       </div>
     </section>
-
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
@@ -287,13 +276,12 @@
       </div>
     </footer>
   </div>
-
   <!-- Modal for Explanations -->
   <div id="explanationModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="modalTitle">Explicación</h3>
-        <button class="close-modal" onclick="closeModal()">
+        <button class="close-modal" id="closeModalBtn"> <!-- Changed to ID -->
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -302,7 +290,6 @@
       </div>
     </div>
   </div>
-
   <!-- Scripts externos -->
   <script src="nivel-a1.js"></script>
 </body>
