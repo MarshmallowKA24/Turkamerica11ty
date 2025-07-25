@@ -1,6 +1,30 @@
-// auth.js - Evitar declaraciones duplicadas
 
-// Solo UNA declaración de DatabaseService
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            try {
+                if (password !== confirmPassword) {
+                    throw new Error('Las contraseñas no coinciden');
+                }
+                
+                if (!validateEmail(email)) {
+                    throw new Error('Email inválido');
+                }
+                
+                await window.auth.register(username, password, email);
+                alert('¡Cuenta creada exitosamente!');
+                window.location.href = '../index.html';
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+            }
+        });
 class DatabaseService {
     constructor() {
         this.users = JSON.parse(localStorage.getItem('users') || '[]');
@@ -30,8 +54,6 @@ class DatabaseService {
         this.saveUsers();
     }
 }
-
-// Solo UNA declaración de AuthService
 class AuthService {
     constructor() {
         this.db = new DatabaseService();
