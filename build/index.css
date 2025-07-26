@@ -1,0 +1,79 @@
+/* Levels Grid */
+.levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.level-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.level-card.special {
+    border: 2px solid #4A90E2;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.level-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.level-header h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.level-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Dark mode styles for home page level cards */
+body.dark-mode .level-card {
+    background: rgba(30, 41, 59, 0.95); /* #1e293b con opacidad */
+    border: 1px solid rgba(71, 85, 105, 0.5); /* #475569 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .level-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: #64748b; /* #64748b */
+}
+
+body.dark-mode .level-card.special {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.3) 0%, rgba(55, 48, 163, 0.4) 100%);
+    border: 2px solid #818cf8; /* Color violeta similar al modo oscuro */
+}
+
+body.dark-mode .level-header h3 {
+    color: #f1f5f9; /* Color de texto claro */
+}
+
+/* Ajuste adicional para botones en modo oscuro */
+body.dark-mode .level-actions .btn {
+    background: rgba(71, 85, 105, 0.3); /* #475569 */
+    border: 1px solid rgba(100, 116, 139, 0.3); /* #64748b */
+    color: #e2e8f0;
+}
+
+body.dark-mode .level-actions .btn:hover {
+    background: rgba(100, 116, 139, 0.4); /* #64748b */
+    border-color: #94a3b8;
+}
