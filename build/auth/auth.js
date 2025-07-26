@@ -1,108 +1,125 @@
-// Definir DatabaseService si aún no existe para evitar errores de re-declaración
-if (typeof DatabaseService === 'undefined') {
-    class DatabaseService {
-        constructor() {
-            this.users = JSON.parse(localStorage.getItem('users') || '[]');
-            this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-        }
+// Configuración de la API
+const API_BASE_URL = window.location.origin + '/api'; // Usar la misma URL base
 
-        saveUsers() {
-            localStorage.setItem('users', JSON.stringify(this.users));
-        }
+// Clase para manejar autenticación con backend
+class AuthService {
+    constructor() {
+        this.token = localStorage.getItem('authToken');
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    }
 
-        saveCurrentUser(user) {
-            this.currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-        }
+    // Verificar si el usuario está logueado
+    isLoggedIn() {
+        return this.token !== null && this.currentUser !== null;
+    }
 
-        clearCurrentUser() {
+    // Obtener usuario actual
+    getCurrentUser() {
+        return this.currentUser;
+    }
+
+    // Función de registro
+    async register(userData) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: userData.name,
+                    email: userData.email,
+                    password: userData.password
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error en el registro');
+            }
+
+            // Después del registro exitoso, hacer login automáticamente
+            const loginResult = await this.login(userData.email, userData.password);
+            
+            return loginResult;
+
+        } catch (error) {
+            console.error('Error en registro:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    // Función de login
+    async login(identifier, password) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    identifier, // puede ser username o email
+                    password
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error en el login');
+            }
+
+            // Guardar token y datos del usuario
+            this.token = data.token;
+            this.currentUser = data.user;
+            
+            localStorage.setItem('authToken', this.token);
+            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+            return { success: true, user: this.currentUser };
+
+        } catch (error) {
+            console.error('Error en login:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    // Función de logout
+    async logout() {
+        try {
+            // Opcional: llamar al endpoint de logout en el backend
+            if (this.token) {
+                await fetch(`${API_BASE_URL}/auth/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error en logout:', error);
+        } finally {
+            // Limpiar datos locales
+            this.token = null;
             this.currentUser = null;
+            localStorage.removeItem('authToken');
             localStorage.removeItem('currentUser');
         }
-
-        findUserByEmail(email) {
-            return this.users.find(user => user.email === email);
-        }
-
-        addUser(user) {
-            this.users.push(user);
-            this.saveUsers();
-        }
     }
-    // Hacer DatabaseService global
-    window.DatabaseService = DatabaseService;
+
+    // Obtener headers con autorización
+    getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+        };
+    }
 }
 
-// Definir AuthService si aún no existe
-if (typeof AuthService === 'undefined') {
-    class AuthService {
-        constructor() {
-            this.db = new DatabaseService();
-        }
-
-        isLoggedIn() {
-            return this.db.currentUser !== null;
-        }
-
-        getCurrentUser() {
-            return this.db.currentUser;
-        }
-
-        async login(email, password) {
-            try {
-                const user = this.db.findUserByEmail(email);
-                
-                if (!user) {
-                    throw new Error('Usuario no encontrado');
-                }
-
-                // Aquí validarías la contraseña (en un caso real, con hash)
-                if (user.password !== password) {
-                    throw new Error('Contraseña incorrecta');
-                }
-
-                this.db.saveCurrentUser(user);
-                return { success: true, user };
-            } catch (error) {
-                return { success: false, error: error.message };
-            }
-        }
-
-        async register(userData) {
-            try {
-                // Verificar si el email ya está registrado
-                const existingUser = this.db.findUserByEmail(userData.email);
-                
-                if (existingUser) {
-                    throw new Error('El email ya está registrado');
-                }
-
-                // Crear nuevo usuario
-                const newUser = {
-                    id: Date.now().toString(),
-                    name: userData.name,
-                    email: userData.email,
-                    password: userData.password, // En producción, usar hash
-                    createdAt: new Date().toISOString()
-                };
-
-                // Guardar usuario y establecer como usuario actual
-                this.db.addUser(newUser);
-                this.db.saveCurrentUser(newUser);
-                
-                return { success: true, user: newUser };
-            } catch (error) {
-                return { success: false, error: error.message };
-            }
-        }
-
-        logout() {
-            this.db.clearCurrentUser();
-        }
-    }
-    // Crear instancia global SOLO una vez
-    window.AuthService = new AuthService();
-}
+// Crear instancia global
+window.AuthService = new AuthService();
 
 // Validación de email
 function validateEmail(email) {
@@ -110,78 +127,185 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-// Asegurarse de que el DOM esté cargado antes de añadir event listeners
+// Función para mostrar mensajes de éxito
+function showSuccessMessage(message, duration = 3000) {
+    // Crear elemento de mensaje de éxito
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    successDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+    // Agregar estilos de animación si no existen
+    if (!document.getElementById('success-animation-styles')) {
+        const style = document.createElement('style');
+        style.id = 'success-animation-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(successDiv);
+
+    // Remover mensaje después del tiempo especificado
+    setTimeout(() => {
+        if (successDiv.parentNode) {
+            successDiv.remove();
+        }
+    }, duration);
+}
+
+// Event listeners cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     // Manejador para el formulario de REGISTRO
     const registerForm = document.getElementById('registerForm');
-    if (registerForm) { // Comprobar que el elemento existe
+    if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
+            
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            // Asegúrate de que el ID del div de error es correcto, puede ser único para registro
-            const errorDiv = document.getElementById('registerErrorMessage') || document.getElementById('errorMessage');
+            const errorDiv = document.getElementById('errorMessage');
             
+            // Limpiar mensaje de error previo
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+                errorDiv.textContent = '';
+            }
+
             try {
-                if (password !== confirmPassword) {
-                    throw new Error('Las contraseñas no coinciden');
+                // Validaciones del frontend
+                if (username.length < 3) {
+                    throw new Error('El nombre de usuario debe tener al menos 3 caracteres');
                 }
-                
+
                 if (!validateEmail(email)) {
                     throw new Error('Email inválido');
                 }
-                
+
+                if (password.length < 6) {
+                    throw new Error('La contraseña debe tener al menos 6 caracteres');
+                }
+
+                if (password !== confirmPassword) {
+                    throw new Error('Las contraseñas no coinciden');
+                }
+
+                // Deshabilitar botón mientras se procesa
+                const submitBtn = registerForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Registrando...';
+
                 // Preparar datos para el registro
-                const userData = { name: username, email: email, password: password };
-                // Usar la instancia global AuthService
+                const userData = { 
+                    name: username, 
+                    email: email, 
+                    password: password 
+                };
+
+                // Llamar al servicio de registro
                 const result = await window.AuthService.register(userData);
-                
+
                 if (result.success) {
-                    alert('¡Cuenta creada exitosamente!');
-                    // Redirigir a la página de login o inicio
-                    window.location.href = '../login.html'; // O '../index.html'
+                    showSuccessMessage('¡Registro exitoso! Bienvenido/a');
+                    
+                    // Esperar un momento para que el usuario vea el mensaje
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1500);
                 } else {
                     throw new Error(result.error);
                 }
+
             } catch (error) {
                 if (errorDiv) {
                     errorDiv.textContent = error.message;
                     errorDiv.style.display = 'block';
                 }
+            } finally {
+                // Rehabilitar botón
+                const submitBtn = registerForm.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Registrarse';
+                }
             }
         });
     }
 
-    // Manejador para el formulario de LOGIN (asumiendo que está en login.html)
+    // Manejador para el formulario de LOGIN
     const loginForm = document.getElementById('loginForm');
-    if (loginForm) { // Comprobar que el elemento existe
+    if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Asumiendo que el login usa email y password
-            const email = document.getElementById('email').value;
+            
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('errorMessage');
             
+            // Limpiar mensaje de error previo
+            if (errorDiv) {
+                errorDiv.style.display = 'none';
+                errorDiv.textContent = '';
+            }
+
             try {
-                // Usar la instancia global AuthService
-                const result = await window.AuthService.login(email, password);
-                
+                // Validaciones básicas
+                if (!username) {
+                    throw new Error('Por favor ingresa tu usuario o email');
+                }
+
+                if (!password) {
+                    throw new Error('Por favor ingresa tu contraseña');
+                }
+
+                // Deshabilitar botón mientras se procesa
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Iniciando sesión...';
+
+                // Llamar al servicio de login
+                const result = await window.AuthService.login(username, password);
+
                 if (result.success) {
-                    // Limpiar mensaje de error si el login es exitoso
-                    if(errorDiv) {
-                        errorDiv.style.display = 'none';
-                        errorDiv.textContent = '';
-                    }
-                    window.location.href = '../index.html';
+                    showSuccessMessage('¡Login exitoso! Bienvenido/a de vuelta');
+                    
+                    // Esperar un momento para que el usuario vea el mensaje
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1500);
                 } else {
                     throw new Error(result.error);
                 }
+
             } catch (error) {
-                if(errorDiv) {
+                if (errorDiv) {
                     errorDiv.textContent = error.message;
                     errorDiv.style.display = 'block';
+                }
+            } finally {
+                // Rehabilitar botón
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Entrar';
                 }
             }
         });

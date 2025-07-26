@@ -33,7 +33,17 @@ app.use(express.urlencoded({ extended: true }));
 const buildPath = path.join(process.cwd(), 'build');
 console.log('Looking for frontend build in:', buildPath);
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(buildPath));
+
+// Rutas estáticas para login y register
+app.get('/auth/login', (req, res) => {
+    res.sendFile(path.join(buildPath, 'auth', 'login.html'));
+});
+
+app.get('/auth/register', (req, res) => {
+    res.sendFile(path.join(buildPath, 'auth', 'register.html'));
+});
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -60,6 +70,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Catch-all route debe ir al final, después de las rutas específicas como /auth/login
 app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'), (err) => {
     if (err) {

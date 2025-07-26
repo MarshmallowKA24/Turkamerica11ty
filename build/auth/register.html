@@ -13,22 +13,22 @@
             <form id="registerForm">
                 <div class="form-group">
                     <label for="username">Usuario:</label>
-                    <input type="text" id="username" required minlength="3">
+                    <input type="text" id="username" required minlength="3" placeholder="Mínimo 3 caracteres">
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" required>
+                    <input type="email" id="email" required placeholder="tu@email.com">
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña:</label>
-                    <input type="password" id="password" required minlength="6">
+                    <input type="password" id="password" required minlength="6" placeholder="Mínimo 6 caracteres">
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirmar Contraseña:</label>
-                    <input type="password" id="confirmPassword" required>
+                    <input type="password" id="confirmPassword" required placeholder="Repite tu contraseña">
                 </div>
                 <button type="submit">Registrarse</button>
-                <div class="error-message" id="errorMessage"></div>
+                <div class="error-message" id="errorMessage" style="display: none;"></div>
             </form>
             <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
             <p><a href="../index.html">Volver al inicio</a></p>
@@ -36,5 +36,6 @@
     </div>
     <script src="../data/validation.js"></script>
     <script src="auth.js"></script>
+    <script src="user-session.js"></script>
 </body>
 </html>

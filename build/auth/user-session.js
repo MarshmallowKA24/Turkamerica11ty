@@ -1,141 +1,258 @@
-// Código para el formulario de LOGIN (debe existir en login.html)
-document.addEventListener('DOMContentLoaded', () => {
-     // Asegurarse de que AuthService esté disponible antes de proceder
-     if (!window.AuthService) {
-         console.error('AuthService no está disponible en user-session.js');
-         return;
-     }
-
-    // Manejador para el formulario de LOGIN
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            // NOTA: Tu código original usa 'username' pero AuthService.login espera 'email'.
-            // Ajusta según tu lógica, asumiendo que el login usa email:
-            const email = document.getElementById('email').value; // Cambiado de username a email
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-
-            try {
-                // Usa la instancia global AuthService
-                const result = await window.AuthService.login(email, password);
-                if (result.success) {
-                     // Limpiar mensaje de error si el login es exitoso
-                     if(errorDiv) {
-                        errorDiv.style.display = 'none';
-                        errorDiv.textContent = '';
-                     }
-                    window.location.href = '../index.html';
-                } else {
-                    throw new Error(result.error);
-                }
-            } catch (error) {
-                 if(errorDiv) {
-                    errorDiv.textContent = error.message;
-                    errorDiv.style.display = 'block';
-                 }
-            }
-        });
+// Clase para manejar la sesión del usuario en la interfaz
+class UserSession {
+    constructor() {
+        this.authService = window.AuthService;
+        this.init();
     }
 
-    // Manejador para el formulario de REGISTRO
-    const registerForm = document.getElementById('registerForm');
-    if (registerForm) { // <-- Comprobación clave
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const errorDiv = document.getElementById('registerErrorMessage'); // Usa un ID único si es posible
-
-            // Función de validación de email (asegúrate de que exista o defínela)
-            const validateEmail = (email) => {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            };
-
-            try {
-                if (password !== confirmPassword) {
-                    throw new Error('Las contraseñas no coinciden');
-                }
-
-                if (!validateEmail(email)) {
-                    throw new Error('Email inválido');
-                }
-
-                // Asegúrate de pasar los datos correctamente al AuthService
-                const userData = { name: username, email: email, password: password };
-                const result = await window.AuthService.register(userData); // Usar AuthService
-
-                if (result.success) {
-                    alert('¡Cuenta creada exitosamente!');
-                    window.location.href = '../login.html'; // Redirigir al login después del registro
-                } else {
-                    throw new Error(result.error);
-                }
-            } catch (error) {
-                if(errorDiv) {
-                   errorDiv.textContent = error.message;
-                   errorDiv.style.display = 'block';
-                }
-            }
-        });
+    init() {
+        // Verificar si el usuario ya está logueado al cargar la página
+        this.updateNavigation();
+        this.setupEventListeners();
+        this.checkAuthStatus();
     }
 
-    // --- Código existente de UserSession ---
-    class UserSession {
-        constructor() {
-            this.authService = window.AuthService; // Asignar directamente
-            this.updateNavigation();
-            this.setupEventListeners();
-        }
-
-        updateNavigation() {
-            if (!this.authService) {
-                console.error('AuthService no está disponible en UserSession');
-                return;
-            }
-
-            const isLoggedIn = this.authService.isLoggedIn();
-            const loginBtn = document.getElementById('loginBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const userInfo = document.getElementById('userInfo');
-
-            if (isLoggedIn) {
-                const currentUser = this.authService.getCurrentUser();
-                if (loginBtn) loginBtn.style.display = 'none';
-                if (logoutBtn) logoutBtn.style.display = 'block';
-                if (userInfo) {
-                    userInfo.style.display = 'block';
-                    // Asegúrate de que currentUser y currentUser.name existen
-                    userInfo.textContent = currentUser && currentUser.name ? `¡Hola, ${currentUser.name}!` : '¡Hola!';
-                }
-            } else {
-                if (loginBtn) loginBtn.style.display = 'block';
-                if (logoutBtn) logoutBtn.style.display = 'none';
-                if (userInfo) userInfo.style.display = 'none';
-            }
-        }
-
-        setupEventListeners() {
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', () => {
-                    if (this.authService) {
-                        this.authService.logout();
-                        this.updateNavigation();
-                        // Opcionalmente, redirigir a index o login
-                        // window.location.href = '../index.html';
-                    }
+    // Verificar estado de autenticación
+    async checkAuthStatus() {
+        if (this.authService && this.authService.isLoggedIn()) {
+            // Usuario está logueado, verificar si el token sigue siendo válido
+            try {
+                const response = await fetch(`${window.location.origin}/api/auth/verify`, {
+                    headers: this.authService.getAuthHeaders()
                 });
+
+                if (!response.ok) {
+                    // Token inválido, hacer logout
+                    this.authService.logout();
+                    this.updateNavigation();
+                }
+            } catch (error) {
+                console.error('Error verificando token:', error);
             }
         }
     }
 
-    // Inicializar UserSession
+    // Actualizar navegación según estado de login
+    updateNavigation() {
+        if (!this.authService) {
+            console.error('AuthService no está disponible');
+            return;
+        }
+
+        const isLoggedIn = this.authService.isLoggedIn();
+        
+        // Elementos de navegación
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userInfo = document.getElementById('userInfo');
+        const registerBtn = document.getElementById('registerBtn');
+
+        if (isLoggedIn) {
+            const currentUser = this.authService.getCurrentUser();
+            
+            // Ocultar elementos para usuarios no logueados
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (registerBtn) registerBtn.style.display = 'none';
+            
+            // Mostrar elementos para usuarios logueados
+            if (logoutBtn) logoutBtn.style.display = 'block';
+            if (userInfo) {
+                userInfo.style.display = 'block';
+                userInfo.textContent = currentUser && currentUser.username 
+                    ? `¡Hola, ${currentUser.username}!` 
+                    : '¡Hola!';
+            }
+
+            // Ocultar formularios de auth si están en la página
+            this.hideAuthForms();
+
+        } else {
+            // Mostrar elementos para usuarios no logueados
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (registerBtn) registerBtn.style.display = 'block';
+            
+            // Ocultar elementos para usuarios logueados
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            if (userInfo) userInfo.style.display = 'none';
+        }
+    }
+
+    // Ocultar formularios de autenticación cuando el usuario ya está logueado
+    hideAuthForms() {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const authContainer = document.querySelector('.auth-container');
+
+        if (loginForm || registerForm) {
+            // Si estamos en una página de auth y el usuario ya está logueado
+            if (authContainer) {
+                authContainer.innerHTML = `
+                    <div class="auth-card" style="text-align: center;">
+                        <h2>¡Ya estás conectado!</h2>
+                        <p>Bienvenido/a de vuelta, ${this.authService.getCurrentUser()?.username || 'usuario'}</p>
+                        <div style="margin-top: 20px;">
+                            <a href="../index.html" style="
+                                display: inline-block;
+                                background-color: #007bff;
+                                color: white;
+                                padding: 10px 20px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                                margin: 5px;
+                            ">Ir al inicio</a>
+                            <button id="logoutFromAuth" style="
+                                background-color: #dc3545;
+                                color: white;
+                                padding: 10px 20px;
+                                border: none;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                margin: 5px;
+                            ">Cerrar sesión</button>
+                        </div>
+                    </div>
+                `;
+
+                // Agregar event listener para logout desde página de auth
+                const logoutFromAuth = document.getElementById('logoutFromAuth');
+                if (logoutFromAuth) {
+                    logoutFromAuth.addEventListener('click', () => {
+                        this.logout();
+                    });
+                }
+            }
+        }
+    }
+
+    // Configurar event listeners
+    setupEventListeners() {
+        // Botón de logout en la navegación principal
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
+
+        // Botón de login en la navegación
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = './auth/login.html';
+            });
+        }
+
+        // Botón de registro en la navegación
+        const registerBtn = document.getElementById('registerBtn');
+        if (registerBtn) {
+            registerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = './auth/register.html';
+            });
+        }
+    }
+
+    // Función de logout
+    async logout() {
+        if (this.authService) {
+            try {
+                await this.authService.logout();
+                this.updateNavigation();
+                
+                // Mostrar mensaje de confirmación
+                this.showMessage('Sesión cerrada correctamente', 'success');
+                
+                // Redirigir a la página principal después de un momento
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                this.showMessage('Error al cerrar sesión', 'error');
+            }
+        }
+    }
+
+    // Mostrar mensajes al usuario
+    showMessage(message, type = 'info', duration = 3000) {
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        
+        const colors = {
+            success: '#4CAF50',
+            error: '#f44336',
+            info: '#2196F3',
+            warning: '#ff9800'
+        };
+
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: ${colors[type] || colors.info};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: slideInMessage 0.3s ease-out;
+        `;
+
+        // Agregar estilos de animación si no existen
+        if (!document.getElementById('message-animation-styles')) {
+            const style = document.createElement('style');
+            style.id = 'message-animation-styles';
+            style.textContent = `
+                @keyframes slideInMessage {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        document.body.appendChild(messageDiv);
+
+        // Remover mensaje después del tiempo especificado
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.style.animation = 'slideOutMessage 0.3s ease-in';
+                setTimeout(() => messageDiv.remove(), 300);
+            }
+        }, duration);
+    }
+
+    // Verificar si se requiere autenticación para la página actual
+    requireAuth() {
+        if (!this.authService || !this.authService.isLoggedIn()) {
+            this.showMessage('Debes iniciar sesión para acceder a esta página', 'warning');
+            setTimeout(() => {
+                window.location.href = './auth/login.html';
+            }, 2000);
+            return false;
+        }
+        return true;
+    }
+
+    // Método para proteger páginas que requieren login
+    static protectPage() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const userSession = new UserSession();
+            return userSession.requireAuth();
+        });
+    }
+}
+
+// Inicializar UserSession cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
     if (!window.userSession) {
         window.userSession = new UserSession();
     }
 });
+
+// Hacer disponible globalmente
+window.UserSession = UserSession;
