@@ -77,3 +77,26 @@ body.dark-mode .level-actions .btn:hover {
     background: rgba(100, 116, 139, 0.4); /* #64748b */
     border-color: #94a3b8;
 }
+/* Smooth transition for registration notice */
+.notice {
+    transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.notice.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style for welcome message */
+.auth-buttons span {
+    color: var(--primary-color, #007bff);
+    font-weight: 500;
+}
+
+/* Ensure smooth transitions for auth button changes */
+.auth-buttons {
+    transition: all 0.3s ease-in-out;
+}

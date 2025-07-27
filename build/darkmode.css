@@ -1,0 +1,876 @@
+/* ========================================
+   DARK MODE - TURKISH LEARNING WEBSITE
+   ======================================== */
+
+/* CSS Variables for Dark Mode */
+:root {
+    /* Light mode colors (default) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-card: rgba(255,255,255,0.95);
+    --bg-gradient-start: #667eea;
+    --bg-gradient-end: #764ba2;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #888888;
+    --text-white: #ffffff;
+    --border-color: #e1e5e9;
+    --border-light: rgba(255,255,255,0.2);
+    --shadow: rgba(0,0,0,0.1);
+    --shadow-hover: rgba(0,0,0,0.15);
+    --shadow-strong: rgba(0,0,0,0.2);
+    --backdrop-blur: rgba(255,255,255,0.1);
+    --accent-blue: #4A90E2;
+    --accent-blue-hover: #357ABD;
+    --accent-green: #4CAF50;
+    --accent-orange: #ff9800;
+    --accent-red: #ef4444;
+    --notice-bg: rgba(255,193,7,0.9);
+    --notice-color: #856404;
+    --notice-border: #ffeb3b;
+    --modal-backdrop: rgba(0,0,0,0.5);
+    --table-hover: #f5f5f5;
+    --input-bg: #ffffff;
+    --success-bg: #d4edda;
+    --success-color: #155724;
+    --warning-bg: #fff3cd;
+    --warning-color: #856404;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-card: rgba(45, 45, 45, 0.95);
+    --bg-gradient-start: #1e293b;
+    --bg-gradient-end: #0f172a;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-white: #ffffff;
+    --border-color: #404040;
+    --border-light: rgba(255,255,255,0.1);
+    --shadow: rgba(0,0,0,0.3);
+    --shadow-hover: rgba(0,0,0,0.4);
+    --shadow-strong: rgba(0,0,0,0.6);
+    --backdrop-blur: rgba(0,0,0,0.3);
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #1d4ed8;
+    --accent-green: #10b981;
+    --accent-orange: #f59e0b;
+    --accent-red: #ef4444;
+    --notice-bg: rgba(245, 158, 11, 0.2);
+    --notice-color: #fbbf24;
+    --notice-border: #f59e0b;
+    --modal-backdrop: rgba(0,0,0,0.7);
+    --table-hover: #374151;
+    --input-bg: #374151;
+    --success-bg: rgba(16, 185, 129, 0.2);
+    --success-color: #10b981;
+    --warning-bg: rgba(245, 158, 11, 0.2);
+    --warning-color: #fbbf24;
+}
+
+/* ========================================
+   GLOBAL DARK MODE STYLES
+   ======================================== */
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-primary);
+    color-scheme: dark;
+}
+
+/* ========================================
+   LAYOUT COMPONENTS
+   ======================================== */
+
+/* Container */
+.container {
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .container {
+    background: var(--bg-primary);
+    box-shadow: 0 20px 40px var(--shadow-strong);
+}
+
+/* Header */
+.header {
+    transition: all 0.3s ease;
+}
+
+.main-title {
+    color: var(--text-white);
+    text-shadow: 0 2px 4px var(--shadow);
+}
+
+/* Turkish Quote Section */
+.quote-section .turkish-quote {
+    color: var(--text-white);
+}
+
+.quote-section .quote-translation {
+    color: rgba(255,255,255,0.9);
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+
+.tabs {
+    gap: 10px;
+}
+
+.tab {
+    background: var(--backdrop-blur);
+    color: var(--text-white);
+    border: 1px solid var(--border-light);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+.tab.active {
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+body.dark-mode .tab {
+    background: var(--backdrop-blur);
+    border-color: var(--border-light);
+}
+
+body.dark-mode .tab:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .tab.active {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ========================================
+   CARDS AND CONTENT
+   ======================================== */
+
+/* Level Cards */
+.level-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.level-card:hover {
+    box-shadow: 0 12px 40px var(--shadow-hover);
+    transform: translateY(-5px);
+}
+
+.level-card.special {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, var(--bg-card) 100%);
+    border-color: var(--accent-blue);
+}
+
+body.dark-mode .level-card.special {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    border-color: var(--accent-blue);
+}
+
+.level-header h3 {
+    color: var(--text-primary);
+}
+
+/* Grammar Cards */
+.grammar-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.grammar-card:hover {
+    box-shadow: 0 8px 25px var(--shadow-hover);
+    transform: translateY(-3px);
+}
+
+.card-header h3 {
+    color: var(--text-primary);
+}
+
+.card-description {
+    color: var(--text-secondary);
+}
+
+/* Action Cards */
+.action-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--shadow-hover);
+}
+
+.action-content h3 {
+    color: var(--text-primary);
+}
+
+.action-content p {
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   SCHEDULE SECTION (CONSEJOS PAGE)
+   ======================================== */
+
+.schedule-section {
+    transition: all 0.3s ease;
+}
+
+.time-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.time-period {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.activity-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+    background: var(--bg-secondary);
+    transform: translateX(5px);
+}
+
+.activity-item.current-activity {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.activity-content h4 {
+    color: var(--text-primary);
+}
+
+.activity-content p {
+    color: var(--text-secondary);
+}
+
+/* YouTube Channels Section */
+.youtube-section {
+    transition: all 0.3s ease;
+}
+
+.channel-category {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.category-title {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.channel-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.channel-item:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-blue);
+}
+
+.channel-item a {
+    color: var(--accent-blue);
+}
+
+.channel-item a:hover {
+    color: var(--accent-blue-hover);
+}
+
+/* ========================================
+   FORMS AND INPUTS
+   ======================================== */
+
+.form-section {
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
+}
+
+.form-group label {
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.file-upload-area {
+    background: var(--bg-primary);
+    border: 2px dashed var(--border-color);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.file-upload-area:hover {
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.search-input {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: var(--accent-blue);
+}
+
+/* Filter Controls */
+.filter-select {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    border-color: var(--accent-blue);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-hover) 100%);
+    color: var(--text-white);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--accent-blue-hover) 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-outline {
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: var(--accent-blue);
+    color: var(--text-white);
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+    color: var(--text-white);
+}
+
+.btn-generate:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Back Button */
+.back-btn,
+.volver-btn {
+    background: var(--backdrop-blur);
+    border: 1px solid var(--border-light);
+    color: var(--text-white);
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover,
+.volver-btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-3px);
+}
+
+body.dark-mode .volver-btn {
+    background-color: var(--accent-blue);
+    color: var(--text-white);
+}
+
+body.dark-mode .volver-btn:hover {
+    background-color: var(--accent-blue-hover);
+}
+
+/* ========================================
+   MODALS
+   ======================================== */
+
+.modal {
+    background: var(--modal-backdrop);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    color: var(--text-white);
+}
+
+.modal-body h4,
+.modal-body h5 {
+    color: var(--text-primary);
+}
+
+.modal-body p,
+.modal-body li {
+    color: var(--text-secondary);
+}
+
+.close-modal,
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-white);
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover,
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+    color: var(--text-white);
+}
+
+/* Settings Panel */
+.settings-overlay {
+    background: var(--modal-backdrop);
+    backdrop-filter: blur(8px);
+}
+
+.settings-panel {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.settings-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-header h2 {
+    color: var(--text-primary);
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.comparison-table {
+    background: var(--bg-primary);
+}
+
+.comparison-table th {
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table td {
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table tr:hover {
+    background-color: var(--table-hover);
+}
+
+/* ========================================
+   SPECIAL SECTIONS
+   ======================================== */
+
+/* Notice */
+.notice {
+    background: var(--notice-bg);
+    color: var(--notice-color);
+    border: 1px solid var(--notice-border);
+    transition: all 0.3s ease;
+}
+
+/* Description */
+.description p {
+    color: rgba(255,255,255,0.9);
+}
+
+/* Example Box */
+.example-box {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--accent-blue);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+/* Tip Box */
+.tip-box {
+    background: var(--warning-bg);
+    border: 1px solid var(--notice-border);
+    color: var(--warning-color);
+    transition: all 0.3s ease;
+}
+
+/* Stats and Progress */
+.deck-stats {
+    color: var(--text-muted);
+}
+
+.unlearned-count {
+    background: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+.all-learned {
+    background: var(--success-bg);
+    color: var(--success-color);
+}
+
+/* ========================================
+   CONTENT SPECIFIC SECTIONS
+   ======================================== */
+
+/* Content Cards (Textos page) */
+.content-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow-hover);
+}
+
+.content-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content-level {
+    background: var(--accent-blue);
+    color: var(--text-white);
+}
+
+.content-body h3 {
+    color: var(--text-primary);
+}
+
+.content-artist,
+.content-genre {
+    color: var(--text-secondary);
+}
+
+.content-preview {
+    color: var(--text-muted);
+}
+
+/* Setting Items */
+.setting-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.setting-content h3 {
+    color: var(--text-primary);
+}
+
+.setting-content p {
+    color: var(--text-secondary);
+}
+
+.setting-select {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.setting-select:focus {
+    border-color: var(--accent-blue);
+}
+
+/* ========================================
+   TOGGLE SWITCH
+   ======================================== */
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-white);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.footer-content {
+    color: var(--text-secondary);
+}
+
+.made-with {
+    color: var(--text-secondary);
+}
+
+.heart-icon {
+    color: var(--accent-red);
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+body.dark-mode::-webkit-scrollbar {
+    width: 8px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ========================================
+   ANIMATIONS AND EFFECTS
+   ======================================== */
+
+/* Focus States */
+body.dark-mode .btn:focus,
+body.dark-mode .tab:focus,
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    outline: none;
+}
+
+/* Smooth Transitions */
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+}
+
+/* Hover Effects */
+body.dark-mode .level-card:hover {
+    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
+}
+
+body.dark-mode .action-card:hover {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    body.dark-mode {
+        background: var(--bg-primary);
+    }
+    
+    .tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .settings-panel {
+        width: 95%;
+        max-height: 90vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+        border-radius: 10px;
+    }
+    
+    .level-card,
+    .grammar-card,
+    .action-card {
+        padding: 20px 15px;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: 15px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    body.dark-mode {
+        --border-color: #666666;
+        --text-secondary: #ffffff;
+        --accent-blue: #60a5fa;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Text Colors */
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-muted { color: var(--text-muted) !important; }
+.text-white { color: var(--text-white) !important; }
+
+/* Background Colors */
+.bg-primary { background-color: var(--bg-primary) !important; }
+.bg-secondary { background-color: var(--bg-secondary) !important; }
+.bg-card { background-color: var(--bg-card) !important; }
+
+/* Border Colors */
+.border-color { border-color: var(--border-color) !important; }
+.border-light { border-color: var(--border-light) !important; }
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    body.dark-mode {
+        background: white !important;
+        color: black !important;
+    }
+    
+    body.dark-mode * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+    }
+}

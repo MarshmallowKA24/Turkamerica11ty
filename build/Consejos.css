@@ -1,26 +1,6 @@
-/* Consejos parte*/
-/* Reset y configuración base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Consejos.css - Optimized Version */
 
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-    color: #333;
-    transition: all 0.3s ease;
-}
-
-/* Dark mode body */
-body.dark-mode {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
-    color: #e2e8f0;
-}
-
+/* Reset básico específico para Consejos */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -41,56 +21,18 @@ body.dark-mode {
     border: 1px solid #334155;
 }
 
-/* Header */
+/* Header específico para Consejos */
 .header {
     background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
     padding: 30px 40px 40px;
-    color: rgb(0, 0, 0);
+    color: white;
     position: relative;
     transition: all 0.3s ease;
 }
 
-/* Dark mode header */
 .dark-mode .header {
     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4c1d95 100%);
     color: #f1f5f9;
-}
-
-.back-button {
-    margin-bottom: 20px;
-}
-
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.btn-back:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateX(-3px);
-}
-
-/* Dark mode back button */
-.dark-mode .btn-back {
-    background: rgba(100, 116, 139, 0.2);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.dark-mode .btn-back:hover {
-    background: rgba(100, 116, 139, 0.4);
-}
-
-.header-content {
-    text-align: center;
 }
 
 .quote-section {
@@ -106,9 +48,8 @@ body.dark-mode {
     font-style: italic;
 }
 
-/* Dark mode quote */
 .dark-mode .turkish-quote {
-    text-shadow: 0 2px 15px rgb(255, 255, 255);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
     color: #f1f5f9;
 }
 
@@ -122,7 +63,7 @@ body.dark-mode {
     color: #cbd5e1;
 }
 
-/* Content */
+/* Content específico */
 .content {
     flex: 1;
     padding: 40px;
@@ -146,7 +87,6 @@ body.dark-mode {
     transition: all 0.3s ease;
 }
 
-/* Dark mode section title */
 .dark-mode .section-title {
     color: #f1f5f9;
     border-bottom-color: #475569;
@@ -181,7 +121,6 @@ body.dark-mode {
     transition: all 0.3s ease;
 }
 
-/* Dark mode time block */
 .dark-mode .time-block {
     background: #334155;
     border-color: #475569;
@@ -206,7 +145,6 @@ body.dark-mode {
     border-top: 4px solid #f97316;
 }
 
-/* Dark mode time block accents */
 .dark-mode .time-block.morning {
     border-top-color: #fcd34d;
 }
@@ -227,7 +165,6 @@ body.dark-mode {
     transition: all 0.3s ease;
 }
 
-/* Dark mode time period */
 .dark-mode .time-period {
     background: linear-gradient(135deg, #475569 0%, #64748b 100%);
     color: #f1f5f9;
@@ -337,6 +274,7 @@ body.dark-mode {
     min-width: 100px;
     text-align: center;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .dark-mode .time-slot {
@@ -346,6 +284,7 @@ body.dark-mode {
 
 .activity-content {
     flex: 1;
+    min-width: 0;
 }
 
 .activity-content h4 {
@@ -382,6 +321,7 @@ body.dark-mode {
     justify-content: center;
     font-size: 1rem;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .dark-mode .activity-icon {
@@ -463,7 +403,7 @@ body.dark-mode {
     color: #1e293b;
     margin-bottom: 20px;
     padding-bottom: 12px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #e2e8f0;
     transition: all 0.3s ease;
 }
 
@@ -538,7 +478,7 @@ body.dark-mode {
     line-height: 1.3;
 }
 
-/* Dark Mode Toggle Button (if you need one) */
+/* Dark Mode Toggle Button */
 .dark-mode-toggle {
     position: fixed;
     top: 20px;
@@ -573,14 +513,6 @@ body.dark-mode {
     box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
 }
 
-/* Smooth transitions for all elements */
-* {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease, 
-                box-shadow 0.3s ease;
-}
-
 /* Custom scrollbar for dark mode */
 .dark-mode ::-webkit-scrollbar {
     width: 8px;
@@ -599,31 +531,228 @@ body.dark-mode {
     background: #64748b;
 }
 
-/* Media queries for responsive design */
+/* RESPONSIVE DESIGN - Optimized */
+@media (max-width: 1200px) {
+    .schedule-grid {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 25px;
+    }
+}
+
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        border-radius: 15px;
+        min-height: calc(100vh - 20px);
+    }
+    
+    .header {
+        padding: 20px 25px 30px;
+    }
+    
+    .turkish-quote {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    
+    .quote-translation {
+        font-size: 1rem;
+    }
+    
+    .content {
+        padding: 25px 20px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
     .schedule-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .time-block {
+        border-radius: 15px;
+    }
+    
+    .time-period {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+    
+    .activity-item {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .time-slot {
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    
+    .activity-content h4 {
+        font-size: 0.95rem;
+    }
+    
+    .activity-content p {
+        font-size: 0.8rem;
+    }
+    
+    .activity-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
     }
     
     .channels-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .content {
+    .channel-category {
         padding: 20px;
     }
     
-    .header {
-        padding: 20px;
+    .category-title {
+        font-size: 1.1rem;
     }
     
-    .turkish-quote {
-        font-size: 1.6rem;
+    .channel-item {
+        padding: 8px 10px;
+    }
+    
+    .channel-item span {
+        font-size: 0.85rem;
     }
     
     .dark-mode-toggle {
         width: 45px;
         height: 45px;
         font-size: 1rem;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 15px 20px 25px;
+    }
+    
+    .turkish-quote {
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    .quote-translation {
+        font-size: 0.9rem;
+    }
+    
+    .content {
+        padding: 20px 15px;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .time-period {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+    
+    .activity-item {
+        padding: 12px;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .time-slot {
+        order: 3;
+        margin-top: 8px;
+        align-self: flex-start;
+    }
+    
+    .activity-icon {
+        order: 1;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    
+    .activity-content {
+        order: 2;
+        flex: 1;
+    }
+    
+    .activity-content h4 {
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+    
+    .activity-content p {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    .channel-category {
+        padding: 15px;
+    }
+    
+    .category-title {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .channel-item span {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Landscape orientation fixes for tablets */
+@media (max-width: 1024px) and (orientation: landscape) {
+    .schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .header {
+        padding: 20px 30px;
+    }
+    
+    .turkish-quote {
+        font-size: 1.8rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .dark-mode-toggle {
+        display: none;
+    }
+    
+    .container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .activity-item:hover {
+        transform: none;
+        background: transparent;
+    }
+    
+    .time-block:hover {
+        transform: none;
     }
 }

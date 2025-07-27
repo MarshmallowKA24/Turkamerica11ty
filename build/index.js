@@ -9,60 +9,138 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.auth && window.auth.isLoggedIn()) {
         window.userDataManager.setCurrentUser(window.auth.getCurrentUser());
     }
+    
+    // Check registration status and hide notice if user is registered/logged in
+    checkRegistrationStatus();
 });
- // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
 
-        // Settings panel functionality
-        const settingsTab = document.getElementById('settingsTab');
-        const settingsOverlay = document.getElementById('settingsOverlay');
-        const closeSettings = document.getElementById('closeSettings');
+// Function to check registration status and manage notice visibility
+function checkRegistrationStatus() {
+    const notice = document.querySelector('.notice');
+    const authButton = document.getElementById('authButton');
+    
+    if (!notice) return; // Exit if notice element doesn't exist
+    
+    // Check if user is logged in
+    if (window.auth && window.auth.isLoggedIn()) {
+        // Hide the registration notice
+        notice.style.display = 'none';
+        
+        // Update auth buttons to show user info or logout option
+        if (authButton) {
+            const currentUser = window.auth.getCurrentUser();
+            authButton.innerHTML = `
+                <span>Bienvenido, ${currentUser.username || currentUser.email}</span> | 
+                <a href="#" onclick="handleLogout()">Cerrar Sesión</a>
+            `;
+        }
+    } else {
+        // Show the registration notice
+        notice.style.display = 'flex';
+    }
+}
 
-        settingsTab.addEventListener('click', function(e) {
-            e.preventDefault();
-            settingsOverlay.classList.add('active');
-        });
+// Function to handle logout
+function handleLogout() {
+    if (window.auth) {
+        window.auth.logout();
+        // Refresh the page or update UI
+        location.reload();
+    }
+}
 
-        closeSettings.addEventListener('click', function() {
-            settingsOverlay.classList.remove('active');
-        });
+// Function to update UI after successful login/registration
+function updateUIAfterAuth() {
+    checkRegistrationStatus();
+    
+    // You can add more UI updates here if needed
+    // For example, enable/disable certain features
+    enableRegisteredUserFeatures();
+}
 
-        // Close settings when clicking outside
-        settingsOverlay.addEventListener('click', function(e) {
-            if (e.target === settingsOverlay) {
-                settingsOverlay.classList.remove('active');
-            }
-        });
+// Function to enable features for registered users
+function enableRegisteredUserFeatures() {
+    // Enable flashcards generation button
+    const flashcardBtn = document.querySelector('.btn-generate');
+    if (flashcardBtn) {
+        flashcardBtn.textContent = 'Generar Flashcards';
+        flashcardBtn.href = 'flashcards.html'; // or whatever the correct link should be
+        flashcardBtn.removeAttribute('aria-label');
+    }
+    
+    // You can add more feature enablement here
+}
 
-        // Close settings with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
-                settingsOverlay.classList.remove('active');
-            }
-        });
+// Listen for authentication events (if your auth system supports it)
+window.addEventListener('authStateChanged', function(event) {
+    if (event.detail && event.detail.isLoggedIn) {
+        updateUIAfterAuth();
+    } else {
+        checkRegistrationStatus();
+    }
+});
 
-        // Button interactions
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Add click animation
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
+// Listen for storage changes (for cross-tab synchronization)
+window.addEventListener('storage', function(e) {
+    if (e.key === 'authToken' || e.key === 'currentUser') {
+        checkRegistrationStatus();
+    }
+});
 
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('change', function() {
-            document.body.classList.toggle('dark-mode');
-        });
+// Tab functionality
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
 
+// Settings panel functionality
+const settingsTab = document.getElementById('settingsTab');
+const settingsOverlay = document.getElementById('settingsOverlay');
+const closeSettings = document.getElementById('closeSettings');
+
+settingsTab.addEventListener('click', function(e) {
+    e.preventDefault();
+    settingsOverlay.classList.add('active');
+});
+
+closeSettings.addEventListener('click', function() {
+    settingsOverlay.classList.remove('active');
+});
+
+// Close settings when clicking outside
+settingsOverlay.addEventListener('click', function(e) {
+    if (e.target === settingsOverlay) {
+        settingsOverlay.classList.remove('active');
+    }
+});
+
+// Close settings with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
+        settingsOverlay.classList.remove('active');
+    }
+});
+
+// Button interactions
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Add click animation
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 150);
+    });
+});
+
+// Dark mode toggle
+const darkModeToggle = document.getElementById('darkModeToggle');
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('change', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+}
 
 // Función para inicializar el modo oscuro
 function initDarkMode() {
@@ -321,6 +399,15 @@ window.darkMode = {
     stats: getThemeStats
 };
 
+// Expose registration management functions globally
+window.registrationManager = {
+    checkStatus: checkRegistrationStatus,
+    updateUI: updateUIAfterAuth,
+    enableFeatures: enableRegisteredUserFeatures
+};
+
 // Mensaje de confirmación en consola
 console.log('🌙 Dark mode system initialized successfully!');
+console.log('📝 Registration management system initialized!');
 console.log('Use window.darkMode.toggle() to switch themes programmatically');
+console.log('Use window.registrationManager.checkStatus() to update registration status');
