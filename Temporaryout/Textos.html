@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros - Recursos de Aprendizaje de Turco</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="texto.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="darkmode.css">
+
+</head>
+<body>
+    <!-- Auth check -->
+<script src="data/database.js"></script>
+<script src="auth/auth.js"></script>
+<script src="auth/user-session.js"></script>
+<script src="data/user-data.js"></script>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
+            <div class="tabs">
+                <a href="index.html" class="tab">
+                <i class="fas fa-home"></i>
+                Inicio
+                <a href="index.html" class="tab">Consejos</a>
+                <a href="Gramatica.html" class="tab">Gramática</a>
+                <a href="Textos.html" class="tab active">Textos</a>
+             
+                <button class="tab settings-tab" id="settingsTab">
+                    <i class="fas fa-cog"></i>
+                    Ajustes
+                </button>
+            </div>
+        </header>
+
+        <!-- Notificador -->
+        <div class="notice">
+            <i class="fas fa-info-circle"></i>
+            <span>Requiere registro previo</span>
+        </div>
+
+        <!-- Descripcion -->
+        <div class="description">
+            <p>Sube libros en turco para traducir y analizar</p>
+        </div>
+
+        <!-- Add Book Seccion -->
+        <div class="add-content-section">
+            <div class="add-form-card">
+                <div class="form-header">
+                    <div class="form-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h2>Agregar Nuevo Libro</h2>
+                </div>
+                
+                <form class="add-form" id="addBookForm">
+                    <div class="form-group">
+                        <label for="bookTitle">Título del libro</label>
+                        <input type="text" id="bookTitle" name="bookTitle" placeholder="Ej: Aşk-ı Memnu" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookAuthor">Autor</label>
+                        <input type="text" id="bookAuthor" name="bookAuthor" placeholder="Ej: Halit Ziya Uşaklıgil" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookGenre">Género</label>
+                        <select id="bookGenre" name="bookGenre" required>
+                            <option value="">Selecciona un género</option>
+                            <option value="roman">Novela</option>
+                            <option value="hikaye">Cuento</option>
+                            <option value="şiir">Poesía</option>
+                            <option value="deneme">Ensayo</option>
+                            <option value="tarih">Historia</option>
+                            <option value="bilim">Ciencia</option>
+                            <option value="çocuk">Infantil</option>
+                            <option value="gençlik">Juvenil</option>
+                            <option value="diğer">Otros</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookLevel">Nivel de dificultad</label>
+                        <select id="bookLevel" name="bookLevel" required>
+                            <option value="">Selecciona un nivel</option>
+                            <option value="A1">A1 - Principiante</option>
+                            <option value="A2">A2 - Elemental</option>
+                            <option value="B1">B1 - Intermedio</option>
+                            <option value="B2">B2 - Intermedio Alto</option>
+                            <option value="C1">C1 - Avanzado</option>
+                            <option value="C2">C2 - Proficiencia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookFile">Archivo del libro</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Arrastra el archivo aquí o haz clic para seleccionar</p>
+                            <span class="file-types">Formatos soportados: TXT, PDF, EPUB</span>
+                            <input type="file" id="bookFile" name="bookFile" accept=".txt,.pdf,.epub" hidden>
+                        </div>
+                        <div class="file-info" id="fileInfo" style="display: none;">
+                            <i class="fas fa-file"></i>
+                            <span id="fileName"></span>
+                            <button type="button" class="remove-file" id="removeFile">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookDescription">Descripción (opcional)</label>
+                        <textarea id="bookDescription" name="bookDescription" placeholder="Breve descripción del libro..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Agregar Libro
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="clearForm">
+                            <i class="fas fa-eraser"></i>
+                            Limpiar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Books List Seccion -->
+        <div class="content-list-section">
+            <div class="section-header">
+                <h2>Libros Agregados</h2>
+                <div class="filter-controls">
+                    <select id="levelFilter" class="filter-select">
+                        <option value="">Todos los niveles</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C1">C1</option>
+                        <option value="C2">C2</option>
+                    </select>
+                    <select id="genreFilter" class="filter-select">
+                        <option value="">Todos los géneros</option>
+                        <option value="roman">Novela</option>
+                        <option value="hikaye">Cuento</option>
+                        <option value="şiir">Poesía</option>
+                        <option value="deneme">Ensayo</option>
+                        <option value="tarih">Historia</option>
+                        <option value="bilim">Ciencia</option>
+                        <option value="çocuk">Infantil</option>
+                        <option value="gençlik">Juvenil</option>
+                        <option value="diğer">Otros</option>
+                    </select>
+                    <input type="text" id="searchBooks" placeholder="Buscar libros..." class="search-input">
+                </div>
+            </div>
+            
+            <div class="content-grid" id="booksGrid">
+                <!-- Cartas de Sample book  -->
+                <div class="content-card" data-level="C1" data-genre="roman" data-book-id="1">
+                    <div class="content-header">
+                        <div class="content-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="content-level">C1</div>
+                    </div>
+                    <div class="content-body">
+                        <h3>Aşk-ı Memnu</h3>
+                        <p class="content-artist">Halit Ziya Uşaklıgil</p>
+                        <p class="content-genre">Novela</p>
+                        <p class="content-preview">Klasik Türk edebiyatının önemli eserlerinden biri...</p>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-outline read-btn">
+                            <i class="fas fa-book-open"></i>
+                            Leer
+                        </button>
+                        <button class="btn btn-outline translate-btn">
+                            <i class="fas fa-language"></i>
+                            Traducir
+                        </button>
+                        <button class="btn btn-outline analyze-btn">
+                            <i class="fas fa-chart-line"></i>
+                            Analizar
+                        </button>
+                        <button class="btn btn-outline delete-btn">
+                            <i class="fas fa-trash"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+                
+                
+                <div class="content-card" data-level="B2" data-genre="hikaye" data-book-id="2">
+                    <div class="content-header">
+                        <div class="content-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="content-level">B2</div>
+                    </div>
+                    <div class="content-body">
+                        <h3>Beyaz Kale</h3>
+                        <p class="content-artist">Orhan Pamuk</p>
+                        <p class="content-genre">Cuento</p>
+                        <p class="content-preview">Nobel ödüllü yazarın etkileyici hikayesi...</p>
+                    </div>
+                    <div class="content-actions">
+                        <button class="btn btn-outline read-btn">
+                            <i class="fas fa-book-open"></i>
+                            Leer
+                        </button>
+                        <button class="btn btn-outline translate-btn">
+                            <i class="fas fa-language"></i>
+                            Traducir
+                        </button>
+                        <button class="btn btn-outline analyze-btn">
+                            <i class="fas fa-chart-line"></i>
+                            Analizar
+                        </button>
+                        <button class="btn btn-outline delete-btn">
+                            <i class="fas fa-trash"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel Overlay -->
+        <div class="settings-overlay" id="settingsOverlay">
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h2>Configuración</h2>
+                    <button class="close-btn" id="closeSettings">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Perfil</h3>
+                            <p>Configurar información personal</p>
+                        </div>
+                        <div class="setting-action">
+                            <a href="Perfil.html" class="btn btn-outline">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tema Oscuro</h3>
+                            <p>Cambiar apariencia de la aplicación</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
+                        </div>
+                        <div class="setting-action">
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reader Modal -->
+        <div class="modal-overlay" id="readerModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="readerTitle">Leer Libro</h3>
+                    <button class="close-btn" id="closeReader">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="reader-content" id="readerContent">
+                        <p>Aquí se mostraría el contenido del libro para lectura...</p>
+                        <p>Ejemplo de texto turco:</p>
+                        <p><em>Güneş doğudan yükseldi. Bahçede kuşlar şarkı söylüyor. Çiçekler güzel kokular yayıyor. Bu güzel bir sabah.</em></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="closeReader2">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Translator Modal -->
+        <div class="modal-overlay" id="translatorModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="translatorTitle">Traducir Libro</h3>
+                    <button class="close-btn" id="closeTranslator">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="translator-content">
+                        <div class="text-section">
+                            <h4>Texto Original (Turco)</h4>
+                            <div class="text-box" id="originalText">
+                                <p>Güneş doğudan yükseldi. Bahçede kuşlar şarkı söylüyor.</p>
+                            </div>
+                        </div>
+                        <div class="text-section">
+                            <h4>Traducción (Español)</h4>
+                            <div class="text-box" id="translatedText">
+                                <p>El sol salió por el este. Los pájaros cantan en el jardín.</p>
+                            </div>
+                        </div>
+                        <div class="translation-controls">
+                            <button class="btn btn-primary" id="translateText">
+                                <i class="fas fa-language"></i>
+                                Traducir Selección
+                            </button>
+                            <button class="btn btn-outline" id="translateAll">
+                                <i class="fas fa-file-alt"></i>
+                                Traducir Todo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="closeTranslator2">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analyzer Modal -->
+        <div class="modal-overlay" id="analyzerModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="analyzerTitle">Análisis del Libro</h3>
+                    <button class="close-btn" id="closeAnalyzer">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="analyzer-content">
+                        <div class="analysis-section">
+                            <h4><i class="fas fa-chart-bar"></i> Estadísticas de Vocabulario</h4>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">1,247</span>
+                                    <span class="stat-label">Palabras únicas</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">5,693</span>
+                                    <span class="stat-label">Total de palabras</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">B2-C1</span>
+                                    <span class="stat-label">Nivel estimado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-section">
+                            <h4><i class="fas fa-list"></i> Palabras más frecuentes</h4>
+                            <div class="word-frequency">
+                                <div class="word-item">
+                                    <span class="word">ve</span>
+                                    <span class="frequency">127 veces</span>
+                                </div>
+                                <div class="word-item">
+                                    <span class="word">bir</span>
+                                    <span class="frequency">89 veces</span>
+                                </div>
+                                <div class="word-item">
+                                    <span class="word">bu</span>
+                                    <span class="frequency">76 veces</span>
+                                </div>
+                                <div class="word-item">
+                                    <span class="word">ile</span>
+                                    <span class="frequency">64 veces</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-section">
+                            <h4><i class="fas fa-lightbulb"></i> Palabras para estudiar</h4>
+                            <div class="study-words">
+                                <span class="study-word">güzellik</span>
+                                <span class="study-word">karmaşık</span>
+                                <span class="study-word">özgürlük</span>
+                                <span class="study-word">düşünce</span>
+                                <span class="study-word">sevgi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="exportAnalysis">
+                        <i class="fas fa-download"></i>
+                        Exportar Análisis
+                    </button>
+                    <button class="btn btn-secondary" id="closeAnalyzer2">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   <script src="general.js"></script>
+   <script src="Textos.js"></script>
+    
+    </body>
+</html>

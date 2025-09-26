@@ -1,87 +1,101 @@
+// ========================================
+// CONSEJOS.JS - Funcionalidad específica de la página de consejos
+// ========================================
 
-        // Add click effects to channel items
-        document.querySelectorAll('.channel-item').forEach(item => {
-            item.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    initializeAdvicePage();
+});
 
-        // Add progress tracking functionality
-        document.querySelectorAll('.activity-item').forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.toggle('completed');
-            });
+function initializeAdvicePage() {
+    setupChannelEffects();
+    setupActivityTracking();
+    initializeTimeHighlighting();
+}
+
+// ========================================
+// EFECTOS DE INTERACCIÓN DE CANALES
+// ========================================
+function setupChannelEffects() {
+    document.querySelectorAll('.channel-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
         });
-        
-        // Time conversion helper function
-        function timeToMinutes(timeStr) {
-            const [hours, minutes] = timeStr.split(':').map(Number);
-            return hours * 60 + minutes;
+    });
+}
+
+// ========================================
+// SEGUIMIENTO DE PROGRESO DE ACTIVIDADES
+// ========================================
+function setupActivityTracking() {
+    document.querySelectorAll('.activity-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.toggle('completed');
+            saveActivityProgress();
+        });
+    });
+}
+
+function saveActivityProgress() {
+    const completedActivities = [];
+    document.querySelectorAll('.activity-item.completed').forEach((item, index) => {
+        completedActivities.push(index);
+    });
+    
+    window.AppUtils.Storage.set('completedActivities', completedActivities);
+}
+
+function loadActivityProgress() {
+    const completedActivities = window.AppUtils.Storage.get('completedActivities', []);
+    const activityItems = document.querySelectorAll('.activity-item');
+    
+    completedActivities.forEach(index => {
+        if (activityItems[index]) {
+            activityItems[index].classList.add('completed');
         }
+    });
+}
+
+// ========================================
+// RESALTADO DE ACTIVIDADES BASADO EN TIEMPO
+// ========================================
+function initializeTimeHighlighting() {
+    highlightCurrentActivity();
+    setInterval(highlightCurrentActivity, 60000); // Actualizar cada minuto
+}
+
+function highlightCurrentActivity() {
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+    
+    document.querySelectorAll('.activity-item').forEach(item => {
+        const timeSlot = item.querySelector('.time-slot');
+        if (!timeSlot) return;
         
-        // Current time highlighting
-        function highlightCurrentActivity() {
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
+        const timeSlotText = timeSlot.textContent;
+        const [startTime, endTime] = timeSlotText.split(' - ');
+        
+        if (startTime && endTime) {
+            const startMinutes = window.AppUtils.Utils.timeToMinutes(startTime);
+            const endMinutes = window.AppUtils.Utils.timeToMinutes(endTime);
             
-            document.querySelectorAll('.activity-item').forEach(item => {
-                const timeSlot = item.querySelector('.time-slot').textContent;
-                const [startTime, endTime] = timeSlot.split(' - ');
-                
-                const startMinutes = timeToMinutes(startTime);
-                const endMinutes = timeToMinutes(endTime);
-                
-                if (currentTime >= startMinutes && currentTime <= endMinutes) {
-                    item.classList.add('current-activity');
-                } else {
-                    item.classList.remove('current-activity');
-                }
-            });
-        }
-
-        // Settings panel functionality
-        const settingsTab = document.getElementById('settingsTab');
-        const settingsOverlay = document.getElementById('settingsOverlay');
-        const closeSettings = document.getElementById('closeSettings');
-
-        if (settingsTab && settingsOverlay && closeSettings) {
-            settingsTab.addEventListener('click', function(e) {
-                e.preventDefault();
-                settingsOverlay.classList.add('active');
-            });
-
-            closeSettings.addEventListener('click', function() {
-                settingsOverlay.classList.remove('active');
-            });
-
-            // Close settings when clicking outside
-            settingsOverlay.addEventListener('click', function(e) {
-                if (e.target === settingsOverlay) {
-                    settingsOverlay.classList.remove('active');
-                }
-            });
-        }
-
-        // Close settings with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && settingsOverlay && settingsOverlay.classList.contains('active')) {
-                settingsOverlay.classList.remove('active');
+            if (currentTime >= startMinutes && currentTime <= endMinutes) {
+                item.classList.add('current-activity');
+            } else {
+                item.classList.remove('current-activity');
             }
-        });
-
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('change', function() {
-                document.body.classList.toggle('dark-mode');
-                // Save preference to localStorage if needed
-                // localStorage.setItem('darkMode', this.checked);
-            });
         }
+    });
+}
 
-        // Initialize current activity highlighting
-        highlightCurrentActivity();
-        setInterval(highlightCurrentActivity, 60000);
+// ========================================
+// INICIALIZACIÓN DE PÁGINA
+// ========================================
+// Cargar progreso guardado cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    loadActivityProgress();
+});
+
+console.log('Página de consejos inicializada correctamente');
