@@ -48,7 +48,7 @@ const corsOptions = {
       'http://127.0.0.1:3001',
       'http://localhost:5500',
       'http://127.0.0.1:5500',
-      'https://your-production-domain.com' // Replace with your actual domain
+      'http://turkamerica.camdvr.org/index.html' // Replace with your actual domain
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1) {
