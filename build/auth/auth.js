@@ -1,5 +1,5 @@
 // Configuración de la API
-const API_BASE_URL = window.location.origin + '/api'; // Usar la misma URL base
+const API_BASE_URL = window.location.origin + '/api';
 
 // Clase para manejar autenticación con backend
 class AuthService {
@@ -42,6 +42,9 @@ class AuthService {
             // Después del registro exitoso, hacer login automáticamente
             const loginResult = await this.login(userData.email, userData.password);
             
+            // Dispatch event for UI update
+            this.dispatchAuthEvent(true);
+            
             return loginResult;
 
         } catch (error) {
@@ -59,7 +62,7 @@ class AuthService {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    identifier, // puede ser username o email
+                    identifier,
                     password
                 })
             });
@@ -76,6 +79,9 @@ class AuthService {
             
             localStorage.setItem('authToken', this.token);
             localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+            // Dispatch event for UI update
+            this.dispatchAuthEvent(true);
 
             return { success: true, user: this.currentUser };
 
@@ -106,7 +112,21 @@ class AuthService {
             this.currentUser = null;
             localStorage.removeItem('authToken');
             localStorage.removeItem('currentUser');
+            
+            // Dispatch event for UI update
+            this.dispatchAuthEvent(false);
         }
+    }
+
+    // Dispatch custom event for auth state changes
+    dispatchAuthEvent(isLoggedIn) {
+        const event = new CustomEvent('authStateChanged', {
+            detail: {
+                isLoggedIn: isLoggedIn,
+                user: this.currentUser
+            }
+        });
+        window.dispatchEvent(event);
     }
 
     // Obtener headers con autorización
@@ -129,7 +149,6 @@ function validateEmail(email) {
 
 // Función para mostrar mensajes de éxito
 function showSuccessMessage(message, duration = 3000) {
-    // Crear elemento de mensaje de éxito
     const successDiv = document.createElement('div');
     successDiv.className = 'success-message';
     successDiv.textContent = message;
@@ -137,15 +156,16 @@ function showSuccessMessage(message, duration = 3000) {
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #4CAF50;
-        color: white;
-        padding: 15px;
-        border-radius: 5px;
+        background-color: #03DAC6;
+        color: #121212;
+        padding: 15px 20px;
+        border-radius: 8px;
         z-index: 1000;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(3, 218, 198, 0.3);
         animation: slideIn 0.3s ease-out;
     `;
 
-    // Agregar estilos de animación si no existen
     if (!document.getElementById('success-animation-styles')) {
         const style = document.createElement('style');
         style.id = 'success-animation-styles';
@@ -160,7 +180,6 @@ function showSuccessMessage(message, duration = 3000) {
 
     document.body.appendChild(successDiv);
 
-    // Remover mensaje después del tiempo especificado
     setTimeout(() => {
         if (successDiv.parentNode) {
             successDiv.remove();
@@ -182,14 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const confirmPassword = document.getElementById('confirmPassword').value;
             const errorDiv = document.getElementById('errorMessage');
             
-            // Limpiar mensaje de error previo
             if (errorDiv) {
                 errorDiv.style.display = 'none';
                 errorDiv.textContent = '';
             }
 
             try {
-                // Validaciones del frontend
                 if (username.length < 3) {
                     throw new Error('El nombre de usuario debe tener al menos 3 caracteres');
                 }
@@ -206,26 +223,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('Las contraseñas no coinciden');
                 }
 
-                // Deshabilitar botón mientras se procesa
                 const submitBtn = registerForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Registrando...';
 
-                // Preparar datos para el registro
                 const userData = { 
                     name: username, 
                     email: email, 
                     password: password 
                 };
 
-                // Llamar al servicio de registro
                 const result = await window.AuthService.register(userData);
 
                 if (result.success) {
                     showSuccessMessage('¡Registro exitoso! Bienvenido/a');
                     
-                    // Esperar un momento para que el usuario vea el mensaje
                     setTimeout(() => {
                         window.location.href = '../index.html';
                     }, 1500);
@@ -239,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorDiv.style.display = 'block';
                 }
             } finally {
-                // Rehabilitar botón
                 const submitBtn = registerForm.querySelector('button[type="submit"]');
                 if (submitBtn) {
                     submitBtn.disabled = false;
@@ -259,14 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('errorMessage');
             
-            // Limpiar mensaje de error previo
             if (errorDiv) {
                 errorDiv.style.display = 'none';
                 errorDiv.textContent = '';
             }
 
             try {
-                // Validaciones básicas
                 if (!username) {
                     throw new Error('Por favor ingresa tu usuario o email');
                 }
@@ -275,19 +284,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('Por favor ingresa tu contraseña');
                 }
 
-                // Deshabilitar botón mientras se procesa
                 const submitBtn = loginForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Iniciando sesión...';
 
-                // Llamar al servicio de login
                 const result = await window.AuthService.login(username, password);
 
                 if (result.success) {
                     showSuccessMessage('¡Login exitoso! Bienvenido/a de vuelta');
                     
-                    // Esperar un momento para que el usuario vea el mensaje
                     setTimeout(() => {
                         window.location.href = '../index.html';
                     }, 1500);
@@ -301,7 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorDiv.style.display = 'block';
                 }
             } finally {
-                // Rehabilitar botón
                 const submitBtn = loginForm.querySelector('button[type="submit"]');
                 if (submitBtn) {
                     submitBtn.disabled = false;
