@@ -1,33 +1,29 @@
 // Utilidades globales
 // Global namespace to avoid conflicts
 window.AppUtils = window.AppUtils || {};
-
 // ========================================
 // DARK MODE SYSTEM
 // ========================================
 window.AppUtils.DarkMode = {
     init() {
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-        
-        // Check for saved preference or system preference
+        // Apply saved theme immediately (before DOM is fully ready)
         const savedTheme = localStorage.getItem('darkMode');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Apply initial theme
+        // Apply initial theme to body immediately
         if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
-            this.enable();
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
         }
         
-        // Setup toggle listener
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('change', (e) => {
-                if (e.checked) {
-                    this.enable();
-                } else {
-                    this.disable();
-                }
+        // Wait for DOM to be ready before setting up toggle
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.setupToggle();
             });
+        } else {
+            this.setupToggle();
         }
         
         // Listen for system preference changes
@@ -44,25 +40,48 @@ window.AppUtils.DarkMode = {
         // Sync across tabs
         window.addEventListener('storage', (e) => {
             if (e.key === 'darkMode') {
-                const toggle = document.getElementById('darkModeToggle');
+                this.syncToggle();
                 if (e.newValue === 'enabled') {
                     document.body.classList.add('dark-mode');
-                    if (toggle) toggle.checked = true;
                 } else if (e.newValue === 'disabled') {
                     document.body.classList.remove('dark-mode');
-                    if (toggle) toggle.checked = false;
                 }
             }
         });
     },
 
+    setupToggle() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        if (darkModeToggle) {
+            // Set initial state
+            darkModeToggle.checked = this.isActive();
+            
+            // Setup toggle listener
+            darkModeToggle.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.enable();
+                } else {
+                    this.disable();
+                }
+            });
+        } else {
+            // Retry after a short delay if toggle not found
+            setTimeout(() => this.setupToggle(), 100);
+        }
+    },
+
+    syncToggle() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            darkModeToggle.checked = this.isActive();
+        }
+    },
+
     enable() {
         document.body.classList.add('dark-mode');
         localStorage.setItem('darkMode', 'enabled');
-        
-        const toggle = document.getElementById('darkModeToggle');
-        if (toggle) toggle.checked = true;
-        
+        this.syncToggle();
         this.applyTransition();
         this.trackUsage();
     },
@@ -70,10 +89,7 @@ window.AppUtils.DarkMode = {
     disable() {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'disabled');
-        
-        const toggle = document.getElementById('darkModeToggle');
-        if (toggle) toggle.checked = false;
-        
+        this.syncToggle();
         this.applyTransition();
         this.trackUsage();
     },
@@ -132,7 +148,6 @@ window.AppUtils.DarkMode = {
         };
     }
 };
-
 // ========================================
 // SETTINGS MODAL SYSTEM
 // ========================================
@@ -297,14 +312,14 @@ window.AppUtils.Modal = {
         const modal = document.getElementById(modalId);
         if (!modal) return;
 
-        // Close button
+        // boton de cerrar
         const closeBtn = modal.querySelector('.close-modal, .modal-close');
         if (closeBtn && !closeBtn.dataset.listenerAdded) {
             closeBtn.addEventListener('click', () => this.close(modalId));
             closeBtn.dataset.listenerAdded = 'true';
         }
 
-        // Click outside to close
+        // Click afuera para cerra
         if (!modal.dataset.outsideListenerAdded) {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -314,7 +329,7 @@ window.AppUtils.Modal = {
             modal.dataset.outsideListenerAdded = 'true';
         }
 
-        // Escape key to close
+        // Escape key para cerrar
         if (!modal.dataset.escapeListenerAdded) {
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal.style.display === 'flex') {
@@ -325,6 +340,7 @@ window.AppUtils.Modal = {
         }
     }
 };
+
 
 // ========================================
 // Sistema de notificacion
@@ -547,22 +563,22 @@ window.AppUtils.Utils = {
         return div.innerHTML;
     }
 };
-
 // ========================================
-// Inicializacion
+// Inicialización
 // ========================================
 window.AppUtils.init = function() {
-    // Initializar todos los sistemas cuando dom esta ready
+    // Initialize dark mode FIRST (before DOM ready to avoid flash)
+    this.DarkMode.init();
+    
+    // Initialize other systems when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            this.DarkMode.init();
             this.Settings.init();
             this.ButtonEffects.init();
             this.Tabs.init();
             this.Accessibility.init();
         });
     } else {
-        this.DarkMode.init();
         this.Settings.init();
         this.ButtonEffects.init();
         this.Tabs.init();
@@ -572,12 +588,5 @@ window.AppUtils.init = function() {
     console.log('🚀 Global utilities initialized successfully!');
 };
 
-// ========================================
-// compatibilidad trasera
-// ========================================
-// exporta al global scope para compatibilidad trasera
-window.darkMode = window.AppUtils.DarkMode;
-window.showNotification = (message, type) => window.AppUtils.Notification.show(message, type);
-
-// Auto-initializar
+// Auto-initialize
 window.AppUtils.init();

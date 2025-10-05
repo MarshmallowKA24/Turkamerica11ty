@@ -1,7 +1,3 @@
-// ========================================
-// INDEX.JS - Homepage specific functionality
-// ========================================
-
 // Check authentication status on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize auth system

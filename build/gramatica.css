@@ -41,15 +41,6 @@ body.dark-mode {
     border: 1px solid #334155;
 }
 
-/* Header */
-.header {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    padding: 30px 40px;
-    color: white;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
 /* Dark mode header */
 .dark-mode .header {
     background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #581c87 100%);

@@ -1,8 +1,5 @@
-/* =======================
-   VARIABLES CSS PARA MODO OSCURO
-   ======================= */
+/* Variables CSS para modo oscuro */
 :root {
-    /* Colores modo claro */
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;
     --bg-card: rgba(255,255,255,0.95);
@@ -31,13 +28,11 @@
     --unlearned-color: #856404;
     --all-learned-bg: #d4edda;
     --all-learned-color: #155724;
-    /* Define desired dark mode background colors as variables */
     --dark-bg-start: #0f172a;
     --dark-bg-mid: #1e1b4b;
     --dark-bg-end: #312e81;
 }
 
-/* Variables para modo oscuro */
 body.dark-mode {
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
@@ -67,19 +62,15 @@ body.dark-mode {
     --unlearned-color: #fbbf24;
     --all-learned-bg: rgba(76, 175, 80, 0.2);
     --all-learned-color: #4ade80;
-    /* Ensure dark mode variables are used for body background */
     --dark-bg-start: #0f172a;
     --dark-bg-mid: #1e1b4b;
     --dark-bg-end: #312e81;
 }
 
-/* =======================
-   APLICACIÓN DE VARIABLES
-   ======================= */
-/* Fondo principal */
+/* Aplicación de variables */
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Light mode background */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     color: #333;
     transition: all 0.3s ease;
@@ -90,7 +81,6 @@ body.dark-mode {
     color: var(--text-primary);
 }
 
-/* Tarjetas de nivel */
 .level-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -116,7 +106,6 @@ body.dark-mode .level-card.special {
     color: var(--text-primary);
 }
 
-/* Tabs */
 .tab {
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
@@ -135,7 +124,6 @@ body.dark-mode .tab.active {
     background: rgba(255,255,255,0.2);
 }
 
-/* Notice */
 .notice {
     background: var(--notice-bg);
     color: var(--notice-color);
@@ -143,12 +131,10 @@ body.dark-mode .tab.active {
     transition: all 0.3s ease;
 }
 
-/* Descripción */
 .description p {
     color: var(--text-secondary);
 }
 
-/* Gramática y contenido */
 .grammar-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -168,7 +154,6 @@ body.dark-mode .tab.active {
     color: var(--text-secondary);
 }
 
-/* Modal */
 .modal {
     backdrop-filter: blur(5px);
 }
@@ -189,7 +174,6 @@ body.dark-mode .tab.active {
     color: var(--text-secondary);
 }
 
-/* Tablas */
 .comparison-table tr:hover {
     background-color: var(--table-hover);
 }
@@ -199,7 +183,6 @@ body.dark-mode .tab.active {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* Ejemplos y tips */
 .example-box {
     background: var(--example-bg);
     border-left: 4px solid #4A90E2;
@@ -212,7 +195,6 @@ body.dark-mode .tab.active {
     transition: all 0.3s ease;
 }
 
-/* Footer */
 .footer {
     background: var(--footer-bg);
     border-top: 1px solid var(--footer-border);
@@ -227,7 +209,6 @@ body.dark-mode .tab.active {
     color: var(--footer-text);
 }
 
-/* Setting Items */
 .setting-item {
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
@@ -243,7 +224,6 @@ body.dark-mode .tab.active {
     color: var(--text-secondary);
 }
 
-/* Botones */
 .btn-secondary {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -272,7 +252,6 @@ body.dark-mode .btn-outline:hover {
     color: white;
 }
 
-/* Selects */
 .setting-select {
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -288,7 +267,6 @@ body.dark-mode .setting-select:focus {
     border-color: #3b82f6;
 }
 
-/* Panel de configuración */
 .settings-panel {
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -315,7 +293,6 @@ body.dark-mode .setting-select:focus {
     color: var(--text-primary);
 }
 
-/* Deck cards específicos */
 .deck-card {
     background: var(--bg-primary);
     border: 2px solid var(--border-color);
@@ -340,7 +317,6 @@ body.dark-mode .setting-select:focus {
     color: var(--text-muted);
 }
 
-/* Form elements */
 .form-section {
     background: var(--bg-secondary);
     transition: all 0.3s ease;
@@ -371,7 +347,6 @@ body.dark-mode .form-group select:focus {
     border-color: #3b82f6;
 }
 
-/* Image upload */
 .image-upload {
     border: 2px dashed var(--border-color);
     background: var(--bg-primary);
@@ -388,7 +363,6 @@ body.dark-mode .image-upload:hover {
     background: rgba(59, 130, 246, 0.1);
 }
 
-/* Scrollbar personalizada */
 body.dark-mode::-webkit-scrollbar {
     width: 8px;
 }
@@ -406,19 +380,16 @@ body.dark-mode::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
 }
 
-/* Efectos de focus mejorados */
 body.dark-mode .btn:focus,
 body.dark-mode .tab:focus,
 body.dark-mode .toggle-switch input:focus + .slider {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Persistencia del modo oscuro */
 body.dark-mode {
     color-scheme: dark;
 }
 
-/* Animaciones suaves para transiciones */
 * {
     transition: background-color 0.3s ease, 
                 color 0.3s ease, 
@@ -426,7 +397,6 @@ body.dark-mode {
                 box-shadow 0.3s ease;
 }
 
-/* Mejoras para elementos específicos del modo oscuro */
 body.dark-mode .level-page-header {
     color: var(--text-primary);
 }
@@ -450,7 +420,6 @@ body.dark-mode .back-btn:hover {
     background: rgba(255,255,255,0.1);
 }
 
-/* Mejoras adicionales para contenido específico */
 body.dark-mode .volver-btn {
     background-color: #3b82f6;
     color: white;
@@ -460,7 +429,6 @@ body.dark-mode .volver-btn:hover {
     background-color: #1d4ed8;
 }
 
-/* Asegurar que todos los elementos tengan el color correcto */
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
@@ -476,14 +444,12 @@ body.dark-mode div {
     color: var(--text-secondary);
 }
 
-/* Mejorar la visibilidad de los iconos en modo oscuro */
 body.dark-mode .fas,
 body.dark-mode .far,
 body.dark-mode i {
     color: inherit;
 }
 
-/* Efectos especiales para elementos interactivos */
 body.dark-mode .level-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
@@ -494,7 +460,6 @@ body.dark-mode .action-card:hover {
     box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
 }
 
-/* Optimización para dispositivos móviles */
 @media (max-width: 768px) {
     body.dark-mode {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
@@ -525,7 +490,6 @@ body {
     padding: 20px;
 }
 
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 30px;
@@ -567,7 +531,6 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Notice */
 .notice {
     background: rgba(255,193,7,0.9);
     color: #856404;
@@ -584,7 +547,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Description */
 .description {
     text-align: center;
     margin-bottom: 40px;
@@ -596,7 +558,6 @@ body {
     font-weight: 400;
 }
 
-/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -654,12 +615,6 @@ body {
     font-size: 1.1rem;
 }
 
-.icon-magic::before {
-    content: "✨";
-    font-size: 1.2rem;
-}
-
-/* Footer */
 .footer {
     margin-top: 60px;
     text-align: center;
@@ -688,7 +643,6 @@ body {
     }
 }
 
-/* Back Button */
 .back-btn {
     display: inline-flex;
     align-items: center;
@@ -708,7 +662,6 @@ body {
     transform: translateX(-3px);
 }
 
-/* Level Page Specific */
 .level-page-header {
     text-align: center;
     margin-bottom: 40px;
@@ -746,7 +699,6 @@ body {
     align-items: center;
 }
 
-/* Grammar Section Styles */
 .grammar-section {
     margin-bottom: 40px;
 }
@@ -827,7 +779,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -974,17 +925,6 @@ body {
     background-color: #f5f5f5;
 }
 
-.question-group {
-    margin-bottom: 25px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.question-group:last-child {
-    border-bottom: none;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -1066,7 +1006,6 @@ body {
     }
 }
 
-/* Apartado de Flashcards */
 * {
     margin: 0;
     padding: 0;
@@ -1297,7 +1236,6 @@ body {
     transform: translateY(0);
 }
 
-/* Secciones mejoradas */
 .learned-section {
     margin-bottom: 40px;
     padding: 25px;
@@ -1327,7 +1265,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Estilos mejorados para tarjetas de deck */
 .learned-deck {
     background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
     border: 2px solid #4CAF50;
@@ -1356,21 +1293,6 @@ body {
     font-weight: 600;
 }
 
-/* Responsive mejorado */
-@media (max-width: 768px) {
-    .nav-tab {
-        font-size: 0.85rem;
-        padding: 15px 12px;
-        flex-direction: column;
-        gap: 4px;
-    }
-    
-    .nav-tab[data-tab]::before {
-        margin-right: 0;
-        margin-bottom: 2px;
-    }
-}
-
 a {
     color: inherit;
     text-decoration: none;
@@ -1381,7 +1303,6 @@ a:hover {
     color: inherit;
 }
 
-/* Quick Actions Section */
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1433,26 +1354,6 @@ a:hover {
     line-height: 1.5;
 }
 
-.btn-secondary {
-    background: #f8f9fa;
-    color: #333;
-    border: 1px solid #dee2e6;
-    font-size: 14px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-}
-
-.btn-secondary:hover {
-    background: #e9ecef;
-    transform: translateY(-1px);
-}
-
-/* Settings Section */
 .settings-section {
     margin-bottom: 30px;
 }
@@ -1547,7 +1448,6 @@ a:hover {
     border-color: #667eea;
 }
 
-/* Toggle Switch */
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -1592,6 +1492,7 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
 .dark-mode {
     background-color: #1a1a1a;
     color: white;
@@ -1631,9 +1532,6 @@ input:checked + .slider:before {
     background: #555;
 }
 
-/* === Dark Mode Styles for Specific Elements (Kept from New Code) === */
-/* Styles for elements that need specific dark mode treatment and don't conflict */
-/* Settings Panel Overlay */
 .settings-overlay {
     position: fixed;
     top: 0;
@@ -1658,7 +1556,7 @@ input:checked + .slider:before {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
-    background: white; /* Light background by default */
+    background: white;
     border-radius: 16px;
     width: 90%;
     max-width: 500px;
@@ -1668,16 +1566,17 @@ input:checked + .slider:before {
     transition: all 0.3s ease;
 }
 
-/* Apply dark mode styles to settings panel content if needed */
 .dark-mode .settings-panel {
-    background: #2d2d2d; /* Use dark card background */
-    color: white; /* Ensure text is white */
+    background: #2d2d2d;
+    color: white;
 }
+
 .dark-mode .settings-header {
-    border-bottom-color: #404040; /* Dark border */
+    border-bottom-color: #404040;
 }
+
 .dark-mode .settings-header h2 {
-     color: white; /* Ensure header text is white */
+    color: white;
 }
 
 .settings-overlay.active .settings-panel {
@@ -1689,19 +1588,16 @@ input:checked + .slider:before {
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    border-bottom: 1px solid #e1e5e9; /* Default light border */
+    border-bottom: 1px solid #e1e5e9;
 }
 
 .settings-header h2 {
     font-size: 24px;
     font-weight: 600;
     margin: 0;
-    color: #333; /* Default dark text */
+    color: #333;
 }
 
-
-/* === Retained Styles (Non-Dark Mode Specific or Structural) === */
-/* Responsive Design */
 @media (max-width: 768px) {
     .quick-actions {
         grid-template-columns: 1fr;
@@ -1722,41 +1618,4 @@ input:checked + .slider:before {
         display: flex;
         justify-content: flex-end;
     }
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.action-card,
-.setting-item {
-    animation: fadeIn 0.6s ease forwards;
-}
-
-.action-card:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.action-card:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.setting-item:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.setting-item:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.setting-item:nth-child(4) {
-    animation-delay: 0.3s;
 }
