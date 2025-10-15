@@ -2,27 +2,11 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
+const { authenticateToken } = require('../middleware/auth');
+
 const router = express.Router();
 
-// Middleware para verificar token
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'Token de acceso requerido' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret', (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Token inválido' });
-        }
-        req.user = user;
-        next();
-    });
-};
-
-// Validaciones
+// Validations
 const registerValidation = [
     body('username')
         .isLength({ min: 3, max: 20 })
@@ -47,10 +31,13 @@ const loginValidation = [
         .withMessage('Contraseña requerida')
 ];
 
-// POST /api/auth/register - Registro de usuario
+// ================================
+// AUTHENTICATION ROUTES
+// ================================
+
+// POST /api/auth/register - User registration
 router.post('/register', registerValidation, async (req, res) => {
     try {
-        // Verificar errores de validación
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ 
@@ -60,7 +47,7 @@ router.post('/register', registerValidation, async (req, res) => {
 
         const { username, email, password } = req.body;
 
-        // Verificar si el usuario ya existe
+        // Check if user exists
         const existingUser = await User.findOne({
             $or: [
                 { email: email.toLowerCase() },
@@ -80,27 +67,27 @@ router.post('/register', registerValidation, async (req, res) => {
             }
         }
 
-        // Crear nuevo usuario (el hash del password se hace en el pre-save hook)
+        // Create new user
         const newUser = new User({
             username: username.toLowerCase(),
             email: email.toLowerCase(),
-            password: password // Se hashea automáticamente en el modelo
+            password: password
         });
 
         await newUser.save();
 
-        // Generar token JWT
+        // Generate JWT
         const token = jwt.sign(
             { 
-                userId: newUser._id, 
+                userId: newUser._id.toString(),
                 username: newUser.username,
-                email: newUser.email 
+                email: newUser.email,
+                role: newUser.role
             },
             process.env.JWT_SECRET || 'fallback_secret',
-            { expiresIn: '24h' }
+            { expiresIn: '7d' }
         );
 
-        // Respuesta exitosa (el modelo ya excluye la contraseña en toJSON)
         res.status(201).json({
             message: 'Usuario registrado exitosamente',
             token,
@@ -110,7 +97,6 @@ router.post('/register', registerValidation, async (req, res) => {
     } catch (error) {
         console.error('Error en registro:', error);
         
-        // Manejar errores de duplicado de MongoDB
         if (error.code === 11000) {
             const field = Object.keys(error.keyPattern)[0];
             const message = field === 'email' ? 'El email ya está registrado' : 'El nombre de usuario ya está en uso';
@@ -123,10 +109,9 @@ router.post('/register', registerValidation, async (req, res) => {
     }
 });
 
-// POST /api/auth/login - Inicio de sesión
+// POST /api/auth/login - User login
 router.post('/login', loginValidation, async (req, res) => {
     try {
-        // Verificar errores de validación
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ 
@@ -136,13 +121,8 @@ router.post('/login', loginValidation, async (req, res) => {
 
         const { identifier, password } = req.body;
 
-        // Buscar usuario por email o username
-        const user = await User.findOne({
-            $or: [
-                { email: identifier.toLowerCase() },
-                { username: identifier.toLowerCase() }
-            ]
-        });
+        // Find user by email or username
+        const user = await User.findByEmailOrUsername(identifier);
 
         if (!user) {
             return res.status(401).json({ 
@@ -150,7 +130,7 @@ router.post('/login', loginValidation, async (req, res) => {
             });
         }
 
-        // Verificar contraseña usando el método del modelo
+        // Verify password
         const isPasswordValid = await user.comparePassword(password);
 
         if (!isPasswordValid) {
@@ -159,26 +139,27 @@ router.post('/login', loginValidation, async (req, res) => {
             });
         }
 
-        // Actualizar última actividad
-        user.stats.lastActivity = new Date();
+        // Update streak on login
+        user.updateStreak();
         await user.save();
 
-        // Generar token JWT
+        // Generate JWT
         const token = jwt.sign(
             { 
-                userId: user._id, 
+                userId: user._id.toString(),
                 username: user.username,
                 email: user.email,
                 role: user.role
             },
             process.env.JWT_SECRET || 'fallback_secret',
-            { expiresIn: '24h' }
+            { expiresIn: '7d' }
         );
 
         res.json({
             message: 'Login exitoso',
             token,
-            user: user.toJSON()
+            user: user.toJSON(),
+            streak: user.getStreakInfo()
         });
 
     } catch (error) {
@@ -189,11 +170,10 @@ router.post('/login', loginValidation, async (req, res) => {
     }
 });
 
-// POST /api/auth/logout - Cerrar sesión
+// POST /api/auth/logout - User logout
 router.post('/logout', authenticateToken, async (req, res) => {
     try {
-        // Actualizar última actividad del usuario
-        await User.findByIdAndUpdate(req.user.userId, {
+        await User.findByIdAndUpdate(req.user._id, {
             'stats.lastActivity': new Date()
         });
 
@@ -208,10 +188,10 @@ router.post('/logout', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/auth/verify - Verificar token
+// GET /api/auth/verify - Verify token
 router.get('/verify', authenticateToken, async (req, res) => {
     try {
-        const user = await User.findById(req.user.userId);
+        const user = await User.findById(req.user._id);
         
         if (!user || !user.isActive) {
             return res.status(404).json({ 
@@ -221,7 +201,8 @@ router.get('/verify', authenticateToken, async (req, res) => {
 
         res.json({
             message: 'Token válido',
-            user: user.toJSON()
+            user: user.toJSON(),
+            streak: user.getStreakInfo()
         });
     } catch (error) {
         console.error('Error verificando token:', error);
@@ -231,10 +212,14 @@ router.get('/verify', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/auth/profile - Obtener perfil del usuario
+// ================================
+// PROFILE ROUTES
+// ================================
+
+// GET /api/auth/profile - Get user profile
 router.get('/profile', authenticateToken, async (req, res) => {
     try {
-        const user = await User.findById(req.user.userId);
+        const user = await User.findById(req.user._id);
         
         if (!user || !user.isActive) {
             return res.status(404).json({ 
@@ -243,7 +228,8 @@ router.get('/profile', authenticateToken, async (req, res) => {
         }
 
         res.json({
-            user: user.toJSON()
+            user: user.toJSON(),
+            streak: user.getStreakInfo()
         });
     } catch (error) {
         console.error('Error obteniendo perfil:', error);
@@ -253,12 +239,17 @@ router.get('/profile', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/auth/profile - Actualizar perfil
+// PUT /api/auth/profile - Update profile and preferences
 router.put('/profile', authenticateToken, [
     body('profile.firstName').optional().isLength({ max: 50 }),
     body('profile.lastName').optional().isLength({ max: 50 }),
     body('profile.bio').optional().isLength({ max: 500 }),
+    body('profile.level').optional().isIn(['A1', 'A2', 'B1', 'B2', 'C1']),
+    body('preferences.darkMode').optional().isBoolean(),
     body('preferences.language').optional().isIn(['es', 'en', 'tr']),
+    body('preferences.fontSize').optional().isIn(['small', 'medium', 'large']),
+    body('preferences.notifications').optional().isBoolean(),
+    body('preferences.sound').optional().isBoolean(),
     body('preferences.dailyGoal').optional().isInt({ min: 1, max: 100 })
 ], async (req, res) => {
     try {
@@ -269,7 +260,7 @@ router.put('/profile', authenticateToken, [
             });
         }
 
-        const user = await User.findById(req.user.userId);
+        const user = await User.findById(req.user._id);
         
         if (!user) {
             return res.status(404).json({ 
@@ -277,13 +268,14 @@ router.put('/profile', authenticateToken, [
             });
         }
 
-        // Actualizar campos permitidos
-        const allowedUpdates = ['profile', 'preferences'];
-        allowedUpdates.forEach(field => {
-            if (req.body[field]) {
-                user[field] = { ...user[field].toObject(), ...req.body[field] };
-            }
-        });
+        // Update allowed fields
+        if (req.body.profile) {
+            user.profile = { ...user.profile.toObject(), ...req.body.profile };
+        }
+        
+        if (req.body.preferences) {
+            user.preferences = { ...user.preferences.toObject(), ...req.body.preferences };
+        }
 
         await user.save();
 
@@ -294,6 +286,60 @@ router.put('/profile', authenticateToken, [
 
     } catch (error) {
         console.error('Error actualizando perfil:', error);
+        res.status(500).json({ 
+            message: 'Error interno del servidor' 
+        });
+    }
+});
+
+// ================================
+// STREAK ROUTES
+// ================================
+
+// POST /api/auth/update-streak - Update user's streak
+router.post('/update-streak', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        
+        if (!user) {
+            return res.status(404).json({ 
+                message: 'Usuario no encontrado' 
+            });
+        }
+        
+        // Update streak
+        const currentStreak = user.updateStreak();
+        await user.save();
+        
+        res.json({
+            message: 'Racha actualizada',
+            streak: user.getStreakInfo(),
+            currentStreak: currentStreak
+        });
+    } catch (error) {
+        console.error('Error actualizando racha:', error);
+        res.status(500).json({ 
+            message: 'Error interno del servidor' 
+        });
+    }
+});
+
+// GET /api/auth/streak - Get user's streak info
+router.get('/streak', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        
+        if (!user) {
+            return res.status(404).json({ 
+                message: 'Usuario no encontrado' 
+            });
+        }
+        
+        res.json({
+            streak: user.getStreakInfo()
+        });
+    } catch (error) {
+        console.error('Error obteniendo racha:', error);
         res.status(500).json({ 
             message: 'Error interno del servidor' 
         });

@@ -7,11 +7,8 @@ const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const path = require('path');
 
-// Import routes
+// Import routes (ONLY AUTH for MVP)
 const authRoutes = require('./routes/auth');
-const flashcardRoutes = require('./routes/flashcards');
-const textRoutes = require('./routes/texts');
-const userRoutes = require('./routes/users');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,24 +35,25 @@ app.use(helmet({
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, etc)
+    // Allow requests with no origin (mobile apps, Postman, etc)
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
       'http://localhost:3000',
-      'http://localhost:3001', 
+      'http://localhost:3001',
+      'http://localhost:8000',
+      'http://localhost:5500',
       'http://127.0.0.1:3000',
       'http://127.0.0.1:3001',
-      'http://localhost:5500',
-      'http://127.0.0.1:5500',
-      'http://turkamerica.camdvr.org/index.html' // Replace with your actual domain
+      'http://127.0.0.1:8000',
+      'http://127.0.0.1:5500'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      console.log('Blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
+      console.log('⚠️  Blocked origin:', origin);
+      callback(null, true); // Allow for MVP testing
     }
   },
   credentials: true,
@@ -68,7 +66,7 @@ app.use(cors(corsOptions));
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  max: 100,
   message: {
     error: 'Too many requests from this IP, please try again later.'
   },
@@ -76,13 +74,12 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Apply rate limiting to all routes
 app.use('/api/', limiter);
 
 // Stricter rate limiting for auth routes
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 auth requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 10,
   message: {
     error: 'Too many authentication attempts, please try again later.'
   }
@@ -96,11 +93,11 @@ app.use('/api/auth/register', authLimiter);
 // ================================
 
 // Logging
-app.use(morgan('combined'));
+app.use(morgan('dev')); // Changed to 'dev' for cleaner logs
 
 // Body parsing
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -113,14 +110,13 @@ const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/turkamerica';
     
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoURI);
     
     console.log('✅ MongoDB connected successfully');
+    console.log('📊 Database:', mongoose.connection.name);
   } catch (error) {
     console.error('❌ MongoDB connection error:', error.message);
+    console.log('💡 Make sure MongoDB is running on your system');
     process.exit(1);
   }
 };
@@ -133,17 +129,16 @@ const connectDB = async () => {
 app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
+    message: 'TurkAmerica MVP Server is running',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
 });
 
-// API Routes
+// API Routes (ONLY AUTH for MVP)
 app.use('/api/auth', authRoutes);
-app.use('/api/flashcards', flashcardRoutes);
-app.use('/api/texts', textRoutes);
-app.use('/api/users', userRoutes);
 
 // Serve frontend files for any non-API routes
 app.get('*', (req, res) => {
@@ -152,13 +147,24 @@ app.get('*', (req, res) => {
     return res.status(404).json({
       error: 'API endpoint not found',
       path: req.path,
-      method: req.method
+      method: req.method,
+      availableEndpoints: {
+        auth: [
+          'POST /api/auth/register',
+          'POST /api/auth/login',
+          'POST /api/auth/logout',
+          'GET /api/auth/verify',
+          'GET /api/auth/profile',
+          'PUT /api/auth/profile'
+        ]
+      }
     });
   }
   
   // For frontend routes, serve index.html
   res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
     if (err) {
+      console.error('Error serving index.html:', err);
       res.status(500).json({ error: 'Could not serve frontend application' });
     }
   });
@@ -182,39 +188,13 @@ app.use('/api/*', (req, res) => {
   res.status(404).json({
     error: 'API endpoint not found',
     path: req.path,
-    method: req.method,
-    availableEndpoints: {
-      auth: [
-        'POST /api/auth/register',
-        'POST /api/auth/login',
-        'POST /api/auth/logout',
-        'GET /api/auth/verify',
-        'GET /api/auth/profile',
-        'PUT /api/auth/profile'
-      ],
-      flashcards: [
-        'GET /api/flashcards',
-        'POST /api/flashcards',
-        'PUT /api/flashcards/:id',
-        'DELETE /api/flashcards/:id'
-      ],
-      texts: [
-        'GET /api/texts',
-        'POST /api/texts',
-        'PUT /api/texts/:id',
-        'DELETE /api/texts/:id'
-      ],
-      users: [
-        'GET /api/users/profile',
-        'PUT /api/users/profile'
-      ]
-    }
+    method: req.method
   });
 });
 
 // Global error handler
 app.use((error, req, res, next) => {
-  console.error('❌ Global error handler:', error);
+  console.error('❌ Error:', error.message);
   
   // CORS errors
   if (error.message === 'Not allowed by CORS') {
@@ -243,8 +223,7 @@ app.use((error, req, res, next) => {
   if (error.name === 'ValidationError') {
     return res.status(400).json({
       error: 'Validation error',
-      message: error.message,
-      details: Object.values(error.errors).map(err => err.message)
+      message: error.message
     });
   }
   
@@ -289,13 +268,14 @@ const startServer = async () => {
     await connectDB();
     
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`📊 Health check: http://localhost:${PORT}/health`);
-      
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`📝 API Documentation available at: http://localhost:${PORT}/health`);
-      }
+      console.log('\n╔════════════════════════════════════════╗');
+      console.log('║   🚀 TurkAmerica MVP Server Started   ║');
+      console.log('╚════════════════════════════════════════╝');
+      console.log(`📍 Server: http://localhost:${PORT}`);
+      console.log(`🏥 Health: http://localhost:${PORT}/health`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`📊 MongoDB: ${mongoose.connection.name}`);
+      console.log('\n✨ Ready to accept connections!\n');
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
