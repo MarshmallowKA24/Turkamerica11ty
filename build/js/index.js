@@ -198,3 +198,62 @@ window.handleLogout = handleLogout;
 
 console.log('📋 Index page initialized successfully!');
 console.log('🔐 Authentication system ready!');
+// Streak functionality
+async function updateStreak() {
+    if (!window.AuthService?.isLoggedIn()) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/update-streak`, {
+            method: 'POST',
+            headers: window.AuthService.getAuthHeaders()
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            displayStreak(data.streak);
+        }
+    } catch (error) {
+        console.error('Error updating streak:', error);
+    }
+}
+
+function displayStreak(streakData) {
+    const container = document.getElementById('streakContainer');
+    const count = document.getElementById('streakCount');
+    const message = document.getElementById('streakMessage');
+    
+    if (!container || !count) return;
+    
+    count.textContent = streakData.current;
+    
+    // Show message based on streak
+    if (streakData.current === 1) {
+        message.textContent = '¡Comenzaste una nueva racha! 🎉';
+    } else if (streakData.current >= 7) {
+        message.textContent = '¡Increíble! Una semana completa 🔥';
+    } else if (streakData.current >= 30) {
+        message.textContent = '¡UN MES! Eres imparable 🚀';
+    } else {
+        message.textContent = `¡Sigue así! Récord: ${streakData.longest} días`;
+    }
+    
+    container.style.display = 'block';
+}
+
+// Update streak on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.AuthService?.isLoggedIn()) {
+        updateStreak();
+    }
+});
+
+// Listen for login events
+window.addEventListener('authStateChanged', (e) => {
+    if (e.detail?.isLoggedIn) {
+        updateStreak();
+    } else {
+        document.getElementById('streakContainer').style.display = 'none';
+    }
+});
