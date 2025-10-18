@@ -170,6 +170,22 @@
 
                     <div class="setting-item">
                         <div class="setting-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
                             <i class="fas fa-moon"></i>
                         </div>
                         <div class="setting-content">
@@ -186,6 +202,22 @@
 
                     <div class="setting-item">
                         <div class="setting-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
                             <i class="fas fa-font"></i>
                         </div>
                         <div class="setting-content">
@@ -193,7 +225,7 @@
                             <p>Ajustar tamaño del texto</p>
                         </div>
                         <div class="setting-action">
-                            <select class="setting-select" id="fontSizeSelect">
+                            <select class="setting-select">
                                 <option value="small">Pequeño</option>
                                 <option value="medium" selected>Medio</option>
                                 <option value="large">Grande</option>
@@ -220,10 +252,29 @@
             </div>
         </footer>
     </div>
-
+    <!-- 1. Configuration (must be first) -->
     <script src="js/config.js"></script>
+    
+    <!-- 2. Core Systems -->
+    <script src="js/cache.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/analytics.js"></script>
+    
+    <!-- 3. UI Systems -->
+    <script src="js/search.js"></script>
+    <script src="js/animations.js"></script>
+    
+    <!-- 4. Authentication -->
     <script src="auth/auth.js"></script>
+    
+    <!-- 5. General Utilities -->
     <script src="js/general.js"></script>
+    
+    <!-- 6. Page Specific -->
     <script src="js/index.js"></script>
+    
+    <!-- 7. App Initializer (must be last) -->
+    <script src="js/app.js"></script>
 </body>
 </html>

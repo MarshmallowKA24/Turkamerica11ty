@@ -43,11 +43,11 @@
             <div class="mission-section">
                 <h2>
                     <i class="fas fa-bullseye"></i>
-                    Nuestra Misión
+                   La Misión
                 </h2>
                 <p class="mission-text">
                     TurkAmerica nació con el objetivo de crear recursos de calidad para aprender turco 
-                    dirigidos específicamente a la comunidad hispanohablante. Creemos que el idioma 
+                    dirigidos específicamente a la comunidad hispanohablante. El idioma 
                     no debe ser una barrera para conectar culturas.
                 </p>
             </div>
@@ -56,7 +56,7 @@
             <div class="features-dashboard">
                 <h2>
                     <i class="fas fa-star"></i>
-                    Lo Que Ofrecemos
+                    Lo que proporciona la Pagina Web
                 </h2>
                 <div class="features-grid">
                     <div class="feature-card">
@@ -65,14 +65,14 @@
                         <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles (A1-C1)</p>
                     </div>
                     <div class="feature-card">
-                        <i class="fas fa-mobile-alt"></i>
+                        <i class="fas fa-laptop"></i> <i class= "fa-phone"></i>
                         <h3>App Móvil</h3>
                         <p>Flashcards con sincronización en la nube y sistema de repetición espaciada</p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-youtube"></i>
-                        <h3>Contenido Curado</h3>
-                        <p>Enlaces a canales de YouTube, podcasts y recursos externos verificados</p>
+                        <h3>Contenido variado</h3>
+                        <p>Enlaces a canales de YouTube, podcasts y recursos externos </p>
                     </div>
                     <div class="feature-card">
                         <i class="fas fa-calendar-alt"></i>
@@ -104,20 +104,20 @@
                     </div>
                     <div class="dev-info">
                         <h3>LatinCTC</h3>
-                        <p class="dev-title">Full Stack Developer & Language Enthusiast</p>
+                        <p class="dev-title"> Developer & Language Enthusiast</p>
                         <p class="dev-bio">
                             Apasionado por crear herramientas educativas que faciliten el aprendizaje 
-                            de idiomas. TurkAmerica es un proyecto personal que busca llenar el vacío 
+                            de idiomas o la calidad de vida de las personas. TurkAmerica es un proyecto personal que busca llenar el vacío 
                             de recursos de turco para hispanohablantes.
                         </p>
                         <div class="dev-stats">
                             <div class="stat">
                                 <i class="fas fa-code"></i>
-                                <span>Full Stack</span>
+                                <span>Developer</span>
                             </div>
                             <div class="stat">
                                 <i class="fas fa-language"></i>
-                                <span>3 Idiomas</span>
+                                <span>5 Idiomas</span>
                             </div>
                             <div class="stat">
                                 <i class="fas fa-heart"></i>
@@ -148,7 +148,7 @@
                     <p>
                         <i class="fas fa-check-circle"></i>
                         <strong>Mentoría:</strong> Dispuesto a enseñar y compartir conocimientos sobre 
-                        desarrollo web, apps móviles y sistemas de aprendizaje.
+                        desarrollo web, apps móviles y de escritorio como tambien sistemas de aprendizaje.
                     </p>
                     <p>
                         <i class="fas fa-check-circle"></i>
@@ -179,7 +179,7 @@
                             <i class="fas fa-check"></i>
                         </div>
                         <div class="timeline-content">
-                            <h4>Fase 2: App Móvil ✅</h4>
+                            <h4>Fase 2: App ✅</h4>
                             <p>Flashcards app con modo offline y sincronización en la nube</p>
                         </div>
                     </div>
@@ -360,35 +360,99 @@
             </div>
         </footer>
     </div>
+ <!-- Settings Panel Overlay -->
+        <div class="settings-overlay" id="settingsOverlay">
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h2>Configuración</h2>
+                    <button class="close-btn" id="closeSettings">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Perfil</h3>
+                            <p>Ver tu racha y configuración personal</p>
+                        </div>
+                        <div class="setting-action">
+                            <a href="Perfil.html" class="btn btn-outline">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </div>
+                    </div>
 
-    <!-- Settings Overlay -->
-    <div class="settings-overlay" id="settingsOverlay">
-        <div class="settings-panel">
-            <div class="settings-header">
-                <h2>Configuración</h2>
-                <button class="close-btn" id="closeSettings">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="settings-content">
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="fas fa-moon"></i>
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="setting-content">
-                        <h3>Tema Oscuro</h3>
-                        <p>Cambiar apariencia</p>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tema Oscuro</h3>
+                            <p>Cambiar apariencia de la aplicación</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="setting-action">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeToggle">
-                            <span class="slider"></span>
-                        </label>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="setting-content">
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
+                        </div>
+                        <div class="setting-action">
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Scripts -->
     <script src="js/general.js"></script>
