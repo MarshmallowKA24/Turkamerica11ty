@@ -1,11 +1,12 @@
-// Configuración de la API
-const API_BASE_URL = window.location.origin + '/api';
+// ================================
+// AUTHENTICATION SERVICE - TurkAmerica
+// ================================
 
 // Clase para manejar autenticación con backend
 class AuthService {
     constructor() {
-        this.token = localStorage.getItem('authToken');
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        this.token = localStorage.getItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
+        this.currentUser = JSON.parse(localStorage.getItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser') || 'null');
     }
 
     // Verificar si el usuario está logueado
@@ -21,7 +22,11 @@ class AuthService {
     // Función de registro
     async register(userData) {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            const API_URL = window.APP_CONFIG 
+                ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_REGISTER)
+                : `${window.location.origin}/api/auth/register`;
+
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,13 +44,17 @@ class AuthService {
                 throw new Error(data.message || 'Error en el registro');
             }
 
-            // Después del registro exitoso, hacer login automáticamente
-            const loginResult = await this.login(userData.email, userData.password);
+            // Guardar token y datos del usuario
+            this.token = data.token;
+            this.currentUser = data.user;
             
+            localStorage.setItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken', this.token);
+            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
+
             // Dispatch event for UI update
             this.dispatchAuthEvent(true);
             
-            return loginResult;
+            return { success: true, user: this.currentUser };
 
         } catch (error) {
             console.error('Error en registro:', error);
@@ -56,7 +65,11 @@ class AuthService {
     // Función de login
     async login(identifier, password) {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            const API_URL = window.APP_CONFIG 
+                ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGIN)
+                : `${window.location.origin}/api/auth/login`;
+
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,8 +90,8 @@ class AuthService {
             this.token = data.token;
             this.currentUser = data.user;
             
-            localStorage.setItem('authToken', this.token);
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+            localStorage.setItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken', this.token);
+            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
 
             // Dispatch event for UI update
             this.dispatchAuthEvent(true);
@@ -96,7 +109,11 @@ class AuthService {
         try {
             // Opcional: llamar al endpoint de logout en el backend
             if (this.token) {
-                await fetch(`${API_BASE_URL}/auth/logout`, {
+                const API_URL = window.APP_CONFIG 
+                    ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGOUT)
+                    : `${window.location.origin}/api/auth/logout`;
+
+                await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${this.token}`,
@@ -110,11 +127,41 @@ class AuthService {
             // Limpiar datos locales
             this.token = null;
             this.currentUser = null;
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
+            localStorage.removeItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser');
             
             // Dispatch event for UI update
             this.dispatchAuthEvent(false);
+        }
+    }
+
+    // Verificar token con el servidor
+    async verifyToken() {
+        if (!this.token) return false;
+
+        try {
+            const API_URL = window.APP_CONFIG 
+                ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_VERIFY)
+                : `${window.location.origin}/api/auth/verify`;
+
+            const response = await fetch(API_URL, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                await this.logout();
+                return false;
+            }
+
+            const data = await response.json();
+            this.currentUser = data.user;
+            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
+            
+            return true;
+        } catch (error) {
+            console.error('Error verificando token:', error);
+            await this.logout();
+            return false;
         }
     }
 
@@ -141,13 +188,38 @@ class AuthService {
 // Crear instancia global
 window.AuthService = new AuthService();
 
-// Validación de email
+// ================================
+// VALIDATION FUNCTIONS
+// ================================
+
 function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+    const config = window.APP_CONFIG?.VALIDATION.EMAIL.PATTERN || /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return config.test(email);
 }
 
-// Función para mostrar mensajes de éxito
+function validateUsername(username) {
+    if (!username) return false;
+    const config = window.APP_CONFIG?.VALIDATION.USERNAME;
+    if (!config) return username.length >= 3 && username.length <= 20;
+    
+    return username.length >= config.MIN_LENGTH && 
+           username.length <= config.MAX_LENGTH &&
+           config.PATTERN.test(username);
+}
+
+function validatePassword(password) {
+    if (!password) return false;
+    const config = window.APP_CONFIG?.VALIDATION.PASSWORD;
+    if (!config) return password.length >= 6;
+    
+    return password.length >= config.MIN_LENGTH && 
+           password.length <= config.MAX_LENGTH;
+}
+
+// ================================
+// SUCCESS MESSAGE DISPLAY
+// ================================
+
 function showSuccessMessage(message, duration = 3000) {
     const successDiv = document.createElement('div');
     successDiv.className = 'success-message';
@@ -156,23 +228,37 @@ function showSuccessMessage(message, duration = 3000) {
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #03DAC6;
-        color: #121212;
-        padding: 15px 20px;
-        border-radius: 8px;
-        z-index: 1000;
+        background-color: #10b981;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 10000;
         font-weight: 500;
-        box-shadow: 0 4px 12px rgba(3, 218, 198, 0.3);
-        animation: slideIn 0.3s ease-out;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        animation: slideInRight 0.3s ease-out;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     `;
+
+    // Add icon
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-check-circle';
+    icon.style.fontSize = '1.2rem';
+    successDiv.insertBefore(icon, successDiv.firstChild);
 
     if (!document.getElementById('success-animation-styles')) {
         const style = document.createElement('style');
         style.id = 'success-animation-styles';
         style.textContent = `
-            @keyframes slideIn {
+            @keyframes slideInRight {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
             }
         `;
         document.head.appendChild(style);
@@ -181,11 +267,58 @@ function showSuccessMessage(message, duration = 3000) {
     document.body.appendChild(successDiv);
 
     setTimeout(() => {
-        if (successDiv.parentNode) {
-            successDiv.remove();
-        }
+        successDiv.style.animation = 'slideOutRight 0.3s ease-in';
+        setTimeout(() => {
+            if (successDiv.parentNode) {
+                successDiv.remove();
+            }
+        }, 300);
     }, duration);
 }
+
+function showErrorMessage(message, duration = 5000) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message-toast';
+    errorDiv.textContent = message;
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #ef4444;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 10000;
+        font-weight: 500;
+        box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        animation: slideInRight 0.3s ease-out;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    `;
+
+    // Add icon
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-exclamation-circle';
+    icon.style.fontSize = '1.2rem';
+    errorDiv.insertBefore(icon, errorDiv.firstChild);
+
+    document.body.appendChild(errorDiv);
+
+    setTimeout(() => {
+        errorDiv.style.animation = 'slideOutRight 0.3s ease-in';
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 300);
+    }, duration);
+}
+
+// ================================
+// FORM HANDLERS
+// ================================
 
 // Event listeners cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
@@ -207,15 +340,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                if (username.length < 3) {
-                    throw new Error('El nombre de usuario debe tener al menos 3 caracteres');
+                if (!validateUsername(username)) {
+                    throw new Error('El nombre de usuario debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guiones bajos');
                 }
 
                 if (!validateEmail(email)) {
                     throw new Error('Email inválido');
                 }
 
-                if (password.length < 6) {
+                if (!validatePassword(password)) {
                     throw new Error('La contraseña debe tener al menos 6 caracteres');
                 }
 
@@ -225,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const submitBtn = registerForm.querySelector('button[type="submit"]');
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'Registrando...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
 
                 const userData = { 
                     name: username, 
@@ -250,6 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorDiv.textContent = error.message;
                     errorDiv.style.display = 'block';
                 }
+                showErrorMessage(error.message);
             } finally {
                 const submitBtn = registerForm.querySelector('button[type="submit"]');
                 if (submitBtn) {
@@ -286,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const submitBtn = loginForm.querySelector('button[type="submit"]');
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'Iniciando sesión...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
 
                 const result = await window.AuthService.login(username, password);
 
@@ -305,6 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorDiv.textContent = error.message;
                     errorDiv.style.display = 'block';
                 }
+                showErrorMessage(error.message);
             } finally {
                 const submitBtn = loginForm.querySelector('button[type="submit"]');
                 if (submitBtn) {
@@ -315,3 +450,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+console.log('✅ Authentication system loaded');

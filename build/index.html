@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos de Aprendizaje de Turco</title>
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/darkmode.css">
     <link rel="stylesheet" href="css/index.css">
-  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
@@ -29,32 +28,23 @@
                     Ajustes
                 </button>
             </div>
-            <!-- Add authentication buttons -->
-                <div id="authButton" class="auth-buttons">
-                    <a href="auth/login.html">Iniciar Sesión</a> 
-                    
-                </div>
-        </header>
-            <div class="streak-container" id="streakContainer" style="display: none;">
-                <div class="streak-display">
-                    <i class="fas fa-fire"></i>
-                    <span id="streakCount">0</span>
-                    <span class="streak-label">días</span>
-                </div>
-                <div class="streak-message" id="streakMessage"></div>
+            <!-- Authentication buttons -->
+            <div id="authButton" class="auth-buttons">
+                <a href="auth/login.html">Iniciar Sesión</a>
             </div>
+        </header>
 
         <!-- Notice -->
         <div class="notice">
             <i class="fas fa-info-circle"></i>
-            <a href="auth/register.html">Requiere registro previo</a>
+            <span>Regístrate para guardar tu progreso y sincronizar con la app móvil</span>
+            <a href="auth/register.html">Registrarme</a>
         </div>
 
         <!-- Description -->
         <div class="description">
             <p>Materiales didácticos y contenido complementario para tu progreso</p>
         </div>
-
 
         <!-- Levels Section -->
         <div class="levels-grid">
@@ -123,18 +113,32 @@
                 </div>
             </div>
             
-            <!-- Vocabulario y Extra -->
+            <!-- Flashcards App -->
             <div class="level-card special">
                 <div class="level-header">
-                    <h3> Flashcards App Info</h3>
-                </div> 
+                    <h3> Flashcards App</h3>
+                </div>
                 <div class="level-actions">
-                    <a href="FlashcardinfoD.html" class="btn btn-generate" >
-                    <i class="fas fa-arrow-right"></i>
+                    <a href="FlashcardinfoD.html" class="btn btn-generate">
+                        <i class="fas fa-download"></i>
                         Descarga la App
                     </a>
-                    </a>
                 </div>
+            </div>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <div class="banner-content">
+                <i class="fas fa-info-circle"></i>
+                <div class="banner-text">
+                    <h3>¿Quieres saber más sobre TurkAmerica?</h3>
+                    <p>Conoce el proyecto, roadmap y cómo puedes apoyar el desarrollo</p>
+                </div>
+                <a href="Dashboard.html" class="btn btn-outline">
+                    <i class="fas fa-compass"></i>
+                    Ver Dashboard
+                </a>
             </div>
         </div>
 
@@ -155,28 +159,12 @@
                         </div>
                         <div class="setting-content">
                             <h3>Perfil</h3>
-                            <p>Configurar información personal</p>
+                            <p>Ver tu racha y configuración personal</p>
                         </div>
                         <div class="setting-action">
                             <a href="Perfil.html" class="btn btn-outline">
                                 <i class="fas fa-cog"></i>
                             </a>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Notificaciones</h3>
-                            <p>Configurar recordatorios de estudio</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
                         </div>
                     </div>
 
@@ -198,22 +186,6 @@
 
                     <div class="setting-item">
                         <div class="setting-icon">
-                            <i class="fas fa-volume-up"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Sonido</h3>
-                            <p>Configurar efectos de sonido</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
                             <i class="fas fa-font"></i>
                         </div>
                         <div class="setting-content">
@@ -221,7 +193,7 @@
                             <p>Ajustar tamaño del texto</p>
                         </div>
                         <div class="setting-action">
-                            <select class="setting-select">
+                            <select class="setting-select" id="fontSizeSelect">
                                 <option value="small">Pequeño</option>
                                 <option value="medium" selected>Medio</option>
                                 <option value="large">Grande</option>
@@ -235,18 +207,23 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <span class="made-with">Made by LatinCTC</span>
+                <span class="made-with">Made with</span>
                 <i class="fas fa-heart heart-icon"></i>
+                <span class="made-with">by LatinCTC</span>
+            </div>
+            <div class="footer-links">
+                <a href="Dashboard.html">Sobre el Proyecto</a>
+                <span>•</span>
+                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+                <span>•</span>
+                <a href="FlashcardinfoD.html">App Móvil</a>
             </div>
         </footer>
     </div>
-        <script src="js/general.js"></script>
-        <script src="js/index.js"></script>
-        <script src="data/database.js"></script>
-        <script src="auth/auth.js"></script>
-        <script src="auth/user-session.js"></script>
-        <script src="data/user-data.js"></script>
-          
- 
+
+    <script src="js/config.js"></script>
+    <script src="auth/auth.js"></script>
+    <script src="js/general.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

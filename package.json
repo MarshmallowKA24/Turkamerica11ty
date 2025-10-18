@@ -26,6 +26,6 @@
     "supertest": "^6.3.3"
   },
   "engines": {
-    "node": "lts"
+    "engines": { "node": ">=20.0.0" }
   }
 }
