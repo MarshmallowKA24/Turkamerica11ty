@@ -47,88 +47,125 @@
         <div class="description">
             <p>Materiales didácticos y contenido complementario para tu progreso</p>
         </div>
-
-        <!-- Levels Section -->
-        <div class="levels-grid">
-            <!-- Nivel A1 -->
-            <div class="level-card">
-                <div class="level-header">
-                    <h3>Nivel A1</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="NivelA1.html" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Acceder al Nivel
-                    </a>
-                </div>
+<!-- Levels Carousel (Mobile: Horizontal Scroll, Desktop: Grid) -->
+<div class="levels-carousel-container">
+    <div class="levels-grid">
+        <!-- Nivel A1 -->
+        <div class="level-card">
+            <div class="level-header">
+                <h3>Nivel A1</h3>
+                <p class="level-subtitle">Principiante</p>
             </div>
-
-            <!-- Nivel A2 -->
-            <div class="level-card">
-                <div class="level-header">
-                    <h3>Nivel A2</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="NivelA2.html" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Acceder al Nivel
-                    </a>
-                </div>
-            </div>
-
-            <!-- Nivel B1 -->
-            <div class="level-card">
-                <div class="level-header">
-                    <h3>Nivel B1</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="NivelB1.html" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Acceder al Nivel
-                    </a>
-                </div>
-            </div>
-
-            <!-- Nivel B2 -->
-            <div class="level-card">
-                <div class="level-header">
-                    <h3>Nivel B2</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="NivelB2.html" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Acceder al Nivel
-                    </a>
-                </div>
-            </div>
-
-            <!-- Nivel C1 -->
-            <div class="level-card">
-                <div class="level-header">
-                    <h3>Nivel C1</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="NivelC1.html" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
-                        Acceder al Nivel
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Flashcards App -->
-            <div class="level-card special">
-                <div class="level-header">
-                    <h3> Flashcards App</h3>
-                </div>
-                <div class="level-actions">
-                    <a href="FlashcardinfoD.html" class="btn btn-generate">
-                        <i class="fas fa-download"></i>
-                        Descarga la App
-                    </a>
-                </div>
+            <div class="level-actions">
+                <a href="NivelA1.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    Acceder al Nivel
+                </a>
             </div>
         </div>
 
+        <!-- Nivel A2 -->
+        <div class="level-card">
+            <div class="level-header">
+                <h3> Nivel A2</h3>
+                <p class="level-subtitle">Elemental</p>
+            </div>
+            <div class="level-actions">
+                <a href="NivelA2.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    Acceder al Nivel
+                </a>
+            </div>
+        </div>
+
+        <!-- Nivel B1 -->
+        <div class="level-card">
+            <div class="level-header">
+                <h3>Nivel B1</h3>
+                <p class="level-subtitle">Intermedio</p>
+            </div>
+            <div class="level-actions">
+                <a href="NivelB1.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    Acceder al Nivel
+                </a>
+            </div>
+        </div>
+
+        <!-- Nivel B2 -->
+        <div class="level-card">
+            <div class="level-header">
+                <h3> Nivel B2</h3>
+                <p class="level-subtitle">Intermedio Alto</p>
+            </div>
+            <div class="level-actions">
+                <a href="NivelB2.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    Acceder al Nivel
+                </a>
+            </div>
+        </div>
+
+        <!-- Nivel C1 -->
+        <div class="level-card">
+            <div class="level-header">
+                <h3> Nivel C1</h3>
+                <p class="level-subtitle">Avanzado</p>
+            </div>
+            <div class="level-actions">
+                <a href="NivelC1.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    Acceder al Nivel
+                </a>
+            </div>
+        </div>
+
+        <!-- Flashcards App - VISIBLE EN DESKTOP, OCULTO EN MÓVIL DENTRO DEL GRID -->
+        <div class="level-card special">
+            <div class="level-header">
+                <h3> Flashcards App</h3>
+                <p class="level-subtitle">Practica en cualquier lugar</p>
+            </div>
+            <div class="level-actions">
+                <a href="FlashcardinfoD.html" class="btn btn-generate">
+                    <i class="fas fa-download"></i>
+                    Descarga la App
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicadores de carrusel (solo móvil) -->
+    <div class="carousel-indicators">
+        <button class="carousel-indicator active" data-index="0" aria-label="Ir a Nivel A1"></button>
+        <button class="carousel-indicator" data-index="1" aria-label="Ir a Nivel A2"></button>
+        <button class="carousel-indicator" data-index="2" aria-label="Ir a Nivel B1"></button>
+        <button class="carousel-indicator" data-index="3" aria-label="Ir a Nivel B2"></button>
+        <button class="carousel-indicator" data-index="4" aria-label="Ir a Nivel C1"></button>
+    </div>
+    
+    <!-- Hint de swipe (solo móvil) -->
+    <div class="swipe-hint">
+        <i class="fas fa-hand-point-right"></i>
+        <span>Desliza para ver más niveles</span>
+    </div>
+</div>
+
+<!-- Flashcards App Section SEPARADA - SOLO MÓVIL -->
+<div class="flashcard-section">
+    <div class="level-card special">
+        <div class="level-header">
+            <h3>📱 Flashcards App</h3>
+            <p class="level-subtitle">Practica en cualquier lugar</p>
+        </div>
+        <div class="level-actions">
+            <a href="FlashcardinfoD.html" class="btn btn-generate">
+                <i class="fas fa-download"></i>
+                Descarga la App
+            </a>
+        </div>
+    </div>
+</div>
         <!-- Info Banner -->
         <div class="info-banner">
             <div class="banner-content">
@@ -265,7 +302,7 @@
     
     <!-- 3. UI Systems -->
     <script src="js/search.js"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/animation.js"></script>
     
     <!-- 4. Authentication -->
     <script src="auth/auth.js"></script>
@@ -276,7 +313,12 @@
     <!-- 6. Page Specific -->
     <script src="js/index.js"></script>
     
-    <!-- 7. App Initializer (must be last) -->
+    <!-- 7. carousel phone -->
+    <script src="js/carousel.js"></script>
+    
+    <!-- 8. App Initializer (must be last) -->
     <script src="js/app.js"></script>
+    
+   
 </body>
 </html>
