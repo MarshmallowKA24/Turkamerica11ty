@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/darkmode.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/mobile-fixes.css">
+    <link rel="stylesheet" href="css/mobile-carousel-universal.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -44,7 +44,7 @@
             <div class="mission-section">
                 <h2>
                     <i class="fas fa-bullseye"></i>
-                   La Misión
+                    La Misión
                 </h2>
                 <p class="mission-text">
                     TurkAmerica nació con el objetivo de crear recursos de calidad para aprender turco 
@@ -53,42 +53,57 @@
                 </p>
             </div>
 
-            <!-- Features Grid -->
+            <!-- Features Grid with Carousel -->
             <div class="features-dashboard">
                 <h2>
                     <i class="fas fa-star"></i>
-                    Lo que proporciona la Pagina Web
+                    Lo que proporciona la Página Web
                 </h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-book-open"></i>
-                        <h3>Recursos Educativos</h3>
-                        <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles (A1-C1)</p>
+                <div class="carousel-container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Recursos Educativos</h3>
+                            <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles (A1-C1)</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-laptop"></i>
+                            <h3>App Móvil</h3>
+                            <p>Flashcards con sincronización en la nube y sistema de repetición espaciada</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-youtube"></i>
+                            <h3>Contenido variado</h3>
+                            <p>Enlaces a canales de YouTube, podcasts y recursos externos</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3>Plan de Estudio</h3>
+                            <p>Horario intensivo con recomendaciones diarias de actividades</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-fire"></i>
+                            <h3>Sistema de Rachas</h3>
+                            <p>Mantén tu motivación con seguimiento de días consecutivos de estudio</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-moon"></i>
+                            <h3>Personalizable</h3>
+                            <p>Modo oscuro, ajustes de fuente y preferencias guardadas en la nube</p>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-laptop"></i> <i class= "fa-phone"></i>
-                        <h3>App Móvil</h3>
-                        <p>Flashcards con sincronización en la nube y sistema de repetición espaciada</p>
+                    <div class="carousel-indicators">
+                        <button class="carousel-indicator active"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-youtube"></i>
-                        <h3>Contenido variado</h3>
-                        <p>Enlaces a canales de YouTube, podcasts y recursos externos </p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h3>Plan de Estudio</h3>
-                        <p>Horario intensivo con recomendaciones diarias de actividades</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-fire"></i>
-                        <h3>Sistema de Rachas</h3>
-                        <p>Mantén tu motivación con seguimiento de días consecutivos de estudio</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-moon"></i>
-                        <h3>Personalizable</h3>
-                        <p>Modo oscuro, ajustes de fuente y preferencias guardadas en la nube</p>
+                    <div class="swipe-hint">
+                        <i class="fas fa-hand-pointer"></i>
+                        <span>Desliza para ver más</span>
+                        <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
@@ -105,7 +120,7 @@
                     </div>
                     <div class="dev-info">
                         <h3>LatinCTC</h3>
-                        <p class="dev-title"> Developer & Language Enthusiast</p>
+                        <p class="dev-title">Developer & Language Enthusiast</p>
                         <p class="dev-bio">
                             Apasionado por crear herramientas educativas que faciliten el aprendizaje 
                             de idiomas o la calidad de vida de las personas. TurkAmerica es un proyecto personal que busca llenar el vacío 
@@ -149,7 +164,7 @@
                     <p>
                         <i class="fas fa-check-circle"></i>
                         <strong>Mentoría:</strong> Dispuesto a enseñar y compartir conocimientos sobre 
-                        desarrollo web, apps móviles y de escritorio como tambien sistemas de aprendizaje.
+                        desarrollo web, apps móviles y de escritorio como también sistemas de aprendizaje.
                     </p>
                     <p>
                         <i class="fas fa-check-circle"></i>
@@ -253,44 +268,61 @@
                 </div>
             </div>
 
-            <!-- Tech Stack Section -->
+            <!-- Tech Stack Section with Carousel -->
             <div class="tech-stack-section">
                 <h2>
                     <i class="fas fa-laptop-code"></i>
                     Stack Tecnológico
                 </h2>
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <i class="fab fa-html5"></i>
-                        <span>HTML5</span>
+                <div class="carousel-container">
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-node-js"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-database"></i>
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-react"></i>
+                            <span>React Native</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-nginx"></i>
+                            <span>Nginx</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-linux"></i>
+                            <span>Linux</span>
+                        </div>
                     </div>
-                    <div class="tech-item">
-                        <i class="fab fa-css3-alt"></i>
-                        <span>CSS3</span>
+                    <div class="carousel-indicators">
+                        <button class="carousel-indicator active"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
                     </div>
-                    <div class="tech-item">
-                        <i class="fab fa-js"></i>
-                        <span>JavaScript</span>
-                    </div>
-                    <div class="tech-item">
-                        <i class="fab fa-node-js"></i>
-                        <span>Node.js</span>
-                    </div>
-                    <div class="tech-item">
-                        <i class="fas fa-database"></i>
-                        <span>MongoDB</span>
-                    </div>
-                    <div class="tech-item">
-                        <i class="fab fa-react"></i>
-                        <span>React Native</span>
-                    </div>
-                    <div class="tech-item">
-                        <i class="fab fa-nginx"></i>
-                        <span>Nginx</span>
-                    </div>
-                    <div class="tech-item">
-                        <i class="fab fa-linux"></i>
-                        <span>Linux</span>
+                    <div class="swipe-hint">
+                        <i class="fas fa-hand-pointer"></i>
+                        <span>Desliza</span>
+                        <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
             </div>
@@ -361,101 +393,54 @@
             </div>
         </footer>
     </div>
- <!-- Settings Panel Overlay -->
-        <div class="settings-overlay" id="settingsOverlay">
-            <div class="settings-panel">
-                <div class="settings-header">
-                    <h2>Configuración</h2>
-                    <button class="close-btn" id="closeSettings">
-                        <i class="fas fa-times"></i>
-                    </button>
+
+    <!-- Settings Panel Overlay -->
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2>Configuración</h2>
+                <button class="close-btn" id="closeSettings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="settings-content">
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="setting-content">
+                        <h3>Perfil</h3>
+                        <p>Ver tu racha y configuración personal</p>
+                    </div>
+                    <div class="setting-action">
+                        <a href="Perfil.html" class="btn btn-outline">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </div>
                 </div>
-                
-                <div class="settings-content">
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Perfil</h3>
-                            <p>Ver tu racha y configuración personal</p>
-                        </div>
-                        <div class="setting-action">
-                            <a href="Perfil.html" class="btn btn-outline">
-                                <i class="fas fa-cog"></i>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Notificaciones</h3>
-                            <p>Configurar recordatorios de estudio</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-moon"></i>
                     </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-moon"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Tema Oscuro</h3>
-                            <p>Cambiar apariencia de la aplicación</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="darkModeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                    <div class="setting-content">
+                        <h3>Tema Oscuro</h3>
+                        <p>Cambiar apariencia de la aplicación</p>
                     </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-volume-up"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Sonido</h3>
-                            <p>Configurar efectos de sonido</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-icon">
-                            <i class="fas fa-font"></i>
-                        </div>
-                        <div class="setting-content">
-                            <h3>Tamaño de Fuente</h3>
-                            <p>Ajustar tamaño del texto</p>
-                        </div>
-                        <div class="setting-action">
-                            <select class="setting-select">
-                                <option value="small">Pequeño</option>
-                                <option value="medium" selected>Medio</option>
-                                <option value="large">Grande</option>
-                            </select>
-                        </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/general.js"></script>
+    <script src="js/carousel-universal.js"></script>
 </body>
 </html>
