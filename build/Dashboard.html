@@ -2,13 +2,21 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Sobre el Proyecto - TurkAmerica</title>
+    
+    <!-- CSS en orden correcto -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/darkmode.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/mobile-carousel-universal.css">
+    <link rel="stylesheet" href="css/mobile-visual-fixes.css">
+    <link rel="stylesheet" href="css/carousel-polish-fixes.css">
+    <link rel="stylesheet" href="css/critical-fixes.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -53,7 +61,7 @@
                 </p>
             </div>
 
-            <!-- Features Grid with Carousel -->
+            <!-- Features Dashboard with Carousel -->
             <div class="features-dashboard">
                 <h2>
                     <i class="fas fa-star"></i>
@@ -64,16 +72,16 @@
                         <div class="feature-card">
                             <i class="fas fa-book-open"></i>
                             <h3>Recursos Educativos</h3>
-                            <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles (A1-C1)</p>
+                            <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles</p>
                         </div>
                         <div class="feature-card">
                             <i class="fas fa-laptop"></i>
                             <h3>App Móvil</h3>
-                            <p>Flashcards con sincronización en la nube y sistema de repetición espaciada</p>
+                            <p>Flashcards con sincronización en la nube y repetición espaciada</p>
                         </div>
                         <div class="feature-card">
                             <i class="fas fa-youtube"></i>
-                            <h3>Contenido variado</h3>
+                            <h3>Contenido Variado</h3>
                             <p>Enlaces a canales de YouTube, podcasts y recursos externos</p>
                         </div>
                         <div class="feature-card">
@@ -84,27 +92,23 @@
                         <div class="feature-card">
                             <i class="fas fa-fire"></i>
                             <h3>Sistema de Rachas</h3>
-                            <p>Mantén tu motivación con seguimiento de días consecutivos de estudio</p>
+                            <p>Mantén tu motivación con seguimiento de días consecutivos</p>
                         </div>
                         <div class="feature-card">
                             <i class="fas fa-moon"></i>
                             <h3>Personalizable</h3>
-                            <p>Modo oscuro, ajustes de fuente y preferencias guardadas en la nube</p>
+                            <p>Modo oscuro, ajustes de fuente y preferencias en la nube</p>
                         </div>
                     </div>
                     <div class="carousel-indicators">
-                        <button class="carousel-indicator active"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator active" aria-label="Página 1"></button>
+                        <button class="carousel-indicator" aria-label="Página 2"></button>
+                        <button class="carousel-indicator" aria-label="Página 3"></button>
+                        <button class="carousel-indicator" aria-label="Página 4"></button>
+                        <button class="carousel-indicator" aria-label="Página 5"></button>
+                        <button class="carousel-indicator" aria-label="Página 6"></button>
                     </div>
-                    <div class="swipe-hint">
-                        <i class="fas fa-hand-pointer"></i>
-                        <span>Desliza para ver más</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
+                   
                 </div>
             </div>
 
@@ -123,8 +127,8 @@
                         <p class="dev-title">Developer & Language Enthusiast</p>
                         <p class="dev-bio">
                             Apasionado por crear herramientas educativas que faciliten el aprendizaje 
-                            de idiomas o la calidad de vida de las personas. TurkAmerica es un proyecto personal que busca llenar el vacío 
-                            de recursos de turco para hispanohablantes.
+                            de idiomas y mejoren la calidad de vida. TurkAmerica es un proyecto personal 
+                            que busca llenar el vacío de recursos de turco para hispanohablantes.
                         </p>
                         <div class="dev-stats">
                             <div class="stat">
@@ -153,23 +157,19 @@
                 <div class="collab-content">
                     <p>
                         <i class="fas fa-check-circle"></i>
-                        <strong>Abierto a colaboraciones:</strong> Si eres desarrollador, diseñador o educador 
-                        y quieres contribuir al proyecto, ¡contáctame!
+                        <span><strong>Abierto a colaboraciones:</strong> Si eres desarrollador, diseñador o educador y quieres contribuir al proyecto, ¡contáctame!</span>
                     </p>
                     <p>
                         <i class="fas fa-check-circle"></i>
-                        <strong>Equipos de trabajo:</strong> Interesado en formar equipos para proyectos 
-                        educativos y tecnológicos similares.
+                        <span><strong>Equipos de trabajo:</strong> Interesado en formar equipos para proyectos educativos y tecnológicos similares.</span>
                     </p>
                     <p>
                         <i class="fas fa-check-circle"></i>
-                        <strong>Mentoría:</strong> Dispuesto a enseñar y compartir conocimientos sobre 
-                        desarrollo web, apps móviles y de escritorio como también sistemas de aprendizaje.
+                        <span><strong>Mentoría:</strong> Dispuesto a enseñar y compartir conocimientos sobre desarrollo web, apps móviles y sistemas de aprendizaje.</span>
                     </p>
                     <p>
                         <i class="fas fa-check-circle"></i>
-                        <strong>Proyectos futuros:</strong> Expansión a otros idiomas, más funcionalidades 
-                        en la app, sistema de comunidad y más.
+                        <span><strong>Proyectos futuros:</strong> Expansión a otros idiomas, más funcionalidades en la app, sistema de comunidad y más.</span>
                     </p>
                 </div>
             </div>
@@ -195,7 +195,16 @@
                             <i class="fas fa-check"></i>
                         </div>
                         <div class="timeline-content">
-                            <h4>Fase 2: App ✅</h4>
+                            <h4>Fase 2: App de Escritorio  </h4>
+                            <p>Flashcards app con modo offline y sincronización de Cuenta</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="timeline-marker">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Fase 2: App Mobil  </h4>
                             <p>Flashcards app con modo offline y sincronización en la nube</p>
                         </div>
                     </div>
@@ -204,7 +213,7 @@
                             <i class="fas fa-spinner fa-spin"></i>
                         </div>
                         <div class="timeline-content">
-                            <h4>Fase 3: En Desarrollo 🚧</h4>
+                            <h4>Fase 3: En Desarrollo </h4>
                             <p>Sistema de comunidad, foros, intercambio de mazos y gamificación avanzada</p>
                         </div>
                     </div>
@@ -220,7 +229,7 @@
                 </div>
             </div>
 
-            <!-- Support Section -->
+            <!-- Support Project Section -->
             <div class="support-project-section">
                 <h2>
                     <i class="fas fa-heart"></i>
@@ -252,6 +261,7 @@
 
                     <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" 
                        target="_blank" 
+                       rel="noopener noreferrer"
                        class="donate-btn">
                         <i class="fas fa-hand-holding-heart"></i>
                         <div class="btn-content">
@@ -304,26 +314,18 @@
                             <i class="fab fa-nginx"></i>
                             <span>Nginx</span>
                         </div>
-                        <div class="tech-item">
-                            <i class="fab fa-linux"></i>
-                            <span>Linux</span>
-                        </div>
                     </div>
                     <div class="carousel-indicators">
-                        <button class="carousel-indicator active"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
-                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator active" aria-label="Tech 1"></button>
+                        <button class="carousel-indicator" aria-label="Tech 2"></button>
+                        <button class="carousel-indicator" aria-label="Tech 3"></button>
+                        <button class="carousel-indicator" aria-label="Tech 4"></button>
+                        <button class="carousel-indicator" aria-label="Tech 5"></button>
+                        <button class="carousel-indicator" aria-label="Tech 6"></button>
+                        <button class="carousel-indicator" aria-label="Tech 7"></button>
+                        <button class="carousel-indicator" aria-label="Tech 8"></button>
                     </div>
-                    <div class="swipe-hint">
-                        <i class="fas fa-hand-pointer"></i>
-                        <span>Desliza</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
+                 
                 </div>
             </div>
 
@@ -387,7 +389,7 @@
             <div class="footer-links">
                 <a href="Dashboard.html">Sobre el Proyecto</a>
                 <span>•</span>
-                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank" rel="noopener noreferrer">Apoyar</a>
                 <span>•</span>
                 <a href="#">Contacto</a>
             </div>
@@ -399,7 +401,7 @@
         <div class="settings-panel">
             <div class="settings-header">
                 <h2>Configuración</h2>
-                <button class="close-btn" id="closeSettings">
+                <button class="close-btn" id="closeSettings" aria-label="Cerrar configuración">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -430,7 +432,7 @@
                     </div>
                     <div class="setting-action">
                         <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeToggle">
+                            <input type="checkbox" id="darkModeToggle" aria-label="Activar modo oscuro">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -439,7 +441,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts en orden correcto -->
     <script src="js/general.js"></script>
     <script src="js/carousel-universal.js"></script>
 </body>
