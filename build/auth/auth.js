@@ -377,6 +377,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     throw new Error(result.error);
                 }
+                const registerPanel = document.getElementById('register-panel'); // Check your register.html for the panel's ID
+                const mainContent = document.getElementById('main-app-content'); // Check your index.html/register.html for the main content ID
+
+                if (registerPanel) {
+                    registerPanel.style.display = 'none'; // Hide the panel
+                }
+                if (mainContent) {
+                    mainContent.style.display = 'block'; // Show the main content (if it was hidden)
+                }
+
 
             } catch (error) {
                 if (errorDiv) {

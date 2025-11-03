@@ -46,6 +46,13 @@ function updateUIBasedOnAuth() {
     
     const isLoggedIn = token && currentUserStr;
     
+    // ADD/REMOVE BODY CLASS
+    if (isLoggedIn) {
+        document.body.classList.add('user-logged-in');
+    } else {
+        document.body.classList.remove('user-logged-in');
+    }
+    
     if (isLoggedIn) {
         try {
             const currentUser = JSON.parse(currentUserStr);
@@ -53,20 +60,15 @@ function updateUIBasedOnAuth() {
             // Hide the registration notice
             if (notice) {
                 notice.style.display = 'none';
+                notice.classList.add('hidden');
             }
             
-            // Update auth buttons to show user info
+            // Update auth buttons - ONLY show welcome message, NO LOGOUT BUTTON
             if (authButtonContainer) {
                 authButtonContainer.innerHTML = `
-                    <span style="color: #E0E0E0; margin-right: 10px;">
+                    <span style="color: #E0E0E0; font-weight: 500;">
                         Bienvenido, ${currentUser.username || currentUser.email}
                     </span>
-                    <a href="#" onclick="handleLogout(); return false;" 
-                       style="color: #BB86FC; text-decoration: none; padding: 8px 16px; 
-                              border: 1px solid #BB86FC; border-radius: 20px; 
-                              transition: all 0.3s ease;">
-                        Cerrar Sesión
-                    </a>
                 `;
             }
             
@@ -89,25 +91,28 @@ function showLoginState() {
     const notice = document.querySelector('.notice');
     const authButtonContainer = document.getElementById('authButton');
     
-    // Mostrar el aviso de registro
+    // Remove logged-in class
+    document.body.classList.remove('user-logged-in');
+    
+    // Show registration notice
     if (notice) {
         notice.style.display = 'flex';
+        notice.classList.remove('hidden');
     }
     
-    // Mostrar solo enlace de texto para iniciar sesión
+    // Show login link
     if (authButtonContainer) {
         authButtonContainer.innerHTML = `
             <a href="auth/login.html" 
-               style="color: #ffffffff; text-decoration: underline;">
+               style="color: #ffffff; text-decoration: underline;">
                 Inicia Sesión
             </a>
         `;
     }
 }
 
-
 // ========================================
-// LOGOUT HANDLER
+// LOGOUT HANDLER (NOT USED IN INDEX - ONLY IN PERFIL)
 // ========================================
 function handleLogout() {
     // Clear authentication data
@@ -136,10 +141,10 @@ function enableRegisteredUserFeatures() {
     const flashcardBtn = document.querySelector('.btn-generate');
     if (flashcardBtn) {
         flashcardBtn.innerHTML = `
-            <span class="icon-magic"></span>
-            Generar Flashcards
+            <i class="fas fa-mobile-alt"></i>
+            Descarga la App
         `;
-        flashcardBtn.href = 'flashcards.html';
+        flashcardBtn.href = 'FlashcardinfoD.html';
         flashcardBtn.onclick = null;
         
         // Remove any disabled attributes
@@ -169,11 +174,6 @@ window.addEventListener('authStateChanged', function(event) {
     }
 });
 
-// Save state before page unload
-window.addEventListener('beforeunload', function() {
-    // Optional: save any state if needed
-});
-
 // ========================================
 // CHECK AUTH ON VISIBILITY CHANGE
 // ========================================
@@ -193,67 +193,8 @@ window.registrationManager = {
     showLoginState: showLoginState
 };
 
-// Make handleLogout available globally
+// Make handleLogout available globally (for Perfil.html)
 window.handleLogout = handleLogout;
 
 console.log('📋 Index page initialized successfully!');
-console.log('🔐 Authentication system ready!');
-// Streak functionality
-async function updateStreak() {
-    if (!window.AuthService?.isLoggedIn()) {
-        return;
-    }
-    
-    try {
-        const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/update-streak`, {
-            method: 'POST',
-            headers: window.AuthService.getAuthHeaders()
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            displayStreak(data.streak);
-        }
-    } catch (error) {
-        console.error('Error updating streak:', error);
-    }
-}
-
-function displayStreak(streakData) {
-    const container = document.getElementById('streakContainer');
-    const count = document.getElementById('streakCount');
-    const message = document.getElementById('streakMessage');
-    
-    if (!container || !count) return;
-    
-    count.textContent = streakData.current;
-    
-    // Show message based on streak
-    if (streakData.current === 1) {
-        message.textContent = '¡Comenzaste una nueva racha! 🎉';
-    } else if (streakData.current >= 7) {
-        message.textContent = '¡Increíble! Una semana completa 🔥';
-    } else if (streakData.current >= 30) {
-        message.textContent = '¡UN MES! Eres imparable 🚀';
-    } else {
-        message.textContent = `¡Sigue así! Récord: ${streakData.longest} días`;
-    }
-    
-    container.style.display = 'block';
-}
-
-// Update streak on page load
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.AuthService?.isLoggedIn()) {
-        updateStreak();
-    }
-});
-
-// Listen for login events
-window.addEventListener('authStateChanged', (e) => {
-    if (e.detail?.isLoggedIn) {
-        updateStreak();
-    } else {
-        document.getElementById('streakContainer').style.display = 'none';
-    }
-});
+console.log('🔒 Authentication system ready!');

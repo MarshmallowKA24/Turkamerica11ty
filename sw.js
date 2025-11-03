@@ -9,19 +9,16 @@ const CACHE_NAMES = {
     images: `${CACHE_VERSION}-images`
 };
 
-// Files to cache immediately
 const STATIC_CACHE_URLS = [
-    '/',
-    '/index.html',
-    '/Consejos.html',
-    '/Gramatica.html',
-    '/Perfil.html',
-    '/css/styles.css',
-    '/css/darkmode.css',
-    '/js/config.js',
-    '/js/general.js',
-    '/auth/auth.js',
-    '/manifest.json'
+    '/build/',                       
+    '/build/Gramatica.html',
+    '/build/Perfil.html',
+    '/build/css/styles.css',
+    '/build/css/darkmode.css',
+    '/build/js/config.js',
+    '/build/js/general.js',
+    '/build/auth/auth.js',
+    '/build/manifest.json'          
 ];
 
 // Install event - cache static assets
@@ -122,6 +119,14 @@ self.addEventListener('fetch', (event) => {
 // Cache-first strategy (for static assets)
 async function cacheFirst(request, cacheName) {
     try {
+        const url = new URL(request.url);
+        
+        // 1. Initial Protocol Check (Prevent match/fetch for unsupported schemes)
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+            console.log('[SW] Skipping cache logic for non-http(s) protocol:', url.protocol);
+            return fetch(request);
+        }
+        
         const cache = await caches.open(cacheName);
         const cachedResponse = await cache.match(request);
 
@@ -129,6 +134,14 @@ async function cacheFirst(request, cacheName) {
             // Update cache in background
             fetch(request)
                 .then((response) => {
+                    // **!!! SECOND CRITICAL FIX IMPLEMENTED HERE !!!**
+                    // The request object in the background fetch might still be an unsupported scheme
+                    // due to an intercept. Must check before 'put'.
+                    const backgroundUrl = new URL(request.url);
+                    if (backgroundUrl.protocol !== 'http:' && backgroundUrl.protocol !== 'https:') {
+                        return; // Bail out of background update if protocol is unsupported
+                    }
+                    
                     if (response && response.status === 200) {
                         cache.put(request, response.clone());
                     }
@@ -144,6 +157,7 @@ async function cacheFirst(request, cacheName) {
         const networkResponse = await fetch(request);
         
         if (networkResponse && networkResponse.status === 200) {
+            // No need to check protocol here, as the first check already handled it
             cache.put(request, networkResponse.clone());
         }
 

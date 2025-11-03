@@ -584,7 +584,7 @@ window.AppUtils.init = function() {
         this.Tabs.init();
         this.Accessibility.init();
     }
-
+    updateLogoutLinkVisibility();
     console.log('🚀 Global utilities initialized successfully!');
 };
 
