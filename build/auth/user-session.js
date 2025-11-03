@@ -100,15 +100,6 @@ class UserSession {
                                 border-radius: 5px;
                                 margin: 5px;
                             ">Ir al inicio</a>
-                            <button id="logoutFromAuth" style="
-                                background-color: #dc3545;
-                                color: white;
-                                padding: 10px 20px;
-                                border: none;
-                                border-radius: 5px;
-                                cursor: pointer;
-                                margin: 5px;
-                            ">Cerrar sesión</button>
                         </div>
                     </div>
                 `;
