@@ -8,15 +8,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
-# Ignora la carpeta de salida generada por Eleventy
-# (Tu captura muestra que ya tienes una)
-_site/
-
-
-# Ignora la carpeta de "build" que también tienes
-build/
-
 .env
 .env.local
 .env.*.local

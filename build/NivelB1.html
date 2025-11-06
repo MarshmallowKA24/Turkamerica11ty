@@ -1,0 +1,52 @@
+---
+layout: base.njk
+styles:
+  - nivel-modals.css
+scripts:
+  - nivel-b1.js
+---
+<a href="/index/" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+    Volver al inicio
+</a>
+
+<header class="level-page-header">
+    <h1 class="level-title">Nivel B1</h1>
+    <p class="level-description">Nivel intermedio - Consolidación de conocimientos</p>
+</header>
+<div class="level-content">
+      <div class="pdf-actions">
+        <a href="/B1-DERS-KITABI_compressed.pdf" target="_blank" class="btn btn-primary">
+          <i class="fas fa-eye"></i>
+          Ver PDF
+        </a>
+        <a href="/B1-DERS-KITABI_compressed.pdf" download class="btn btn-secondary">
+          <i class="fas fa-download"></i>
+          Descargar PDF
+        </a>
+      </div>
+    </div>
+<div class="topics-panel" id="topicsPanel">
+    <div class="panel-header">
+        <h3>
+            <i class="fas fa-list"></i>
+            Temas del Nivel
+        </h3>
+        <button class="panel-toggle" id="panelToggle" aria-label="Alternar panel">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+    
+    <div class="panel-content" id="panelContent">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" 
+                   id="topicSearch" 
+                   placeholder="Buscar tema..." 
+                   autocomplete="off">
+        </div>
+        
+        <div class="topics-list">
+            </div>
+    </div>
+</div>
