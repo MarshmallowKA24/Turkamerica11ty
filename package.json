@@ -1,13 +1,13 @@
 {
-  "name": "turkamerica-server",
+  "name": "turkamerica-proyecto-completo",
   "version": "1.0.0",
-  "description": "Backend server for TurkAmerica language learning app",
-  "main": "server.js",
+  "description": "Frontend (Eleventy) y Backend (Express) para TurkAmerica",
+  "main": "/server/server.js",
   "scripts": {
-    "start": "node ./server/server.js",
-    "dev": "nodemon ./server/server.js",
+    "start": "node /server/server.js",
+    "dev": "nodemon /server/server.js",
     "test": "jest",
-    "start:11ty": "npx @11ty/eleventy --serve",
+    "serve:11ty": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy"
   },
   "dependencies": {
@@ -23,12 +23,12 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy": "^2.0.1",
     "jest": "^29.7.0",
     "nodemon": "^3.0.2",
     "supertest": "^6.3.3"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   }
 }
