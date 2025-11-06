@@ -1,20 +1,16 @@
 // eleventy.js CORREGIDO
 module.exports = function(eleventyConfig) {
 
-  // --- Copia de Archivos Estáticos (LA FORMA CORRECTA) ---
-  // Esto copia {input}/css -> {output}/css
+  // --- Copia de Archivos Estáticos (CORREGIDO) ---
+  // Copia "build/css" a la carpeta "_site/css"
   eleventyConfig.addPassthroughCopy({ "build/css": "css" });
   eleventyConfig.addPassthroughCopy({ "build/js": "js" });
   eleventyConfig.addPassthroughCopy({ "build/auth": "auth" });
-  
-  // Copia archivos individuales
-  eleventyConfig.addPassthroughCopy("build/*.pdf");
-  
-  // Copia la carpeta de datos
   eleventyConfig.addPassthroughCopy({ "build/data": "data" });
-
-  // No necesitas esta línea si ya copiaste "build/js"
-  // eleventyConfig.addPassthroughCopy("build/sw.js"); 
+  
+  // Copia archivos PDF y el Service Worker de la raíz de "build"
+  eleventyConfig.addPassthroughCopy("build/*.pdf");
+  eleventyConfig.addPassthroughCopy("sw.js"); // Copia el sw.js de la raíz del proyecto
 
   return {
     // --- Definición de directorios ---

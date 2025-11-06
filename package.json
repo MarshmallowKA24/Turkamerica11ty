@@ -2,10 +2,10 @@
   "name": "turkamerica-proyecto-completo",
   "version": "1.0.0",
   "description": "Frontend (Eleventy) y Backend (Express) para TurkAmerica",
-  "main": "/server/server.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node /server/server.js",
-    "dev": "nodemon /server/server.js",
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
     "test": "jest",
     "serve:11ty": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy"
