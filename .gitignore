@@ -8,6 +8,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+node_modules/
+_site/
+
 .env
 .env.local
 .env.*.local

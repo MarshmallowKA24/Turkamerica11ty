@@ -1,28 +1,31 @@
+// eleventy.js CORREGIDO
 module.exports = function(eleventyConfig) {
-  // 1. Copiar los archivos estáticos necesarios.
-  // Eleventy ya procesa los HTMLs dentro de 'build'. Necesitamos copiar el resto.
-  
-  // Copia carpetas de activos: CSS, JS y la subcarpeta AUTH
-  eleventyConfig.addPassthroughCopy("build/css");
-  eleventyConfig.addPassthroughCopy("build/js");
-  eleventyConfig.addPassthroughCopy("build/auth"); 
 
-  // Copia archivos estáticos directos (como PDFs y Service Worker)
-  eleventyConfig.addPassthroughCopy("build/*.pdf");
-  eleventyConfig.addPassthroughCopy("sw.js"); // sw.js está en la raíz, pero si lo usa, es importante copiarlo.
+  // --- Copia de Archivos Estáticos (LA FORMA CORRECTA) ---
+  // Esto copia {input}/css -> {output}/css
+  eleventyConfig.addPassthroughCopy({ "build/css": "css" });
+  eleventyConfig.addPassthroughCopy({ "build/js": "js" });
+  eleventyConfig.addPassthroughCopy({ "build/auth": "auth" });
   
-  // Copia la carpeta de datos (si no contiene plantillas, sino solo datos/scripts que se usan directamente)
-  eleventyConfig.addPassthroughCopy("build/data"); 
+  // Copia archivos individuales
+  eleventyConfig.addPassthroughCopy("build/*.pdf");
+  
+  // Copia la carpeta de datos
+  eleventyConfig.addPassthroughCopy({ "build/data": "data" });
+
+  // No necesitas esta línea si ya copiaste "build/js"
+  // eleventyConfig.addPassthroughCopy("build/sw.js"); 
 
   return {
-    // 2. Definición de directorios
+    // --- Definición de directorios ---
     dir: {
-      input: "build",         // Eleventy buscará los archivos fuente (sus HTMLs) aquí.
-      includes: "_includes",  // Los layouts (_base.njk) irán en 'build/_includes'.
-      output: "_site"         // Directorio de salida.
+      input: "build",   // Eleventy lee de 'build'
+      includes: "_includes", // Los layouts están en 'build/_includes'
+      output: "_site"   // Eleventy escribe en '_site'
     },
-    // 3. Configuración del motor de plantilla
-    htmlTemplateEngine: "njk", 
+
+    // --- Configuración del motor de plantilla ---
+    htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk"
   };
 };
