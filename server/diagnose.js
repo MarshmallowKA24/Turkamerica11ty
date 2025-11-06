@@ -143,8 +143,8 @@ console.log('\n🌐 Checking public folder...');
 
 const publicFiles = [
     'public/index.html',
-    'public/auth/login.html',
-    'public/auth/register.html',
+    'public/login.html',
+    'public/register.html',
     'public/js/config.js',
     'public/auth/auth.js'
 ];

@@ -109,8 +109,8 @@ router.post('/register', registerValidation, async (req, res) => {
     }
 });
 
-// POST /api/auth/login - User login
-router.post('/login', loginValidation, async (req, res) => {
+// POST /api/login - User login
+router.post('/login/', loginValidation, async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

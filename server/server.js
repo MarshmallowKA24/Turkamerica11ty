@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 // Import database connection
-const connectDB = require('./config/database');
+const { connectDB } = require('./config/database'); // <- CORRECCIÓN APLICADA AQUÍ
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -105,7 +105,7 @@ const authLimiter = rateLimit({
   skipSuccessfulRequests: true // Don't count successful requests
 });
 
-app.use('/api/auth/login', authLimiter);
+app.use('/api/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 
 // ================================
@@ -123,18 +123,20 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public'), {
+// ⬇️ MODIFICADO para servir la carpeta _site de Eleventy
+const FRONTEND_PATH = path.join(__dirname, '..', '_site'); 
+app.use(express.static(FRONTEND_PATH, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
   etag: true
 }));
+// ⬆️ FIN MODIFICACIÓN
 
 // ================================
 // DATABASE CONNECTION
 // ================================
 
 // Connect to MongoDB using the config file
-connectDB();
+connectDB(); // Esto ahora funcionará
 
 // ================================
 // ROUTES
@@ -167,14 +169,14 @@ app.use('/api/*', (req, res) => {
     availableEndpoints: {
       health: 'GET /health',
       auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-        logout: 'POST /api/auth/logout',
-        verify: 'GET /api/auth/verify',
-        profile: 'GET /api/auth/profile',
-        updateProfile: 'PUT /api/auth/profile',
-        streak: 'GET /api/auth/streak',
-        updateStreak: 'POST /api/auth/update-streak'
+        register: 'POST /api/register',
+        login: 'POST /api/login',
+        logout: 'POST /api/logout',
+        verify: 'GET /api/verify',
+        profile: 'GET /api/profile',
+        updateProfile: 'PUT /api/profile',
+        streak: 'GET /api/streak',
+        updateStreak: 'POST /api/update-streak'
       }
     },
     hint: 'Make sure you are using the correct HTTP method and endpoint'
@@ -183,7 +185,8 @@ app.use('/api/*', (req, res) => {
 
 // Serve frontend for all non-API routes (SPA support)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
+  // ⬇️ MODIFICADO para servir el index.html de la carpeta _site de Eleventy
+  res.sendFile(path.join(FRONTEND_PATH, 'index.html'), (err) => {
     if (err) {
       console.error('Error serving index.html:', err);
       res.status(500).json({ 
@@ -343,17 +346,17 @@ const startServer = async () => {
     
     app.listen(PORT, () => {
       console.log('\n╔═══════════════════════════════════════╗');
-      console.log('║   🚀 TurkAmerica MVP Server Started   ║');
+      console.log('║   TurkAmerica MVP Server Started   ║');
       console.log('╚═══════════════════════════════════════╝');
-      console.log(`🌐 Server: http://localhost:${PORT}`);
-      console.log(`🏥 Health: http://localhost:${PORT}/health`);
-      console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`📊 MongoDB: ${mongoose.connection.name}`);
-      console.log(`🔐 CORS: ${getAllowedOrigins().length} origins allowed`);
-      console.log('\n✨ Ready to accept connections!\n');
+      console.log(` Server: http://localhost:${PORT}`);
+      console.log(` Health: http://localhost:${PORT}/health`);
+      console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(` MongoDB: ${mongoose.connection.name}`);
+      console.log(` CORS: ${getAllowedOrigins().length} origins allowed`);
+      console.log('\n Ready to accept connections!\n');
     });
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
+    console.error(' Failed to start server:', error);
     process.exit(1);
   }
 };

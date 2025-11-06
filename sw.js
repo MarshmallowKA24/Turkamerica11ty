@@ -17,7 +17,7 @@ const STATIC_CACHE_URLS = [
     '/build/css/darkmode.css',
     '/build/js/config.js',
     '/build/js/general.js',
-    '/build/auth/auth.js',
+    '/build/js/auth.js',
     '/build/manifest.json'          
 ];
 
@@ -122,6 +122,7 @@ async function cacheFirst(request, cacheName) {
         const url = new URL(request.url);
         
         // 1. Initial Protocol Check (Prevent match/fetch for unsupported schemes)
+        // **!!! MODIFICACIÓN CLAVE PARA CORREGIR EL ERROR 'chrome-extension' !!!**
         if (url.protocol !== 'http:' && url.protocol !== 'https:') {
             console.log('[SW] Skipping cache logic for non-http(s) protocol:', url.protocol);
             return fetch(request);
@@ -134,12 +135,11 @@ async function cacheFirst(request, cacheName) {
             // Update cache in background
             fetch(request)
                 .then((response) => {
-                    // **!!! SECOND CRITICAL FIX IMPLEMENTED HERE !!!**
-                    // The request object in the background fetch might still be an unsupported scheme
-                    // due to an intercept. Must check before 'put'.
+                    // **!!! SEGUNDA MODIFICACIÓN CLAVE - CHEQUEO ANTES DE PUT !!!**
+                    // El objeto request puede ser de un esquema no soportado.
                     const backgroundUrl = new URL(request.url);
                     if (backgroundUrl.protocol !== 'http:' && backgroundUrl.protocol !== 'https:') {
-                        return; // Bail out of background update if protocol is unsupported
+                        return; // Salir de la actualización en segundo plano si el protocolo no es compatible
                     }
                     
                     if (response && response.status === 200) {

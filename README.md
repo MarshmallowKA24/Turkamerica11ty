@@ -43,7 +43,7 @@ Plataforma web completa para aprender turco dirigida a hispanohablantes, con sis
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/yourusername/turkamerica.git
+git clone https://github.com/yourusername/turkamerica11ty.git
 cd turkamerica
 
 # 2. Ejecutar script de configuración
@@ -109,22 +109,6 @@ turkamerica/
 
 ## 🔧 Configuración
 
-### Variables de Entorno (.env)
-
-```bash
-# Server
-PORT=3000
-NODE_ENV=development
-
-# Database
-MONGODB_URI=mongodb://127.0.0.1:27017/turkamerica
-
-# Security
-JWT_SECRET=your-secret-key-here
-
-# CORS (producción)
-ALLOWED_ORIGINS=https://yourdomain.com
-```
 
 ### Generar JWT Secret Seguro
 
@@ -138,14 +122,14 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 | Método | Endpoint | Descripción | Auth |
 |--------|----------|-------------|------|
-| POST | `/api/auth/register` | Registrar nuevo usuario | No |
-| POST | `/api/auth/login` | Iniciar sesión | No |
-| POST | `/api/auth/logout` | Cerrar sesión | Sí |
-| GET | `/api/auth/verify` | Verificar token | Sí |
-| GET | `/api/auth/profile` | Obtener perfil | Sí |
-| PUT | `/api/auth/profile` | Actualizar perfil | Sí |
-| GET | `/api/auth/streak` | Obtener racha | Sí |
-| POST | `/api/auth/update-streak` | Actualizar racha | Sí |
+| POST | `/api/register` | Registrar nuevo usuario | No |
+| POST | `/api/login` | Iniciar sesión | No |
+| POST | `/api/logout` | Cerrar sesión | Sí |
+| GET | `/api/verify` | Verificar token | Sí |
+| GET | `/api/profile` | Obtener perfil | Sí |
+| PUT | `/api/profile` | Actualizar perfil | Sí |
+| GET | `/api/streak` | Obtener racha | Sí |
+| POST | `/api/update-streak` | Actualizar racha | Sí |
 
 ### Health Check
 
