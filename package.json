@@ -8,7 +8,7 @@
     "dev": "nodemon ./server/server.js",
     "test": "jest",
     "start:11ty": "npx @11ty/eleventy --serve",
-    "build:11ty": "npx @11ty/eleventy"
+    "build": "npx @11ty/eleventy"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
