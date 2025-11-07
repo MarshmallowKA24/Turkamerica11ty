@@ -91,7 +91,7 @@ class UserSession {
                         <h2>¡Ya estás conectado!</h2>
                         <p>Bienvenido/a de vuelta, ${this.authService.getCurrentUser()?.username || 'usuario'}</p>
                         <div style="margin-top: 20px;">
-                            <a href="../index.html" style="
+                            <a href="/" style="
                                 display: inline-block;
                                 background-color: #007bff;
                                 color: white;
@@ -157,7 +157,7 @@ class UserSession {
                 
                 // Redirigir a la página principal después de un momento
                 setTimeout(() => {
-                    window.location.href = '../index.html';
+                    window.location.href = '/';
                 }, 1500);
                 
             } catch (error) {

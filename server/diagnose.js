@@ -146,7 +146,7 @@ const publicFiles = [
     'public/login.html',
     'public/register.html',
     'public/js/config.js',
-    'public/auth/auth.js'
+    'public/js/auth.js'
 ];
 
 publicFiles.forEach(file => {
