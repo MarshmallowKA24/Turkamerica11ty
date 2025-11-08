@@ -35,7 +35,6 @@ const loginValidation = [
 // AUTHENTICATION ROUTES
 // ================================
 
-// POST /api/auth/register - User registration
 router.post('/register', registerValidation, async (req, res) => {
     try {
         const errors = validationResult(req);

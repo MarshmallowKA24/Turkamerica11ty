@@ -106,7 +106,6 @@ const authLimiter = rateLimit({
 });
 
 app.use('/api/login', authLimiter);
-app.use('/api/auth/register', authLimiter);
 
 // ================================
 // GENERAL MIDDLEWARE

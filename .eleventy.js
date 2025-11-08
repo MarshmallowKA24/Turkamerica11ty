@@ -1,12 +1,12 @@
-// .eleventy.js CORREGIDO con encoding UTF-8
+// .eleventy.js actualizado
 module.exports = function(eleventyConfig) {
 
   // --- Copia de Archivos Estáticos ---
-  eleventyConfig.addPassthroughCopy({ "build/css": "css" });
-  eleventyConfig.addPassthroughCopy({ "build/js": "js" });
-  eleventyConfig.addPassthroughCopy({ "build/auth": "auth" });
-  eleventyConfig.addPassthroughCopy({ "build/data": "data" });
-  
+  eleventyConfig.addPassthroughCopy("build/css");
+  eleventyConfig.addPassthroughCopy("build/js");
+  eleventyConfig.addPassthroughCopy("build/auth");
+  eleventyConfig.addPassthroughCopy("build/data");
+
   // Copia archivos PDF y el Service Worker
   eleventyConfig.addPassthroughCopy("build/*.pdf");
   eleventyConfig.addPassthroughCopy("build/sw.js");
@@ -25,16 +25,16 @@ module.exports = function(eleventyConfig) {
   return {
     // --- Definición de directorios ---
     dir: {
-      input: "build",
-      includes: "_includes",
+      input: ".",            // raíz del proyecto como input
+      includes: "build/_includes",
       output: "_site"
     },
 
     // --- Motor de plantillas ---
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
-    
-    // ===== FIX: Configuración de encoding =====
+
+    // ===== Configuración de templates =====
     templateFormats: ["html", "njk", "md"],
     pathPrefix: "/"
   };

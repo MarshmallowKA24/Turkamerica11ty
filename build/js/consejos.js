@@ -1,109 +1,151 @@
-// ========================================
-// CONSEJOS.JS - Funcionalidad específica de la página de consejos
-// ========================================
+// ================================
+// CONSEJOS PAGE - Toggle System
+// ================================
 
-document.addEventListener('DOMContentLoaded', function() {
-    initializeAdvicePage();
-});
-
-function initializeAdvicePage() {
-    setupChannelEffects();
-    setupActivityTracking();
-    initializeTimeHighlighting();
-    loadActivityProgress();
-}
-
-// ========================================
-// EFECTOS DE INTERACCIÓN DE CANALES
-// ========================================
-function setupChannelEffects() {
-    document.querySelectorAll('.channel-item').forEach(item => {
-        item.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 150);
-        });
-    });
-}
-
-// ========================================
-// SEGUIMIENTO DE PROGRESO DE ACTIVIDADES
-// ========================================
-function setupActivityTracking() {
-    document.querySelectorAll('.activity-item').forEach(item => {
-        item.addEventListener('click', function() {
-            this.classList.toggle('completed');
-            saveActivityProgress();
-        });
-    });
-}
-
-function saveActivityProgress() {
-    const completedActivities = [];
-    document.querySelectorAll('.activity-item.completed').forEach((item, index) => {
-        completedActivities.push(index);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎯 Consejos page loaded');
     
-    // Use localStorage directly instead of AppUtils
-    try {
-        localStorage.setItem('completedActivities', JSON.stringify(completedActivities));
-    } catch (error) {
-        console.error('Error saving activity progress:', error);
-    }
-}
-
-function loadActivityProgress() {
-    try {
-        const savedData = localStorage.getItem('completedActivities');
-        const completedActivities = savedData ? JSON.parse(savedData) : [];
-        const activityItems = document.querySelectorAll('.activity-item');
-        
-        completedActivities.forEach(index => {
-            if (activityItems[index]) {
-                activityItems[index].classList.add('completed');
-            }
-        });
-    } catch (error) {
-        console.error('Error loading activity progress:', error);
-    }
-}
-
-// ========================================
-// RESALTADO DE ACTIVIDADES BASADO EN TIEMPO
-// ========================================
-function initializeTimeHighlighting() {
-    highlightCurrentActivity();
-    setInterval(highlightCurrentActivity, 60000); // Actualizar cada minuto
-}
-
-function timeToMinutes(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(num => parseInt(num, 10));
-    return hours * 60 + minutes;
-}
-
-function highlightCurrentActivity() {
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
+    // Get saved progress
+    const savedProgress = JSON.parse(localStorage.getItem('consejosProgress') || '{}');
     
-    document.querySelectorAll('.activity-item').forEach(item => {
-        const timeSlot = item.querySelector('.time-slot');
-        if (!timeSlot) return;
+    // Find all toggle buttons
+    const toggleButtons = document.querySelectorAll(
+        '.toggle-done-btn, .btn-done, [data-toggle], .mark-complete-btn, button[data-consejo-id]'
+    );
+    
+    console.log(`Found ${toggleButtons.length} toggle buttons`);
+    
+    // Initialize each button
+    toggleButtons.forEach((button, index) => {
+        // Generate unique ID
+        const buttonId = button.dataset.consejoId || 
+                        button.dataset.toggle || 
+                        button.id || 
+                        `consejo-${index}`;
         
-        const timeSlotText = timeSlot.textContent;
-        const [startTime, endTime] = timeSlotText.split(' - ');
+        button.dataset.consejoId = buttonId;
         
-        if (startTime && endTime) {
-            const startMinutes = timeToMinutes(startTime.trim());
-            const endMinutes = timeToMinutes(endTime.trim());
-            
-            if (currentTime >= startMinutes && currentTime <= endMinutes) {
-                item.classList.add('current-activity');
-            } else {
-                item.classList.remove('current-activity');
-            }
+        // Restore saved state
+        if (savedProgress[buttonId]) {
+            button.classList.add('completed');
+            updateButtonText(button, true);
+        } else {
+            button.classList.remove('completed');
+            updateButtonText(button, false);
         }
+        
+        // Add click handler
+        button.addEventListener('click', handleToggle);
     });
-}
-
-console.log('Página de consejos inicializada correctamente');
+    
+    // Toggle handler
+    function handleToggle(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const button = e.currentTarget;
+        const buttonId = button.dataset.consejoId;
+        const isCompleted = button.classList.contains('completed');
+        
+        // Toggle state
+        if (isCompleted) {
+            button.classList.remove('completed');
+            updateButtonText(button, false);
+            delete savedProgress[buttonId];
+        } else {
+            button.classList.add('completed');
+            updateButtonText(button, true);
+            savedProgress[buttonId] = {
+                completed: true,
+                timestamp: Date.now()
+            };
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('consejosProgress', JSON.stringify(savedProgress));
+        
+        // Visual feedback
+        animateButton(button);
+        
+        // Update stats if available
+        updateProgressStats();
+        
+        console.log(`✅ Consejo ${buttonId} ${isCompleted ? 'unmarked' : 'marked'} as complete`);
+    }
+    
+    // Update button text based on state
+    function updateButtonText(button, isCompleted) {
+        if (isCompleted) {
+            button.innerHTML = '<i class="fas fa-check-circle"></i> Completado';
+            button.setAttribute('aria-label', 'Marcar como no completado');
+        } else {
+            button.innerHTML = '<i class="fas fa-circle"></i> Marcar como leído';
+            button.setAttribute('aria-label', 'Marcar como completado');
+        }
+    }
+    
+    // Button animation
+    function animateButton(button) {
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+        }, 150);
+    }
+    
+    // Update progress statistics
+    function updateProgressStats() {
+        const total = toggleButtons.length;
+        const completed = Object.keys(savedProgress).length;
+        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+        
+        // Update progress bar if exists
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            progressBar.style.width = percentage + '%';
+            progressBar.setAttribute('aria-valuenow', percentage);
+        }
+        
+        // Update progress text if exists
+        const progressText = document.getElementById('progressText');
+        if (progressText) {
+            progressText.textContent = `${completed} de ${total} consejos completados (${percentage}%)`;
+        }
+        
+        // Update counter badge if exists
+        const counterBadge = document.querySelector('.progress-counter');
+        if (counterBadge) {
+            counterBadge.textContent = `${completed}/${total}`;
+        }
+    }
+    
+    // Reset all progress (if reset button exists)
+    const resetButton = document.getElementById('resetProgress');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres resetear todo tu progreso?')) {
+                localStorage.removeItem('consejosProgress');
+                location.reload();
+            }
+        });
+    }
+    
+    // Export progress (if export button exists)
+    const exportButton = document.getElementById('exportProgress');
+    if (exportButton) {
+        exportButton.addEventListener('click', () => {
+            const dataStr = JSON.stringify(savedProgress, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'consejos-progress.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+    }
+    
+    // Initial stats update
+    updateProgressStats();
+    
+    console.log('✅ Consejos toggle system initialized');
+});
