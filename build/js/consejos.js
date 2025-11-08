@@ -1,151 +1,137 @@
 // ================================
-// CONSEJOS PAGE - Toggle System
+// CONSEJOS PAGE - Toggle System compatible con 11ty
 // ================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎯 Consejos page loaded');
-    
-    // Get saved progress
-    const savedProgress = JSON.parse(localStorage.getItem('consejosProgress') || '{}');
-    
-    // Find all toggle buttons
-    const toggleButtons = document.querySelectorAll(
-        '.toggle-done-btn, .btn-done, [data-toggle], .mark-complete-btn, button[data-consejo-id]'
-    );
-    
-    console.log(`Found ${toggleButtons.length} toggle buttons`);
-    
-    // Initialize each button
-    toggleButtons.forEach((button, index) => {
-        // Generate unique ID
-        const buttonId = button.dataset.consejoId || 
-                        button.dataset.toggle || 
-                        button.id || 
-                        `consejo-${index}`;
-        
-        button.dataset.consejoId = buttonId;
-        
-        // Restore saved state
-        if (savedProgress[buttonId]) {
-            button.classList.add('completed');
-            updateButtonText(button, true);
-        } else {
-            button.classList.remove('completed');
-            updateButtonText(button, false);
-        }
-        
-        // Add click handler
-        button.addEventListener('click', handleToggle);
-    });
-    
-    // Toggle handler
-    function handleToggle(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const button = e.currentTarget;
-        const buttonId = button.dataset.consejoId;
-        const isCompleted = button.classList.contains('completed');
-        
-        // Toggle state
-        if (isCompleted) {
-            button.classList.remove('completed');
-            updateButtonText(button, false);
-            delete savedProgress[buttonId];
-        } else {
-            button.classList.add('completed');
-            updateButtonText(button, true);
-            savedProgress[buttonId] = {
-                completed: true,
-                timestamp: Date.now()
-            };
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('consejosProgress', JSON.stringify(savedProgress));
-        
-        // Visual feedback
-        animateButton(button);
-        
-        // Update stats if available
-        updateProgressStats();
-        
-        console.log(`✅ Consejo ${buttonId} ${isCompleted ? 'unmarked' : 'marked'} as complete`);
+(function() {
+    'use strict';
+
+    const CONFIG = {
+        STORAGE_KEY: 'consejosProgress',
+        ROTATION_KEY: 'consejosRotationDate',
+        ENABLE_DAILY_ROTATION: true,
+    };
+
+    // -------------------------
+    // Utilities
+    // -------------------------
+    function getTodayDateString() {
+        return new Date().toDateString();
     }
-    
-    // Update button text based on state
-    function updateButtonText(button, isCompleted) {
-        if (isCompleted) {
-            button.innerHTML = '<i class="fas fa-check-circle"></i> Completado';
-            button.setAttribute('aria-label', 'Marcar como no completado');
-        } else {
-            button.innerHTML = '<i class="fas fa-circle"></i> Marcar como leído';
-            button.setAttribute('aria-label', 'Marcar como completado');
-        }
+
+    function seededRandom(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
     }
-    
-    // Button animation
-    function animateButton(button) {
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = 'scale(1)';
-        }, 150);
+
+    function shuffleWithSeed(array, seed) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(seededRandom(seed + i) * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
     }
-    
-    // Update progress statistics
-    function updateProgressStats() {
-        const total = toggleButtons.length;
-        const completed = Object.keys(savedProgress).length;
-        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-        
-        // Update progress bar if exists
-        const progressBar = document.getElementById('progressBar');
-        if (progressBar) {
-            progressBar.style.width = percentage + '%';
-            progressBar.setAttribute('aria-valuenow', percentage);
-        }
-        
-        // Update progress text if exists
-        const progressText = document.getElementById('progressText');
-        if (progressText) {
-            progressText.textContent = `${completed} de ${total} consejos completados (${percentage}%)`;
-        }
-        
-        // Update counter badge if exists
-        const counterBadge = document.querySelector('.progress-counter');
-        if (counterBadge) {
-            counterBadge.textContent = `${completed}/${total}`;
-        }
+
+    function getSeedFromDate(dateString) {
+        return dateString.split(' ').reduce((acc, val) => acc + [...val].reduce((a,b)=>a+b.charCodeAt(0),0), 0);
     }
-    
-    // Reset all progress (if reset button exists)
-    const resetButton = document.getElementById('resetProgress');
-    if (resetButton) {
-        resetButton.addEventListener('click', () => {
-            if (confirm('¿Estás seguro de que quieres resetear todo tu progreso?')) {
-                localStorage.removeItem('consejosProgress');
-                location.reload();
+
+    function shouldRotate() {
+        if (!CONFIG.ENABLE_DAILY_ROTATION) return false;
+        const today = getTodayDateString();
+        const lastRotation = localStorage.getItem(CONFIG.ROTATION_KEY);
+        if (lastRotation !== today) {
+            localStorage.setItem(CONFIG.ROTATION_KEY, today);
+            return true;
+        }
+        return false;
+    }
+
+    function applyDailyRotation() {
+        const containers = document.querySelectorAll('.activities');
+        if (!containers.length) return;
+
+        const today = getTodayDateString();
+        const seed = getSeedFromDate(today);
+
+        containers.forEach(container => {
+            const items = Array.from(container.querySelectorAll('.activity-item'));
+            if (!items.length) return;
+            const shuffled = shuffleWithSeed(items, seed);
+            items.forEach(i => i.remove());
+            shuffled.forEach(i => container.appendChild(i));
+        });
+
+        console.log(`🔄 Daily rotation applied for ${today}`);
+    }
+
+    // -------------------------
+    // Toggle Buttons
+    // -------------------------
+    function addToggleButtonsToItem(item) {
+        if (item.querySelector('.toggle-btn')) return;
+
+        const button = document.createElement('button');
+        button.className = 'toggle-btn';
+        button.type = 'button';
+
+        const title = item.querySelector('h4')?.textContent?.trim() || 'activity';
+        const timeSlot = item.querySelector('.time-slot')?.textContent?.trim() || '';
+        const activityId = `${timeSlot}-${title}`.replace(/\s+/g, '-').toLowerCase();
+
+        button.dataset.activityId = activityId;
+        button.innerHTML = '<i class="fas fa-circle"></i>';
+        button.setAttribute('aria-label', 'Marcar como completado');
+        button.setAttribute('title', 'Marcar como completado');
+
+        item.style.position = 'relative';
+        item.appendChild(button);
+
+        // Inicializa toggle para este botón
+        initializeToggleForButton(button);
+    }
+
+    function initializeToggleForButton(button) {
+        const savedProgress = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY) || '{}');
+        const activityId = button.dataset.activityId;
+        const isCompleted = savedProgress[activityId]?.completed || false;
+
+        updateButtonState(button, isCompleted);
+
+        // Listener click
+        button.addEventListener('click', () => handleToggle(button));
+    }
+
+   
+    window.ConsejosDebug = window.ConsejosDebug || {};
+    window.ConsejosDebug.checkErrors = monitorToggleErrors;
+
+    // -------------------------
+    // Main Init con polling
+    // -------------------------
+    function initWithPolling() {
+        const interval = setInterval(() => {
+            const items = document.querySelectorAll('.activity-item');
+            if (items.length > 0) {
+                clearInterval(interval);
+
+                if (shouldRotate()) applyDailyRotation();
+
+                items.forEach(item => addToggleButtonsToItem(item));
+                updateProgressStats();
+
+                // Monitoreo periódico opcional
+                setInterval(monitorToggleErrors, 5000);
+
+                console.log('✅ Consejos page initialized with polling');
             }
-        });
+        }, 100);
     }
-    
-    // Export progress (if export button exists)
-    const exportButton = document.getElementById('exportProgress');
-    if (exportButton) {
-        exportButton.addEventListener('click', () => {
-            const dataStr = JSON.stringify(savedProgress, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'consejos-progress.json';
-            link.click();
-            URL.revokeObjectURL(url);
-        });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWithPolling);
+    } else {
+        initWithPolling();
     }
-    
-    // Initial stats update
-    updateProgressStats();
-    
-    console.log('✅ Consejos toggle system initialized');
-});
+
+})();

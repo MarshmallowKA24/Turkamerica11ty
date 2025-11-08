@@ -767,9 +767,35 @@ body {
     color: #155724;
 }
 
+
 .difficulty-badge.intermediate {
-    background: #fff3cd;
-    color: #856404;
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.dark-mode .difficulty-badge.intermediate {
+    background: #451a03;
+    color: #fbbf24;
+}
+
+.difficulty-badge.advanced {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+.dark-mode .difficulty-badge.advanced {
+    background: #450a0a;
+    color: #ef4444;
+}
+
+.difficulty-badge.hardadvanced {
+    background: #555555;
+    color: #191919;
+}
+
+.dark-mode .difficulty-badge.hardadvanced {
+    background: #343232;
+    color: #000000;
 }
 
 .card-description {
