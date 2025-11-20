@@ -1,21 +1,19 @@
-// .eleventy.js
+// .eleventy.js adaptado para deploy seguro
 const fs = require("fs");
+const path = require("path");
 
 module.exports = function(eleventyConfig) {
 
-  // --- Passthrough (rutas relativas a build/) ---
-  eleventyConfig.addPassthroughCopy("css");
-  eleventyConfig.addPassthroughCopy("js");
-  eleventyConfig.addPassthroughCopy("auth");
-  eleventyConfig.addPassthroughCopy("data");
-  eleventyConfig.addPassthroughCopy("*.pdf");
-  eleventyConfig.addPassthroughCopy("sw.js");
+  // --- Passthrough de assets estáticos ---
+  // CSS y JS
+  eleventyConfig.addPassthroughCopy("build/css");
+  eleventyConfig.addPassthroughCopy("build/js");
+  eleventyConfig.addPassthroughCopy("build/auth");
+  eleventyConfig.addPassthroughCopy("build/data");
 
-  // ===== Observar cambios =====
-  eleventyConfig.addWatchTarget("css/**/*.css");
-  eleventyConfig.addWatchTarget("js/**/*.js");
-  eleventyConfig.addWatchTarget("data/**/*.json");
-  eleventyConfig.addWatchTarget("sw.js");
+  // PDFs y service worker
+  eleventyConfig.addPassthroughCopy("build/*.pdf");
+  eleventyConfig.addPassthroughCopy("build/sw.js");
 
   // ===== FIX UTF-8 para Nunjucks =====
   eleventyConfig.setNunjucksEnvironmentOptions({
@@ -27,7 +25,8 @@ module.exports = function(eleventyConfig) {
     return value;
   });
 
-  // ===== Limpieza antes del build =====
+  // ===== Opcional: limpieza de archivos antiguos en build temporal =====
+  // Esto es útil si quieres un deploy limpio en _site_tmp_TIMESTAMP
   eleventyConfig.on("beforeBuild", () => {
     const tmpDir = "_site_tmp";
     if (fs.existsSync(tmpDir)) {
@@ -37,13 +36,18 @@ module.exports = function(eleventyConfig) {
   });
 
   return {
+    // --- Directorios ---
     dir: {
-      input: "build",
-      includes: "_includes",
-      output: "_site_tmp"
+      input: ".",                  // raíz del proyecto
+      includes: "build/_includes", // includes
+      output: "_site_tmp"           // build temporal para deploy
     },
+
+    // --- Motor de templates ---
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
+
+    // --- Templates permitidos ---
     templateFormats: ["html", "njk", "md"],
     pathPrefix: "/"
   };
