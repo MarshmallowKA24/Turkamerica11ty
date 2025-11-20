@@ -6,13 +6,13 @@ module.exports = function(eleventyConfig) {
 
   // --- Passthrough de assets estáticos ---
   // CSS y JS
-  eleventyConfig.addPassthroughCopy("build/css");
-  eleventyConfig.addPassthroughCopy("build/js");
-  eleventyConfig.addPassthroughCopy("build/data");
-
-  // PDFs y service worker
-  eleventyConfig.addPassthroughCopy("build/*.pdf");
-  eleventyConfig.addPassthroughCopy("build/sw.js");
+  eleventyConfig.addPassthroughCopy({ "build/css": "css" });
+  eleventyConfig.addPassthroughCopy({ "build/js": "js" });
+  eleventyConfig.addPassthroughCopy({ "build/data": "data" });
+  
+  // Para los archivos sueltos
+  eleventyConfig.addPassthroughCopy({ "build/*.pdf": "." });
+  eleventyConfig.addPassthroughCopy({ "build/sw.js": "sw.js" });
 
   // ===== FIX UTF-8 para Nunjucks =====
   eleventyConfig.setNunjucksEnvironmentOptions({
