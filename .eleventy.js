@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig) {
   return {
     // --- Directorios ---
     dir: {
-      input: "build",                
+      input: ".",                  // raíz del proyecto
       includes: "build/_includes", // includes
       output: "_site_tmp"           // build temporal para deploy
     },
