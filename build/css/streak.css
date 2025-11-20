@@ -39,10 +39,6 @@
     color: #666;
 }
 
-body.dark-mode .streak-message {
-    color: #ccc;
-}
-
 @keyframes streakPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }

@@ -1,30 +1,3 @@
-/* flashcard-info.css */
-
-.content {
-    padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: rgba(255,255,255,0.9);
-    text-decoration: none;
-    margin-bottom: 30px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-}
-
-.back-btn:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateX(-3px);
-}
-
 /* Hero Section */
 .hero-section {
     text-align: center;
@@ -44,17 +17,9 @@
     margin-bottom: 15px;
 }
 
-.dark-mode .hero-section h2 {
-    color: #f1f5f9;
-}
-
 .hero-section p {
     font-size: 1.2rem;
     color: #64748b;
-}
-
-.dark-mode .hero-section p {
-    color: #94a3b8;
 }
 
 /* Features Grid */
@@ -74,10 +39,6 @@
     transition: all 0.3s ease;
 }
 
-.dark-mode .feature-card {
-    background: #1e293b;
-}
-
 .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -95,17 +56,9 @@
     margin-bottom: 10px;
 }
 
-.dark-mode .feature-card h3 {
-    color: #f1f5f9;
-}
-
 .feature-card p {
     color: #64748b;
     line-height: 1.6;
-}
-
-.dark-mode .feature-card p {
-    color: #94a3b8;
 }
 
 /* Download Section */
@@ -118,10 +71,6 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .download-section {
-    background: #1e293b;
-}
-
 .download-section h2 {
     display: flex;
     align-items: center;
@@ -132,18 +81,10 @@
     margin-bottom: 15px;
 }
 
-.dark-mode .download-section h2 {
-    color: #f1f5f9;
-}
-
 .download-desc {
     font-size: 1.1rem;
     color: #64748b;
     margin-bottom: 30px;
-}
-
-.dark-mode .download-desc {
-    color: #94a3b8;
 }
 
 .download-buttons {
@@ -231,27 +172,14 @@
     border: 2px dashed #d1d5db;
 }
 
-.dark-mode .qr-placeholder {
-    background: #334155;
-    border-color: #475569;
-}
-
 .qr-placeholder i {
     font-size: 3rem;
     color: #9ca3af;
 }
 
-.dark-mode .qr-placeholder i {
-    color: #64748b;
-}
-
 .qr-placeholder p {
     color: #6b7280;
     font-size: 0.9rem;
-}
-
-.dark-mode .qr-placeholder p {
-    color: #94a3b8;
 }
 
 /* Screenshots */
@@ -267,10 +195,6 @@
     font-size: 1.8rem;
     color: #1e293b;
     margin-bottom: 30px;
-}
-
-.dark-mode .screenshots-section h2 {
-    color: #f1f5f9;
 }
 
 .screenshots-grid {
@@ -291,27 +215,14 @@
     border: 3px solid #e5e7eb;
 }
 
-.dark-mode .screenshot-placeholder {
-    background: #334155;
-    border-color: #475569;
-}
-
 .screenshot-placeholder i {
     font-size: 3rem;
     color: #9ca3af;
 }
 
-.dark-mode .screenshot-placeholder i {
-    color: #64748b;
-}
-
 .screenshot-placeholder p {
     color: #6b7280;
     font-weight: 500;
-}
-
-.dark-mode .screenshot-placeholder p {
-    color: #94a3b8;
 }
 
 /* Requirements & FAQ */
@@ -325,12 +236,6 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .requirements-section,
-.dark-mode .faq-section,
-.dark-mode .support-section {
-    background: #1e293b;
-}
-
 .requirements-section h2,
 .faq-section h2,
 .support-section h2 {
@@ -341,12 +246,6 @@
     font-size: 1.8rem;
     color: #1e293b;
     margin-bottom: 30px;
-}
-
-.dark-mode .requirements-section h2,
-.dark-mode .faq-section h2,
-.dark-mode .support-section h2 {
-    color: #f1f5f9;
 }
 
 .requirements-grid {
@@ -364,10 +263,6 @@
     border-radius: 12px;
 }
 
-.dark-mode .requirement-item {
-    background: #334155;
-}
-
 .requirement-item i {
     font-size: 2rem;
     color: #667eea;
@@ -377,10 +272,6 @@
     font-size: 1rem;
     color: #1e293b;
     margin-bottom: 4px;
-}
-
-.dark-mode .requirement-item h4 {
-    color: #f1f5f9;
 }
 
 .requirement-item p {

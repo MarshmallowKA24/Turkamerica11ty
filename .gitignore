@@ -9,7 +9,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 node_modules/
-_site/
+_site_tmp/
 
 .env
 .env.local

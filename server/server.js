@@ -122,14 +122,12 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
-// ⬇️ MODIFICADO para servir la carpeta _site de Eleventy
-const FRONTEND_PATH = path.join(__dirname, '..', '_site'); 
+// ✅ MODIFICADO para servir la carpeta _site_tmp de Eleventy
+const FRONTEND_PATH = path.join(__dirname, '..', '_site_tmp'); 
 app.use(express.static(FRONTEND_PATH, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
   etag: true
 }));
-// ⬆️ FIN MODIFICACIÓN
-
 // ================================
 // DATABASE CONNECTION
 // ================================

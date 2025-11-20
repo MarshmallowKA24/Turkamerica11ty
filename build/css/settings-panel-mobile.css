@@ -81,17 +81,9 @@
         border-radius: 12px !important;
     }
     
-    .dark-mode .setting-icon {
-        background: #334155 !important;
-    }
-    
     .setting-icon i {
         font-size: 1.3rem !important;
         color: #667eea !important;
-    }
-    
-    .dark-mode .setting-icon i {
-        color: #818cf8 !important;
     }
     
     /* Content */
