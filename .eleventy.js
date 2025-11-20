@@ -8,7 +8,6 @@ module.exports = function(eleventyConfig) {
   // CSS y JS
   eleventyConfig.addPassthroughCopy("build/css");
   eleventyConfig.addPassthroughCopy("build/js");
-  eleventyConfig.addPassthroughCopy("build/auth");
   eleventyConfig.addPassthroughCopy("build/data");
 
   // PDFs y service worker
