@@ -1,70 +1,53 @@
-// Utilidades globales
+// ========================================
+// GENERAL.JS - FIXED VERSION
+// Global utilities with proper initialization order
+// ========================================
+
 // Global namespace to avoid conflicts
 window.AppUtils = window.AppUtils || {};
+
 // ========================================
-// DARK MODE SYSTEM
+// DARK MODE SYSTEM (No necesita cambios funcionales)
 // ========================================
 window.AppUtils.DarkMode = {
     init() {
-        // Apply saved theme immediately (before DOM is fully ready)
         const savedTheme = localStorage.getItem('darkMode');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Apply initial theme to body immediately
         if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
             document.body.classList.add('dark-mode');
         } else {
             document.body.classList.remove('dark-mode');
         }
         
-        // Wait for DOM to be ready before setting up toggle
+        // Sincroniza la configuración de toggle una vez que el DOM esté listo
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                this.setupToggle();
-            });
+            document.addEventListener('DOMContentLoaded', () => this.setupToggle());
         } else {
             this.setupToggle();
         }
         
-        // Listen for system preference changes
+        // Listeners for system preference and storage remain
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem('darkMode')) {
-                if (e.matches) {
-                    this.enable();
-                } else {
-                    this.disable();
-                }
+                e.matches ? this.enable() : this.disable();
             }
         });
         
-        // Sync across tabs
         window.addEventListener('storage', (e) => {
             if (e.key === 'darkMode') {
-                if (e.newValue === 'enabled') {
-                    this.enable();
-                } else {
-                    this.disable();
-                }
+                e.newValue === 'enabled' ? this.enable() : this.disable();
             }
         });
     },
 
     setupToggle() {
-        // Find ALL dark mode toggles (in settings panel and potentially elsewhere)
         const toggles = document.querySelectorAll('#darkModeToggle, #darkModePref');
-        
         toggles.forEach(toggle => {
             if (toggle) {
-                // Set initial state
                 toggle.checked = document.body.classList.contains('dark-mode');
-                
-                // Add listener
                 toggle.addEventListener('change', () => {
-                    if (toggle.checked) {
-                        this.enable();
-                    } else {
-                        this.disable();
-                    }
+                    toggle.checked ? this.enable() : this.disable();
                 });
             }
         });
@@ -92,7 +75,7 @@ window.AppUtils.DarkMode = {
 };
 
 // ========================================
-// SETTINGS PANEL
+// SETTINGS PANEL (No necesita cambios)
 // ========================================
 window.AppUtils.Settings = {
     init() {
@@ -106,9 +89,9 @@ window.AppUtils.Settings = {
                 document.body.classList.add('no-scroll');
             });
 
-            closeBtn.addEventListener('click', () => {
-                this.close(overlay);
-            });
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => this.close(overlay));
+            }
 
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
@@ -134,12 +117,12 @@ window.AppUtils.Settings = {
 // BUTTON RIPPLE/CLICK EFFECTS
 // ========================================
 window.AppUtils.ButtonEffects = {
+    // === ESTA FUNCIÓN ESTÁ CAUSANDO EL PROBLEMA DE CRECIMIENTO ===
     init() {
-        // Apply ripple effect on click
+        // Mantenemos el código de la función, pero su inicialización
+        // ha sido COMENTADA en AppUtils.init() para deshabilitar el efecto.
         document.addEventListener('click', (e) => {
-            // Find the closest clickable element
             const clickable = e.target.closest('.btn, .tab, .level-card, .resource-link, .explanation-btn, .close-modal');
-            
             if (clickable) {
                 this.addClickEffect(clickable, e);
             }
@@ -147,12 +130,10 @@ window.AppUtils.ButtonEffects = {
     },
     
     addClickEffect(element, event) {
-        // 1. Create the ripple element
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
         element.appendChild(ripple);
 
-        // 2. Position the ripple
         const rect = element.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         const x = event.clientX - rect.left - (size / 2);
@@ -162,19 +143,17 @@ window.AppUtils.ButtonEffects = {
         ripple.style.left = `${x}px`;
         ripple.style.top = `${y}px`;
 
-        // 3. Trigger animation
         ripple.classList.add('active');
 
-        // 4. Remove ripple after animation
+        // Se usa 400ms para que coincida con la duración del CSS, lo cual es correcto si se usa el efecto
         setTimeout(() => {
             ripple.remove();
-        }, 400); // Must match CSS animation duration
+        }, 400); 
     }
 };
 
-
 // ========================================
-// TAB ACTIVE STATE
+// TAB ACTIVE STATE (No necesita cambios)
 // ========================================
 window.AppUtils.Tabs = {
     init() {
@@ -184,16 +163,15 @@ window.AppUtils.Tabs = {
         tabs.forEach(tab => {
             const tabPath = tab.getAttribute('href');
             
-            // Remove 'active' from all tabs first
             tab.classList.remove('active');
             
-            // Handle index.html vs /
+            // Lógica para / vs index.html
             if (currentPath === '/' || currentPath.endsWith('index.html')) {
                 if (tabPath === 'index.html' || tabPath === '/') {
                     tab.classList.add('active');
                 }
             } 
-            // Handle other pages
+            // Lógica para otras páginas
             else if (tabPath && currentPath.includes(tabPath)) {
                 tab.classList.add('active');
             }
@@ -202,7 +180,7 @@ window.AppUtils.Tabs = {
 };
 
 // ========================================
-// ACCESSIBILITY & PREFERENCES
+// ACCESSIBILITY & PREFERENCES (No necesita cambios)
 // ========================================
 window.AppUtils.Accessibility = {
     init() {
@@ -211,13 +189,11 @@ window.AppUtils.Accessibility = {
     },
     
     applySavedPreferences() {
-        // Font Size
         const savedFontSize = localStorage.getItem('fontSize');
         if (savedFontSize) {
             this.updateFontSize(savedFontSize);
         }
         
-        // Reduced Motion
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
             document.body.classList.add('reduced-motion');
@@ -242,10 +218,9 @@ window.AppUtils.Accessibility = {
 };
 
 // ========================================
-// GENERIC UTILITIES
+// GENERIC UTILITIES (No necesita cambios)
 // ========================================
 window.AppUtils.Utils = {
-    // Throttle function
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -258,49 +233,56 @@ window.AppUtils.Utils = {
             }
         };
     },
-
-    // generar id unico
     generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     },
-
-    // Escape al HTML
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 };
+
 // ========================================
-// Inicialización
+// CRITICAL FIX: INITIALIZATION WITH PROPER TIMING
 // ========================================
 window.AppUtils.init = function() {
-    // Initialize dark mode FIRST (before DOM ready to avoid flash)
+    console.log('🔧 Initializing AppUtils...');
+    
+    // 1. Initialize dark mode FIRST (antes de DOM ready para evitar flash)
     this.DarkMode.init();
     
-    // Initialize other systems when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.Settings.init();
-            this.ButtonEffects.init();
-            this.Tabs.init();
-            this.Accessibility.init();
-            console.log('🚀 Global utilities initialized (post-DOM load)');
-        });
-    } else {
-        // DOM is already ready, run them now
+    // 2. Initialize other systems when DOM is ready
+    const initOtherSystems = () => {
+        // Se elimina el setTimeout(150) innecesario
         this.Settings.init();
-        this.ButtonEffects.init();
+        // === COMENTADO: CAUSA DEL PROBLEMA DE CRECIMIENTO ===
+        // this.ButtonEffects.init(); 
+        // ====================================================
         this.Tabs.init();
         this.Accessibility.init();
-        console.log('🚀 Global utilities initialized (DOM already loaded)');
+        console.log('✅ Global utilities initialized successfully');
+    };
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initOtherSystems);
+    } else {
+        // DOM is already ready
+        initOtherSystems();
     }
-    // updateLogoutLinkVisibility(); // Esta función no está definida aquí, mover a auth.js o index.js
 };
 
-// ⬇️ CORRECCIÓN APLICADA ⬇️
-// No llame a init() inmediatamente. Espere a que el DOM esté listo.
-document.addEventListener('DOMContentLoaded', () => {
-    window.AppUtils.init();
-});
-// ⬆️ FIN DE LA CORRECCIÓN ⬆️
+// ========================================
+// AUTO-INITIALIZE CON LÓGICA SIMPLIFICADA
+// ========================================
+(function() {
+    // Usamos DOMContentLoaded para una inicialización temprana y consistente
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', window.AppUtils.init);
+    } else {
+        // DOM ya está listo (interactive o complete)
+        window.AppUtils.init();
+    }
+})();
+
+console.log('📦 general.js loaded - waiting for CSS...');

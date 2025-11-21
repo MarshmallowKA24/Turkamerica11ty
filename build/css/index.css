@@ -1,3 +1,8 @@
+/* ========================================
+   INDEX.CSS - FIXED VERSION
+   Removed conflicting transitions
+   ======================================== */
+
 /* Levels Grid */
 .levels-grid {
     display: grid;
@@ -13,7 +18,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    /* REMOVED: transition: all 0.3s ease; */
 }
 
 .level-card:hover {
@@ -66,7 +71,7 @@ body.dark-mode .level-header h3 {
     color: #f1f5f9;
 }
 
-/* Ajuste adicional para botones en modo oscuro */
+/* Dark mode button styles */
 body.dark-mode .level-actions .btn {
     background: rgba(71, 85, 105, 0.3);
     border: 1px solid rgba(100, 116, 139, 0.3);
@@ -78,15 +83,16 @@ body.dark-mode .level-actions .btn:hover {
     border-color: #94a3b8;
 }
 
-/* Smooth transition for registration notice */
+/* Notice - SAFE transitions only on specific properties */
 .notice {
-    transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, padding 0.3s ease-in-out;
     overflow: hidden;
     display: flex;
     align-items: center;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
+    /* SAFE: Only transition opacity, height, padding - NO width/font-size */
+    transition: opacity 0.3s ease, height 0.3s ease, padding 0.3s ease !important;
 }
 
 .notice.hidden {
@@ -96,15 +102,15 @@ body.dark-mode .level-actions .btn:hover {
     margin: 0;
 }
 
-/* Style for welcome message */
+/* Auth buttons */
 .auth-buttons span {
     color: var(--primary-color, #007bff);
     font-weight: 500;
 }
 
-/* Ensure smooth transitions for auth button changes */
 .auth-buttons {
-    transition: all 0.3s ease-in-out;
+    /* SAFE: Only transition opacity */
+    transition: opacity 0.3s ease !important;
 }
 
 /* Info Banner */
@@ -176,7 +182,8 @@ body.dark-mode .info-banner {
 .footer-links a {
     color: inherit;
     text-decoration: none;
-    transition: color 0.3s ease;
+    /* SAFE: Only transition color */
+    transition: color 0.3s ease !important;
 }
 
 .footer-links a:hover {
@@ -202,3 +209,4 @@ body.dark-mode .footer-links a:hover {
         width: 100%;
     }
 }
+
