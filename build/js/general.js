@@ -7,13 +7,15 @@
 window.AppUtils = window.AppUtils || {};
 
 // ========================================
-// DARK MODE SYSTEM (No necesita cambios funcionales)
+// DARK MODE SYSTEM
 // ========================================
 window.AppUtils.DarkMode = {
     init() {
+        // Apply saved theme immediately (before DOM is fully ready)
         const savedTheme = localStorage.getItem('darkMode');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
+        // Apply initial theme to body immediately
         if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
             document.body.classList.add('dark-mode');
         } else {
@@ -75,7 +77,7 @@ window.AppUtils.DarkMode = {
 };
 
 // ========================================
-// SETTINGS PANEL (No necesita cambios)
+// SETTINGS PANEL
 // ========================================
 window.AppUtils.Settings = {
     init() {
@@ -114,15 +116,14 @@ window.AppUtils.Settings = {
 };
 
 // ========================================
-// BUTTON RIPPLE/CLICK EFFECTS
+// BUTTON RIPPLE/CLICK EFFECTS (CORREGIDO PARA NO CRECER)
 // ========================================
 window.AppUtils.ButtonEffects = {
-    // === ESTA FUNCIÓN ESTÁ CAUSANDO EL PROBLEMA DE CRECIMIENTO ===
     init() {
-        // Mantenemos el código de la función, pero su inicialización
-        // ha sido COMENTADA en AppUtils.init() para deshabilitar el efecto.
         document.addEventListener('click', (e) => {
+            // Find the closest clickable element
             const clickable = e.target.closest('.btn, .tab, .level-card, .resource-link, .explanation-btn, .close-modal');
+            
             if (clickable) {
                 this.addClickEffect(clickable, e);
             }
@@ -130,10 +131,28 @@ window.AppUtils.ButtonEffects = {
     },
     
     addClickEffect(element, event) {
+        // --- FIX CRÍTICO: Asegura que el contenedor esté listo para el ripple ---
+        // Aplicar estilos inline (position: relative y overflow: hidden) para anular
+        // cualquier CSS que pudiera causar el crecimiento al inyectar el span.
+        if (element.style.position !== 'relative') {
+             element.style.position = 'relative';
+        }
+        if (element.style.overflow !== 'hidden') {
+             element.style.overflow = 'hidden';
+        }
+        // --- FIN FIX CRÍTICO ---
+
+        // 1. Create the ripple element
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
+        
+        // 2. Aplicar estilos inline al ripple para que no ocupe espacio
+        ripple.style.position = 'absolute';
+        ripple.style.pointerEvents = 'none'; // Permite que el clic atraviese el ripple
+
         element.appendChild(ripple);
 
+        // 3. Position the ripple
         const rect = element.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         const x = event.clientX - rect.left - (size / 2);
@@ -143,17 +162,18 @@ window.AppUtils.ButtonEffects = {
         ripple.style.left = `${x}px`;
         ripple.style.top = `${y}px`;
 
+        // 4. Trigger animation
         ripple.classList.add('active');
 
-        // Se usa 400ms para que coincida con la duración del CSS, lo cual es correcto si se usa el efecto
+        // 5. Remove ripple after animation
         setTimeout(() => {
             ripple.remove();
-        }, 400); 
+        }, 400); // Must match CSS animation duration
     }
 };
 
 // ========================================
-// TAB ACTIVE STATE (No necesita cambios)
+// TAB ACTIVE STATE
 // ========================================
 window.AppUtils.Tabs = {
     init() {
@@ -163,15 +183,16 @@ window.AppUtils.Tabs = {
         tabs.forEach(tab => {
             const tabPath = tab.getAttribute('href');
             
+            // Remove 'active' from all tabs first
             tab.classList.remove('active');
             
-            // Lógica para / vs index.html
+            // Handle index.html vs /
             if (currentPath === '/' || currentPath.endsWith('index.html')) {
                 if (tabPath === 'index.html' || tabPath === '/') {
                     tab.classList.add('active');
                 }
             } 
-            // Lógica para otras páginas
+            // Handle other pages
             else if (tabPath && currentPath.includes(tabPath)) {
                 tab.classList.add('active');
             }
@@ -180,7 +201,7 @@ window.AppUtils.Tabs = {
 };
 
 // ========================================
-// ACCESSIBILITY & PREFERENCES (No necesita cambios)
+// ACCESSIBILITY & PREFERENCES
 // ========================================
 window.AppUtils.Accessibility = {
     init() {
@@ -189,11 +210,13 @@ window.AppUtils.Accessibility = {
     },
     
     applySavedPreferences() {
+        // Font Size
         const savedFontSize = localStorage.getItem('fontSize');
         if (savedFontSize) {
             this.updateFontSize(savedFontSize);
         }
         
+        // Reduced Motion
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
             document.body.classList.add('reduced-motion');
@@ -218,9 +241,10 @@ window.AppUtils.Accessibility = {
 };
 
 // ========================================
-// GENERIC UTILITIES (No necesita cambios)
+// GENERIC UTILITIES
 // ========================================
 window.AppUtils.Utils = {
+    // Throttle function
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -233,9 +257,13 @@ window.AppUtils.Utils = {
             }
         };
     },
+
+    // Generate unique ID
     generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     },
+
+    // Escape HTML
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -244,21 +272,18 @@ window.AppUtils.Utils = {
 };
 
 // ========================================
-// CRITICAL FIX: INITIALIZATION WITH PROPER TIMING
+// CRITICAL FIX: INITIALIZATION WITH OPTIMIZED TIMING
 // ========================================
 window.AppUtils.init = function() {
     console.log('🔧 Initializing AppUtils...');
     
-    // 1. Initialize dark mode FIRST (antes de DOM ready para evitar flash)
+    // 1. Initialize dark mode FIRST (before DOM ready)
     this.DarkMode.init();
     
     // 2. Initialize other systems when DOM is ready
     const initOtherSystems = () => {
-        // Se elimina el setTimeout(150) innecesario
         this.Settings.init();
-        // === COMENTADO: CAUSA DEL PROBLEMA DE CRECIMIENTO ===
-        // this.ButtonEffects.init(); 
-        // ====================================================
+        this.ButtonEffects.init();
         this.Tabs.init();
         this.Accessibility.init();
         console.log('✅ Global utilities initialized successfully');
@@ -276,7 +301,7 @@ window.AppUtils.init = function() {
 // AUTO-INITIALIZE CON LÓGICA SIMPLIFICADA
 // ========================================
 (function() {
-    // Usamos DOMContentLoaded para una inicialización temprana y consistente
+    // Usamos DOMContentLoaded para una inicialización temprana y consistente.
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', window.AppUtils.init);
     } else {
