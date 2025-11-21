@@ -1811,3 +1811,57 @@ input:checked + .slider:before {
         }
     }
 }
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease !important;
+    /* Removed: all properties, width, height, padding, margin */
+}
+
+/* Allow only safe transitions on cards */
+.level-card,
+.feature-card,
+.grammar-card,
+.deck-card,
+.action-card,
+.setting-item,
+.donation-card,
+.developer-card {
+    transition: transform 0.3s ease, 
+                box-shadow 0.3s ease, 
+                opacity 0.3s ease,
+                background-color 0.3s ease,
+                border-color 0.3s ease !important;
+    /* NOT transitioning: width, height, padding, margin, flex, min-width, max-width */
+}
+
+/* Buttons can animate safely */
+.btn,
+.tab,
+.btn-primary,
+.btn-secondary,
+.btn-generate,
+.btn-outline,
+.contact-btn,
+.download-btn,
+.donate-btn {
+    transition: transform 0.3s ease, 
+                background 0.3s ease, 
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease !important;
+}
+
+/* Prevent carousel items from transitioning size during scroll */
+@media (max-width: 768px) {
+    .carousel-container .level-card,
+    .carousel-container .feature-card,
+    .carousel-container .tech-item,
+    .levels-carousel-container .level-card {
+        transition: transform 0.3s ease, 
+                    box-shadow 0.3s ease, 
+                    opacity 0.3s ease !important;
+        /* No width/height transitions during carousel scroll */
+    }
+}

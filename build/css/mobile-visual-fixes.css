@@ -49,17 +49,6 @@ body {
    ======================================== */
 @media (max-width: 768px) {
     
-    /* === PREVENT CARD GROWING/SHRINKING === */
-    .level-card,
-    .feature-card,
-    .grammar-card,
-    .deck-card,
-    .action-card,
-    .setting-item {
-        transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease !important;
-        /* Remove width/height transitions */
-    }
-    
     /* === CAROUSEL CONTAINERS === */
     .carousel-container,
     .levels-carousel-container {
