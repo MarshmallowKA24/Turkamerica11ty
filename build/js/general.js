@@ -76,49 +76,10 @@ window.AppUtils.DarkMode = {
     }
 };
 
-// ========================================
-// SETTINGS PANEL
-// ========================================
-window.AppUtils.Settings = {
-    init() {
-        const settingsTab = document.getElementById('settingsTab');
-        const overlay = document.getElementById('settingsOverlay');
-        const closeBtn = document.getElementById('closeSettings');
 
-        // Esta lógica DEBE funcionar ahora que no hay conflicto de eventos
-        if (settingsTab && overlay) {
-            settingsTab.addEventListener('click', () => {
-                e.stopImmediatePropagation();
-                overlay.classList.add('active');
-                document.body.classList.add('no-scroll');
-            });
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => this.close(overlay));
-            }
-
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    this.close(overlay);
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && overlay.classList.contains('active')) {
-                    this.close(overlay);
-                }
-            });
-        }
-    },
-    
-    close(overlay) {
-        overlay.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-    }
-};
 
 // ========================================
-// BUTTON RIPPLE/CLICK EFFECTS (FIX DEFINITIVO: LISTENERS DIRECTOS)
+// BUTTON RIPPLE/CLICK EFFECTS
 // ========================================
 window.AppUtils.ButtonEffects = {
     init() {
@@ -175,6 +136,46 @@ window.AppUtils.ButtonEffects = {
         setTimeout(() => {
             ripple.remove();
         }, 400); // Must match CSS animation duration
+    }
+};
+// ========================================
+// SETTINGS PANEL
+// ========================================
+window.AppUtils.Settings = {
+    init() {
+        const settingsTab = document.getElementById('settingsTab');
+        const overlay = document.getElementById('settingsOverlay');
+        const closeBtn = document.getElementById('closeSettings');
+
+        // Esta lógica DEBE funcionar ahora que no hay conflicto de eventos
+        if (settingsTab && overlay) {
+            settingsTab.addEventListener('click', () => {
+                e.stopImmediatePropagation();
+                overlay.classList.add('active');
+                document.body.classList.add('no-scroll');
+            });
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => this.close(overlay));
+            }
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    this.close(overlay);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    this.close(overlay);
+                }
+            });
+        }
+    },
+    
+    close(overlay) {
+        overlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
     }
 };
 
