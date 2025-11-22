@@ -13,14 +13,17 @@ scripts:
     </a>
 
     <div class="profile-card">
+        <!-- Profile Header with Avatar -->
         <div class="profile-header">
             <div class="avatar-section">
-                <div class="avatar-container">
+                <div class="avatar-container" title="Click para cambiar foto">
                     <i class="fas fa-user-circle"></i>
                     <button class="change-avatar-btn" title="Cambiar foto">
                         <i class="fas fa-camera"></i>
                     </button>
                 </div>
+                <!-- Hidden file input -->
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
             <div class="profile-info">
                 <h2 id="userName">Cargando...</h2>
@@ -29,6 +32,7 @@ scripts:
             </div>
         </div>
 
+        <!-- Streak Section -->
         <div class="streak-section">
             <h3>
                 <i class="fas fa-fire"></i>
@@ -66,6 +70,7 @@ scripts:
             <div class="streak-message" id="streakMessage"></div>
         </div>
 
+        <!-- Personal Information Form -->
         <div class="profile-form-section">
             <h3>
                 <i class="fas fa-user-edit"></i>
@@ -78,14 +83,14 @@ scripts:
                             <i class="fas fa-user"></i>
                             Nombre
                         </label>
-                        <input type="text" id="firstName" placeholder="Tu nombre">
+                        <input type="text" id="firstName" placeholder="Tu nombre" maxlength="50">
                     </div>
                     <div class="form-group">
                         <label for="lastName">
                             <i class="fas fa-user"></i>
                             Apellido
                         </label>
-                        <input type="text" id="lastName" placeholder="Tu apellido">
+                        <input type="text" id="lastName" placeholder="Tu apellido" maxlength="50">
                     </div>
                 </div>
 
@@ -119,6 +124,7 @@ scripts:
             </form>
         </div>
 
+        <!-- Preferences Section -->
         <div class="preferences-section">
             <h3>
                 <i class="fas fa-sliders-h"></i>
@@ -148,7 +154,7 @@ scripts:
                         </div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="notificationsPref">
+                        <input type="checkbox" id="notificationsPref" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -162,7 +168,7 @@ scripts:
                         </div>
                     </div>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="soundPref">
+                        <input type="checkbox" id="soundPref" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -192,7 +198,7 @@ scripts:
                     </div>
                     <select id="fontSizePref" class="pref-select">
                         <option value="small">Pequeño</option>
-                        <option value="medium">Medio</option>
+                        <option value="medium" selected>Medio</option>
                         <option value="large">Grande</option>
                     </select>
                 </div>
@@ -215,6 +221,7 @@ scripts:
             </button>
         </div>
 
+        <!-- Account Actions -->
         <div class="account-actions">
             <h3>
                 <i class="fas fa-shield-alt"></i>
