@@ -88,6 +88,7 @@ window.AppUtils.Settings = {
         // Esta lógica DEBE funcionar ahora que no hay conflicto de eventos
         if (settingsTab && overlay) {
             settingsTab.addEventListener('click', () => {
+                e.stopImmediatePropagation();
                 overlay.classList.add('active');
                 document.body.classList.add('no-scroll');
             });
