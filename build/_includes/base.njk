@@ -17,17 +17,17 @@
     <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/darkmode.css">
-    <link rel="stylesheet" href="/css/settings-panel-mobile.css">
-    <link rel="stylesheet" href="/css/fix.css">
+    <link rel="stylesheet" href="/css/styles.css?v={{ timestamp }}">
+    <link rel="stylesheet" href="/css/darkmode.css?v={{ timestamp }}">
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v={{ timestamp }}">
+    <link rel="stylesheet" href="/css/fix.css?v={{ timestamp }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     {% if styles %}
     {% for style in styles %}
-    <link rel="stylesheet" href="/css/{{ style }}">
+    <link rel="stylesheet" href="/css/{{ style }}?v={{ timestamp }}">
     {% endfor %}
     {% endif %}
 </head>
@@ -39,7 +39,7 @@
                 <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
                 <a href="/Consejos/" class="tab">Consejos</a>
                 <a href="/Gramatica/" class="tab">Gramática</a>
-                <button class="tab settings-tab" id="settingsTab"><i class="fas fa-cog"></i>Ajustes</button>
+                <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
             </div>
             <div id="authButton" class="auth-buttons">
                 <a href="/login/">Iniciar Sesión</a>
@@ -52,7 +52,7 @@
             <div class="settings-panel">
                 <div class="settings-header">
                     <h2>Configuración</h2>
-                    <button class="close-btn" id="closeSettings"><i class="fas fa-times"></i></button>
+                    <button class="close-btn" id="closeSettings" type="button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="settings-content">
                     <div class="setting-item">
@@ -128,28 +128,39 @@
             </div>
         </footer>
     </div>
+    
+    <!-- CRITICAL: Load in this exact order -->
+    <!-- 1. Cache Manager FIRST (detects updates) -->
+    <script src="/js/cache-manager.js?v={{ timestamp }}"></script>
+    
+    <!-- 2. General utilities (settings, dark mode, etc) -->
+    <script src="/js/general.js?v={{ timestamp }}"></script>
+    
+    <!-- 3. Core systems -->
+    <script src="/js/config.js?v={{ timestamp }}"></script>
+    <script src="/js/cache.js?v={{ timestamp }}"></script>
+    <script src="/js/loader.js?v={{ timestamp }}"></script>
+    <script src="/js/toast.js?v={{ timestamp }}"></script>
+    <script src="/js/analytics.js?v={{ timestamp }}"></script>
+    <script src="/js/search.js?v={{ timestamp }}"></script>
+    
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/auth.js?v={{ timestamp }}"></script>
+    <script src="/js/index.js?v={{ timestamp }}"></script>
+    <script src="/js/app.js?v={{ timestamp }}"></script>
+    
+    <!-- Page-specific scripts -->
+    {% if scripts %}
+    {% for script in scripts %}
+    <script src="/js/{{ script }}?v={{ timestamp }}"></script>
+    {% endfor %}
+    {% endif %}
+    
     <!-- Load indicator -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('loaded');
         });
     </script>
-    
-    <script src="/js/config.js"></script>
-    <script src="/js/cache.js"></script>
-    <script src="/js/loader.js"></script>
-    <script src="/js/toast.js"></script>
-    <script src="/js/analytics.js"></script>
-    <script src="/js/search.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/index.js"></script>
-    <script src="/js/app.js"></script> 
-    <script src="/js/general.js"></script>
-    
-    {% if scripts %}
-    {% for script in scripts %}
-    <script src="/js/{{ script }}"></script>
-    {% endfor %}
-    {% endif %}
 </body>
 </html>

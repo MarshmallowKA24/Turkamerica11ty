@@ -1865,3 +1865,63 @@ input:checked + .slider:before {
         /* No width/height transitions during carousel scroll */
     }
 }
+/* Al final del archivo, busca la sección de .level-card o agrégalo después */
+
+/* Flashcard Special Card Styling */
+.level-card.special {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border: none;
+    box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.level-card.special::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.level-card.special .level-header h3 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.level-card.special .level-subtitle {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.level-card.special:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+}
+
+/* Dark mode version */
+body.dark-mode .level-card.special {
+    background: linear-gradient(135deg, #c471ed 0%, #f64f59 100%);
+    box-shadow: 0 8px 25px rgba(198, 113, 237, 0.4);
+}
+
+body.dark-mode .level-card.special:hover {
+    box-shadow: 0 15px 40px rgba(198, 113, 237, 0.6);
+}

@@ -1,5 +1,5 @@
 // ========================================
-// GENERAL.JS - FIXED VERSION (SETTINGS PANEL WORKING)
+// GENERAL.JS - FINAL VERSION
 // Global utilities with proper initialization order
 // ========================================
 
@@ -76,8 +76,6 @@ window.AppUtils.DarkMode = {
     }
 };
 
-
-
 // ========================================
 // BUTTON RIPPLE/CLICK EFFECTS
 // ========================================
@@ -85,10 +83,10 @@ window.AppUtils.ButtonEffects = {
     init() {
         // Selecciona todos los elementos clicables, PERO EXCLUYE el que tiene id="settingsTab"
         const clickableElements = document.querySelectorAll(
-            '.btn:not(#settingsTab), .tab:not(#settingsTab), .level-card, .resource-link, .explanation-btn, .close-modal'
+            '.btn:not(#settingsTab):not(#closeSettings), .tab:not(#settingsTab), .level-card, .resource-link, .explanation-btn, .close-modal'
         );
 
-        // Reemplazamos el listener de 'document' por listeners directos en los elementos
+        // Listeners directos en los elementos
         clickableElements.forEach(element => {
             element.addEventListener('click', (e) => {
                 this.addClickEffect(element, e);
@@ -97,14 +95,13 @@ window.AppUtils.ButtonEffects = {
     },
     
     addClickEffect(element, event) {
-        // --- FIX CRÍTICO: Asegura que el contenedor esté listo para el ripple ---
+        // Asegura que el contenedor esté listo para el ripple
         if (element.style.position !== 'relative') {
              element.style.position = 'relative';
         }
         if (element.style.overflow !== 'hidden') {
              element.style.overflow = 'hidden';
         }
-        // --- FIN FIX CRÍTICO ---
 
         // 1. Create the ripple element
         const ripple = document.createElement('span');
@@ -132,47 +129,97 @@ window.AppUtils.ButtonEffects = {
         // 5. Remove ripple after animation
         setTimeout(() => {
             ripple.remove();
-        }, 400); // Must match CSS animation duration
+        }, 400);
     }
 };
 
 // ========================================
-// SETTINGS PANEL - FIXED
+// SETTINGS PANEL - FINAL FIX
 // ========================================
 window.AppUtils.Settings = {
+    initialized: false,
+    
     init() {
-        const settingsTab = document.getElementById('settingsTab');
-        const overlay = document.getElementById('settingsOverlay');
-        const closeBtn = document.getElementById('closeSettings');
+        // Prevent double initialization
+        if (this.initialized) {
+            console.log('[Settings] Already initialized, skipping');
+            return;
+        }
 
-        if (settingsTab && overlay) {
-            // FIXED: Removed the undefined 'e' variable and stopImmediatePropagation
-            settingsTab.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default button behavior
-                e.stopPropagation(); // Stop event from bubbling
-                overlay.classList.add('active');
-                document.body.classList.add('no-scroll');
+        console.log('[Settings] Initializing...');
+        
+        // Use a small delay to ensure DOM is ready
+        setTimeout(() => {
+            const settingsTab = document.getElementById('settingsTab');
+            const overlay = document.getElementById('settingsOverlay');
+            const closeBtn = document.getElementById('closeSettings');
+
+            console.log('[Settings] Elements found:', {
+                settingsTab: !!settingsTab,
+                overlay: !!overlay,
+                closeBtn: !!closeBtn
             });
 
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => this.close(overlay));
+            if (!settingsTab || !overlay) {
+                console.warn('[Settings] Required elements not found');
+                return;
             }
 
+            // Remove any existing listeners
+            const newSettingsTab = settingsTab.cloneNode(true);
+            settingsTab.parentNode.replaceChild(newSettingsTab, settingsTab);
+
+            // Add click handler
+            newSettingsTab.addEventListener('click', (e) => {
+                console.log('[Settings] Button clicked');
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                this.open(overlay);
+            }, { capture: true });
+
+            // Close button
+            if (closeBtn) {
+                const newCloseBtn = closeBtn.cloneNode(true);
+                closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+                
+                newCloseBtn.addEventListener('click', (e) => {
+                    console.log('[Settings] Close button clicked');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.close(overlay);
+                });
+            }
+
+            // Overlay click
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
+                    console.log('[Settings] Overlay clicked');
                     this.close(overlay);
                 }
             });
 
+            // Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    console.log('[Settings] Escape pressed');
                     this.close(overlay);
                 }
             });
-        }
+
+            this.initialized = true;
+            console.log('[Settings] ✅ Initialized successfully');
+        }, 100);
+    },
+    
+    open(overlay) {
+        console.log('[Settings] Opening panel');
+        overlay.classList.add('active');
+        document.body.classList.add('no-scroll');
     },
     
     close(overlay) {
+        console.log('[Settings] Closing panel');
         overlay.classList.remove('active');
         document.body.classList.remove('no-scroll');
     }
@@ -183,7 +230,7 @@ window.AppUtils.Settings = {
 // ========================================
 window.AppUtils.Tabs = {
     init() {
-        const tabs = document.querySelectorAll('.tab');
+        const tabs = document.querySelectorAll('.tab:not(#settingsTab)');
         const currentPath = window.location.pathname;
 
         tabs.forEach(tab => {
@@ -193,8 +240,8 @@ window.AppUtils.Tabs = {
             tab.classList.remove('active');
             
             // Handle index.html vs /
-            if (currentPath === '/' || currentPath.endsWith('index.html')) {
-                if (tabPath === 'index.html' || tabPath === '/') {
+            if (currentPath === '/' || currentPath.endsWith('index.html') || currentPath.endsWith('/build/')) {
+                if (tabPath === 'index.html' || tabPath === '/' || tabPath === '/build/') {
                     tab.classList.add('active');
                 }
             } 
@@ -250,7 +297,6 @@ window.AppUtils.Accessibility = {
 // GENERIC UTILITIES
 // ========================================
 window.AppUtils.Utils = {
-    // Throttle function
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -264,12 +310,10 @@ window.AppUtils.Utils = {
         };
     },
 
-    // Generate unique ID
     generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     },
 
-    // Escape HTML
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -278,7 +322,7 @@ window.AppUtils.Utils = {
 };
 
 // ========================================
-// INITIALIZATION WITH OPTIMIZED TIMING
+// INITIALIZATION
 // ========================================
 window.AppUtils.init = function() {
     console.log('🔧 Initializing AppUtils...');
@@ -288,17 +332,22 @@ window.AppUtils.init = function() {
     
     // 2. Initialize other systems when DOM is ready
     const initOtherSystems = () => {
-        this.Settings.init();
-        this.ButtonEffects.init();
+        console.log('📋 DOM Ready, initializing systems...');
         this.Tabs.init();
         this.Accessibility.init();
+        this.ButtonEffects.init();
+        
+        // Settings LAST with extra delay
+        setTimeout(() => {
+            this.Settings.init();
+        }, 200);
+        
         console.log('✅ Global utilities initialized successfully');
     };
     
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initOtherSystems);
     } else {
-        // DOM is already ready
         initOtherSystems();
     }
 };
@@ -308,10 +357,12 @@ window.AppUtils.init = function() {
 // ========================================
 (function() {
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => window.AppUtils.init());
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => window.AppUtils.init(), 50);
+        });
     } else {
-        window.AppUtils.init();
+        setTimeout(() => window.AppUtils.init(), 50);
     }
 })();
 
-console.log('📦 general.js loaded - waiting for CSS...');
+console.log('📦 general.js loaded');

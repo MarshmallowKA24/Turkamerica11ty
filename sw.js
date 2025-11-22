@@ -1,16 +1,25 @@
 // ================================
 // SERVICE WORKER - TurkAmerica PWA
+// Smart caching with quick updates
 // ================================
 
-const CACHE_VERSION = 'turkamerica-v1.0.0';
+const CACHE_VERSION = 'v1.0.6'; // ⚡ INCREMENTA ESTO CADA VEZ QUE DESPLIEGUES
 const CACHE_NAMES = {
-    static: `${CACHE_VERSION}-static`,
-    dynamic: `${CACHE_VERSION}-dynamic`,
-    images: `${CACHE_VERSION}-images`
+    static: `turkamerica-${CACHE_VERSION}-static`,
+    dynamic: `turkamerica-${CACHE_VERSION}-dynamic`,
+    images: `turkamerica-${CACHE_VERSION}-images`
+};
+
+// Cache duration times (in milliseconds)
+const CACHE_DURATION = {
+    HTML: 1 * 60 * 60 * 1000,        // 1 hour
+    STATIC: 24 * 60 * 60 * 1000,     // 24 hours
+    IMAGES: 7 * 24 * 60 * 60 * 1000  // 7 days
 };
 
 const STATIC_CACHE_URLS = [
     '/build/',                       
+    '/build/index.html',
     '/build/Gramatica.html',
     '/build/Perfil.html',
     '/build/css/styles.css',
@@ -21,9 +30,11 @@ const STATIC_CACHE_URLS = [
     '/build/manifest.json'          
 ];
 
-// Install event - cache static assets
+// ================================
+// INSTALL - Cache static assets
+// ================================
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing service worker...');
+    console.log('[SW] Installing service worker version:', CACHE_VERSION);
     
     event.waitUntil(
         caches.open(CACHE_NAMES.static)
@@ -32,7 +43,7 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(STATIC_CACHE_URLS);
             })
             .then(() => {
-                console.log('[SW] Static assets cached');
+                console.log('[SW] Static assets cached, skipping waiting');
                 return self.skipWaiting();
             })
             .catch((error) => {
@@ -41,9 +52,11 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Activate event - cleanup old caches
+// ================================
+// ACTIVATE - Cleanup old caches
+// ================================
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating service worker...');
+    console.log('[SW] Activating service worker version:', CACHE_VERSION);
     
     event.waitUntil(
         caches.keys()
@@ -51,7 +64,7 @@ self.addEventListener('activate', (event) => {
                 return Promise.all(
                     cacheNames
                         .filter((cacheName) => {
-                            // Delete old caches
+                            // Delete ALL old turkamerica caches
                             return cacheName.startsWith('turkamerica-') &&
                                    !Object.values(CACHE_NAMES).includes(cacheName);
                         })
@@ -62,13 +75,15 @@ self.addEventListener('activate', (event) => {
                 );
             })
             .then(() => {
-                console.log('[SW] Service worker activated');
+                console.log('[SW] Old caches cleaned, claiming clients');
                 return self.clients.claim();
             })
     );
 });
 
-// Fetch event - serve from cache with network fallback
+// ================================
+// FETCH - Smart caching strategies
+// ================================
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
@@ -78,13 +93,17 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // ⚡ CRITICAL FIX: Skip non-http protocols (chrome-extension, etc)
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        console.log('[SW] Skipping non-http protocol:', url.protocol);
+        return;
+    }
+
     // Skip API requests (always fetch fresh)
     if (url.pathname.startsWith('/api/')) {
         event.respondWith(
             fetch(request)
-                .then((response) => {
-                    return response;
-                })
+                .then((response) => response)
                 .catch((error) => {
                     console.error('[SW] API request failed:', error);
                     return new Response(
@@ -102,63 +121,98 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Handle different types of resources
+    // Route requests based on type
     if (request.destination === 'image') {
-        event.respondWith(cacheFirst(request, CACHE_NAMES.images));
+        event.respondWith(cacheFirstWithExpiry(request, CACHE_NAMES.images, CACHE_DURATION.IMAGES));
     } else if (
         request.destination === 'script' ||
         request.destination === 'style' ||
         request.destination === 'font'
     ) {
-        event.respondWith(cacheFirst(request, CACHE_NAMES.static));
+        event.respondWith(staleWhileRevalidate(request, CACHE_NAMES.static));
+    } else if (request.destination === 'document') {
+        event.respondWith(networkFirstWithExpiry(request, CACHE_NAMES.dynamic, CACHE_DURATION.HTML));
     } else {
-        event.respondWith(networkFirst(request, CACHE_NAMES.dynamic));
+        event.respondWith(networkFirstWithExpiry(request, CACHE_NAMES.dynamic, CACHE_DURATION.STATIC));
     }
 });
 
-// Cache-first strategy (for static assets)
-async function cacheFirst(request, cacheName) {
-    try {
-        const url = new URL(request.url);
-        
-        // 1. Initial Protocol Check (Prevent match/fetch for unsupported schemes)
-        // **!!! MODIFICACIÓN CLAVE PARA CORREGIR EL ERROR 'chrome-extension' !!!**
-        if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-            console.log('[SW] Skipping cache logic for non-http(s) protocol:', url.protocol);
-            return fetch(request);
+// ================================
+// CACHING STRATEGIES
+// ================================
+
+// Stale-while-revalidate: Return cache immediately, update in background
+async function staleWhileRevalidate(request, cacheName) {
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(request);
+
+    // Fetch new version in background
+    const fetchPromise = fetch(request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+            // Add timestamp for expiration tracking
+            const responseToCache = networkResponse.clone();
+            const headers = new Headers(responseToCache.headers);
+            headers.append('sw-cached-time', Date.now().toString());
+            
+            const modifiedResponse = new Response(responseToCache.body, {
+                status: responseToCache.status,
+                statusText: responseToCache.statusText,
+                headers: headers
+            });
+            
+            cache.put(request, modifiedResponse);
         }
-        
+        return networkResponse;
+    }).catch(() => cachedResponse);
+
+    // Return cached version immediately if available
+    return cachedResponse || fetchPromise;
+}
+
+// Cache-first with expiry checking
+async function cacheFirstWithExpiry(request, cacheName, maxAge) {
+    try {
         const cache = await caches.open(cacheName);
         const cachedResponse = await cache.match(request);
 
         if (cachedResponse) {
-            // Update cache in background
-            fetch(request)
-                .then((response) => {
-                    // **!!! SEGUNDA MODIFICACIÓN CLAVE - CHEQUEO ANTES DE PUT !!!**
-                    // El objeto request puede ser de un esquema no soportado.
-                    const backgroundUrl = new URL(request.url);
-                    if (backgroundUrl.protocol !== 'http:' && backgroundUrl.protocol !== 'https:') {
-                        return; // Salir de la actualización en segundo plano si el protocolo no es compatible
+            // Check if cache is expired
+            const cachedTime = cachedResponse.headers.get('sw-cached-time');
+            if (cachedTime && (Date.now() - parseInt(cachedTime)) < maxAge) {
+                // Cache is still valid, update in background
+                fetch(request).then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const headers = new Headers(networkResponse.headers);
+                        headers.append('sw-cached-time', Date.now().toString());
+                        
+                        const modifiedResponse = new Response(networkResponse.body, {
+                            status: networkResponse.status,
+                            statusText: networkResponse.statusText,
+                            headers: headers
+                        });
+                        
+                        cache.put(request, modifiedResponse);
                     }
-                    
-                    if (response && response.status === 200) {
-                        cache.put(request, response.clone());
-                    }
-                })
-                .catch(() => {
-                    // Silently fail background update
-                });
+                }).catch(() => {});
 
-            return cachedResponse;
+                return cachedResponse;
+            }
         }
 
-        // Not in cache, fetch from network
+        // Not in cache or expired, fetch from network
         const networkResponse = await fetch(request);
         
         if (networkResponse && networkResponse.status === 200) {
-            // No need to check protocol here, as the first check already handled it
-            cache.put(request, networkResponse.clone());
+            const headers = new Headers(networkResponse.headers);
+            headers.append('sw-cached-time', Date.now().toString());
+            
+            const modifiedResponse = new Response(networkResponse.body, {
+                status: networkResponse.status,
+                statusText: networkResponse.statusText,
+                headers: headers
+            });
+            
+            cache.put(request, modifiedResponse);
         }
 
         return networkResponse;
@@ -171,14 +225,23 @@ async function cacheFirst(request, cacheName) {
     }
 }
 
-// Network-first strategy (for HTML pages)
-async function networkFirst(request, cacheName) {
+// Network-first with expiry (for HTML)
+async function networkFirstWithExpiry(request, cacheName, maxAge) {
     try {
         const networkResponse = await fetch(request);
 
         if (networkResponse && networkResponse.status === 200) {
             const cache = await caches.open(cacheName);
-            cache.put(request, networkResponse.clone());
+            const headers = new Headers(networkResponse.headers);
+            headers.append('sw-cached-time', Date.now().toString());
+            
+            const modifiedResponse = new Response(networkResponse.body, {
+                status: networkResponse.status,
+                statusText: networkResponse.statusText,
+                headers: headers
+            });
+            
+            cache.put(request, modifiedResponse);
         }
 
         return networkResponse;
@@ -189,6 +252,11 @@ async function networkFirst(request, cacheName) {
         const cachedResponse = await cache.match(request);
 
         if (cachedResponse) {
+            // Check expiry
+            const cachedTime = cachedResponse.headers.get('sw-cached-time');
+            if (!cachedTime || (Date.now() - parseInt(cachedTime)) > maxAge * 2) {
+                console.log('[SW] Cached version is old');
+            }
             return cachedResponse;
         }
 
@@ -228,14 +296,7 @@ async function networkFirst(request, cacheName) {
                         font-size: 5rem;
                         margin-bottom: 30px;
                     }
-                </style>
-            </head>
-            <body>
-                <div class="offline-container">
-                    <div class="icon">📡</div>
-                    <h1>Sin Conexión</h1>
-                    <p>No hay conexión a internet. Por favor, verifica tu conexión e intenta nuevamente.</p>
-                    <button onclick="window.location.reload()" style="
+                    button {
                         margin-top: 30px;
                         padding: 12px 30px;
                         background: white;
@@ -245,9 +306,15 @@ async function networkFirst(request, cacheName) {
                         font-size: 1rem;
                         font-weight: 600;
                         cursor: pointer;
-                    ">
-                        Reintentar
-                    </button>
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="offline-container">
+                    <div class="icon">📡</div>
+                    <h1>Sin Conexión</h1>
+                    <p>No hay conexión a internet. Por favor, verifica tu conexión e intenta nuevamente.</p>
+                    <button onclick="window.location.reload()">Reintentar</button>
                 </div>
             </body>
             </html>
@@ -261,6 +328,27 @@ async function networkFirst(request, cacheName) {
     }
 }
 
+// ================================
+// MESSAGE HANDLING
+// ================================
+self.addEventListener('message', (event) => {
+    if (event.data === 'skipWaiting') {
+        console.log('[SW] Skip waiting message received');
+        self.skipWaiting();
+    }
+    
+    if (event.data === 'clearCache') {
+        console.log('[SW] Clear cache message received');
+        event.waitUntil(
+            caches.keys().then((cacheNames) => {
+                return Promise.all(
+                    cacheNames.map((cacheName) => caches.delete(cacheName))
+                );
+            })
+        );
+    }
+});
+
 // Background sync for failed requests
 self.addEventListener('sync', (event) => {
     console.log('[SW] Background sync:', event.tag);
@@ -271,7 +359,6 @@ self.addEventListener('sync', (event) => {
 });
 
 async function syncData() {
-    // Implement background sync logic here
     console.log('[SW] Syncing data...');
 }
 
@@ -316,13 +403,11 @@ self.addEventListener('notificationclick', (event) => {
         event.waitUntil(
             clients.matchAll({ type: 'window', includeUncontrolled: true })
                 .then((windowClients) => {
-                    // Check if there's already a window open
                     for (let client of windowClients) {
                         if (client.url === urlToOpen && 'focus' in client) {
                             return client.focus();
                         }
                     }
-                    // Open new window
                     if (clients.openWindow) {
                         return clients.openWindow(urlToOpen);
                     }
@@ -331,4 +416,4 @@ self.addEventListener('notificationclick', (event) => {
     }
 });
 
-console.log('[SW] Service Worker loaded');
+console.log('[SW] Service Worker loaded - Version:', CACHE_VERSION);
