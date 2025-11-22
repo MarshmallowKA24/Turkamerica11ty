@@ -1,5 +1,5 @@
 // ========================================
-// GENERAL.JS - FIXED VERSION (AJUSTES CORREGIDOS)
+// GENERAL.JS - FIXED VERSION (FUNCIONALIDAD DE AJUSTES ESTABLE)
 // Global utilities with proper initialization order
 // ========================================
 
@@ -85,6 +85,7 @@ window.AppUtils.Settings = {
         const overlay = document.getElementById('settingsOverlay');
         const closeBtn = document.getElementById('closeSettings');
 
+        // Esta lógica DEBE funcionar ahora que no hay conflicto de eventos
         if (settingsTab && overlay) {
             settingsTab.addEventListener('click', () => {
                 overlay.classList.add('active');
@@ -116,28 +117,28 @@ window.AppUtils.Settings = {
 };
 
 // ========================================
-// BUTTON RIPPLE/CLICK EFFECTS (EXCLUYE AJUSTES)
+// BUTTON RIPPLE/CLICK EFFECTS (FIX DEFINITIVO: LISTENERS DIRECTOS)
 // ========================================
 window.AppUtils.ButtonEffects = {
     init() {
-        document.addEventListener('click', (e) => {
-            // Find the closest clickable element
-            const clickable = e.target.closest('.btn, .tab, .level-card, .resource-link, .explanation-btn, .close-modal');
-            
-            if (clickable) {
-                // === FIX: IGNORAR EL BOTÓN DE AJUSTES (#settingsTab) ===
-                if (clickable.id === 'settingsTab') {
-                    return; 
-                }
-                // =======================================================
-                
-                this.addClickEffect(clickable, e);
-            }
-        }, { passive: true });
+        // Selecciona todos los elementos clicables, PERO EXCLUYE el que tiene id="settingsTab"
+        const clickableElements = document.querySelectorAll(
+            '.btn:not(#settingsTab), .tab:not(#settingsTab), .level-card, .resource-link, .explanation-btn, .close-modal'
+        );
+
+        // Reemplazamos el listener de 'document' por listeners directos en los elementos
+        clickableElements.forEach(element => {
+            element.addEventListener('click', (e) => {
+                // Previene que el evento burbujee al document y active otros listeners si es necesario
+                // e.stopPropagation(); 
+                this.addClickEffect(element, e);
+            }, { passive: true });
+        });
     },
     
     addClickEffect(element, event) {
         // --- FIX CRÍTICO: Asegura que el contenedor esté listo para el ripple ---
+        // Se mantiene el fix inline para la estabilidad visual.
         if (element.style.position !== 'relative') {
              element.style.position = 'relative';
         }
@@ -152,7 +153,7 @@ window.AppUtils.ButtonEffects = {
         
         // 2. Aplicar estilos inline al ripple para que no ocupe espacio
         ripple.style.position = 'absolute';
-        ripple.style.pointerEvents = 'none'; // Permite que el clic atraviese el ripple
+        ripple.style.pointerEvents = 'none';
 
         element.appendChild(ripple);
 
