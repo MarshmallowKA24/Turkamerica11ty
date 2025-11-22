@@ -1,5 +1,5 @@
 // ========================================
-// GENERAL.JS - FIXED VERSION (FUNCIONALIDAD DE AJUSTES ESTABLE)
+// GENERAL.JS - FIXED VERSION (SETTINGS PANEL WORKING)
 // Global utilities with proper initialization order
 // ========================================
 
@@ -91,8 +91,6 @@ window.AppUtils.ButtonEffects = {
         // Reemplazamos el listener de 'document' por listeners directos en los elementos
         clickableElements.forEach(element => {
             element.addEventListener('click', (e) => {
-                // Previene que el evento burbujee al document y active otros listeners si es necesario
-                // e.stopPropagation(); 
                 this.addClickEffect(element, e);
             }, { passive: true });
         });
@@ -100,7 +98,6 @@ window.AppUtils.ButtonEffects = {
     
     addClickEffect(element, event) {
         // --- FIX CRÍTICO: Asegura que el contenedor esté listo para el ripple ---
-        // Se mantiene el fix inline para la estabilidad visual.
         if (element.style.position !== 'relative') {
              element.style.position = 'relative';
         }
@@ -138,8 +135,9 @@ window.AppUtils.ButtonEffects = {
         }, 400); // Must match CSS animation duration
     }
 };
+
 // ========================================
-// SETTINGS PANEL
+// SETTINGS PANEL - FIXED
 // ========================================
 window.AppUtils.Settings = {
     init() {
@@ -147,10 +145,11 @@ window.AppUtils.Settings = {
         const overlay = document.getElementById('settingsOverlay');
         const closeBtn = document.getElementById('closeSettings');
 
-        // Esta lógica DEBE funcionar ahora que no hay conflicto de eventos
         if (settingsTab && overlay) {
-            settingsTab.addEventListener('click', () => {
-                e.stopImmediatePropagation();
+            // FIXED: Removed the undefined 'e' variable and stopImmediatePropagation
+            settingsTab.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default button behavior
+                e.stopPropagation(); // Stop event from bubbling
                 overlay.classList.add('active');
                 document.body.classList.add('no-scroll');
             });
@@ -279,7 +278,7 @@ window.AppUtils.Utils = {
 };
 
 // ========================================
-// CRITICAL FIX: INITIALIZATION WITH OPTIMIZED TIMING
+// INITIALIZATION WITH OPTIMIZED TIMING
 // ========================================
 window.AppUtils.init = function() {
     console.log('🔧 Initializing AppUtils...');
@@ -305,14 +304,12 @@ window.AppUtils.init = function() {
 };
 
 // ========================================
-// AUTO-INITIALIZE CON LÓGICA SIMPLIFICADA
+// AUTO-INITIALIZE
 // ========================================
 (function() {
-    // Usamos DOMContentLoaded para una inicialización temprana y consistente.
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', window.AppUtils.init);
+        document.addEventListener('DOMContentLoaded', () => window.AppUtils.init());
     } else {
-        // DOM ya está listo (interactive o complete)
         window.AppUtils.init();
     }
 })();
