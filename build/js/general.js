@@ -1,5 +1,5 @@
 // ========================================
-// GENERAL.JS - FIXED VERSION
+// GENERAL.JS - FIXED VERSION (AJUSTES CORREGIDOS)
 // Global utilities with proper initialization order
 // ========================================
 
@@ -116,7 +116,7 @@ window.AppUtils.Settings = {
 };
 
 // ========================================
-// BUTTON RIPPLE/CLICK EFFECTS (CORREGIDO PARA NO CRECER)
+// BUTTON RIPPLE/CLICK EFFECTS (EXCLUYE AJUSTES)
 // ========================================
 window.AppUtils.ButtonEffects = {
     init() {
@@ -125,6 +125,12 @@ window.AppUtils.ButtonEffects = {
             const clickable = e.target.closest('.btn, .tab, .level-card, .resource-link, .explanation-btn, .close-modal');
             
             if (clickable) {
+                // === FIX: IGNORAR EL BOTÓN DE AJUSTES (#settingsTab) ===
+                if (clickable.id === 'settingsTab') {
+                    return; 
+                }
+                // =======================================================
+                
                 this.addClickEffect(clickable, e);
             }
         }, { passive: true });
@@ -132,8 +138,6 @@ window.AppUtils.ButtonEffects = {
     
     addClickEffect(element, event) {
         // --- FIX CRÍTICO: Asegura que el contenedor esté listo para el ripple ---
-        // Aplicar estilos inline (position: relative y overflow: hidden) para anular
-        // cualquier CSS que pudiera causar el crecimiento al inyectar el span.
         if (element.style.position !== 'relative') {
              element.style.position = 'relative';
         }
