@@ -469,7 +469,7 @@
     text-align: center;
 }
 
-body.dark-mode .pref-info i {
+html.dark-mode .pref-info i {
     color: #BB86FC;
 }
 

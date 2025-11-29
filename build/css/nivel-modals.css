@@ -1,4 +1,3 @@
-
 /* ========================================
    TOPICS PANEL STYLES
    ======================================== */
@@ -175,25 +174,25 @@
     .panel-header {
         padding: 12px 15px;
     }
-    
+
     .panel-header h3 {
         font-size: 1rem;
     }
-    
+
     .panel-content {
         padding: 15px;
         max-height: 400px;
     }
-    
+
     .topics-list {
         max-height: 300px;
     }
-    
+
     .topic-item {
         padding: 10px 12px;
         font-size: 0.9rem;
     }
-    
+
     .search-box input {
         font-size: 0.85rem;
         padding: 8px 10px 8px 35px;
@@ -204,11 +203,11 @@
     .panel-header h3 {
         font-size: 0.95rem;
     }
-    
+
     .topic-item {
         padding: 9px 10px;
     }
-    
+
     .topic-item span {
         font-size: 0.85rem;
     }
@@ -236,7 +235,7 @@
 
 /* === RESPONSIVE PARA MÓVIL === */
 @media (max-width: 768px) {
-    
+
     /* Modal adaptado a móvil */
     .modal-content {
         width: calc(100vw - 20px) !important;
@@ -245,14 +244,14 @@
         max-height: 92vh !important;
         border-radius: 12px !important;
     }
-    
+
     /* Header del modal */
     .modal-header {
         padding: 15px !important;
         border-radius: 12px 12px 0 0 !important;
         flex-wrap: wrap !important;
     }
-    
+
     .modal-header h2,
     #modalTitle {
         font-size: 1.2rem !important;
@@ -261,7 +260,7 @@
         flex: 1 1 calc(100% - 50px) !important;
         word-wrap: break-word !important;
     }
-    
+
     .close-modal,
     #closeModalBtn {
         width: 36px !important;
@@ -269,7 +268,7 @@
         font-size: 1.2rem !important;
         flex-shrink: 0 !important;
     }
-    
+
     /* Body del modal */
     .modal-body,
     #modalContent {
@@ -278,9 +277,9 @@
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
     }
-    
+
     /* === CONTENIDO DEL MODAL === */
-    
+
     /* Títulos dentro del modal */
     .modal-body h4,
     #modalContent h4 {
@@ -289,7 +288,7 @@
         line-height: 1.3 !important;
         color: #1e293b !important;
     }
-    
+
     .modal-body h5,
     #modalContent h5 {
         font-size: 1rem !important;
@@ -297,7 +296,7 @@
         line-height: 1.3 !important;
         color: #334155 !important;
     }
-    
+
     /* Párrafos */
     .modal-body p,
     #modalContent p {
@@ -305,7 +304,7 @@
         line-height: 1.6 !important;
         margin: 8px 0 !important;
     }
-    
+
     /* Listas */
     .modal-body ul,
     .modal-body ol,
@@ -314,14 +313,14 @@
         padding-left: 20px !important;
         margin: 10px 0 !important;
     }
-    
+
     .modal-body li,
     #modalContent li {
         font-size: 0.9rem !important;
         line-height: 1.6 !important;
         margin: 6px 0 !important;
     }
-    
+
     /* === TABLAS RESPONSIVE === */
     .comparison-table {
         width: 100% !important;
@@ -332,12 +331,12 @@
         margin: 15px 0 !important;
         border-radius: 8px !important;
     }
-    
+
     .comparison-table table {
         min-width: 100% !important;
         border-collapse: collapse !important;
     }
-    
+
     .comparison-table th,
     .comparison-table td {
         padding: 8px 6px !important;
@@ -346,7 +345,7 @@
         word-wrap: break-word !important;
         vertical-align: top !important;
     }
-    
+
     .comparison-table th {
         background: #f1f5f9 !important;
         font-weight: 600 !important;
@@ -355,11 +354,11 @@
         top: 0 !important;
         z-index: 10 !important;
     }
-    
+
     .comparison-table td {
         background: white !important;
     }
-    
+
     /* Hacer primera columna sticky en tablas grandes */
     .comparison-table th:first-child,
     .comparison-table td:first-child {
@@ -368,7 +367,7 @@
         z-index: 5 !important;
         background: #f8fafc !important;
     }
-    
+
     /* === TIP BOX Y EXAMPLE BOX === */
     .tip-box,
     .example-box {
@@ -378,36 +377,36 @@
         font-size: 0.85rem !important;
         line-height: 1.5 !important;
     }
-    
+
     .tip-box {
         background: #dbeafe !important;
         border-left: 4px solid #3b82f6 !important;
     }
-    
+
     .example-box {
         background: #f0fdf4 !important;
         border-left: 4px solid #10b981 !important;
     }
-    
+
     .tip-box strong,
     .example-box strong {
         display: block !important;
         margin-bottom: 6px !important;
         font-size: 0.9rem !important;
     }
-    
+
     .tip-box i,
     .example-box i {
         margin-right: 6px !important;
         font-size: 1rem !important;
     }
-    
+
     .tip-box ul,
     .example-box ul {
         margin-top: 8px !important;
         margin-bottom: 0 !important;
     }
-    
+
     /* === ÉNFASIS EN TEXTO === */
     .modal-body strong,
     .modal-body em,
@@ -415,53 +414,54 @@
     #modalContent em {
         color: #667eea !important;
     }
-    
+
     /* === SCROLL SUAVE === */
     .modal-body,
     #modalContent {
         scroll-behavior: smooth !important;
     }
-    
+
     /* === FIX PARA TABLAS MUY ANCHAS === */
     .comparison-table::-webkit-scrollbar {
         height: 6px !important;
     }
-    
+
     .comparison-table::-webkit-scrollbar-track {
         background: #f1f5f9 !important;
         border-radius: 3px !important;
     }
-    
+
     .comparison-table::-webkit-scrollbar-thumb {
         background: #cbd5e1 !important;
         border-radius: 3px !important;
     }
-    
+
     /* === SPACING INTERNO === */
-    .modal-body > *:first-child,
-    #modalContent > *:first-child {
+    .modal-body>*:first-child,
+    #modalContent>*:first-child {
         margin-top: 0 !important;
     }
-    
-    .modal-body > *:last-child,
-    #modalContent > *:last-child {
+
+    .modal-body>*:last-child,
+    #modalContent>*:last-child {
         margin-bottom: 0 !important;
     }
 }
 
 /* === PANTALLAS MUY PEQUEÑAS === */
 @media (max-width: 374px) {
+
     .modal-header h2,
     #modalTitle {
         font-size: 1.1rem !important;
     }
-    
+
     .comparison-table th,
     .comparison-table td {
         padding: 6px 4px !important;
         font-size: 0.7rem !important;
     }
-    
+
     .modal-body p,
     .modal-body li,
     #modalContent p,
@@ -475,7 +475,7 @@
     .modal-content {
         max-height: 95vh !important;
     }
-    
+
     .modal-body,
     #modalContent {
         max-height: calc(95vh - 90px) !important;

@@ -2,16 +2,16 @@
 :root {
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;
-    --bg-card: rgba(255,255,255,0.95);
+    --bg-card: rgba(255, 255, 255, 0.95);
     --text-primary: #333333;
     --text-secondary: #666666;
     --text-muted: #888888;
     --border-color: #e1e5e9;
-    --border-light: rgba(255,255,255,0.2);
-    --shadow: rgba(0,0,0,0.1);
-    --shadow-hover: rgba(0,0,0,0.15);
-    --backdrop-blur: rgba(255,255,255,0.1);
-    --notice-bg: rgba(255,193,7,0.9);
+    --border-light: rgba(255, 255, 255, 0.2);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+    --backdrop-blur: rgba(255, 255, 255, 0.1);
+    --notice-bg: rgba(255, 193, 7, 0.9);
     --notice-color: #856404;
     --notice-border: #ffeb3b;
     --footer-bg: #f8fafc;
@@ -33,7 +33,7 @@
     --dark-bg-end: #312e81;
 }
 
-body.dark-mode {
+html.dark-mode {
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
     --bg-card: rgba(45, 45, 45, 0.95);
@@ -41,10 +41,10 @@ body.dark-mode {
     --text-secondary: #cccccc;
     --text-muted: #999999;
     --border-color: #404040;
-    --border-light: rgba(255,255,255,0.1);
-    --shadow: rgba(0,0,0,0.3);
-    --shadow-hover: rgba(0,0,0,0.4);
-    --backdrop-blur: rgba(0,0,0,0.3);
+    --border-light: rgba(255, 255, 255, 0.1);
+    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.4);
+    --backdrop-blur: rgba(0, 0, 0, 0.3);
     --notice-bg: rgba(245, 158, 11, 0.2);
     --notice-color: #fbbf24;
     --notice-border: #f59e0b;
@@ -76,7 +76,7 @@ body {
     transition: all 0.3s ease;
 }
 
-body.dark-mode {
+html.dark-mode {
     background: linear-gradient(135deg, var(--dark-bg-start) 0%, var(--dark-bg-mid) 50%, var(--dark-bg-end) 100%);
     color: var(--text-primary);
 }
@@ -97,7 +97,7 @@ body.dark-mode {
     border-color: #4A90E2;
 }
 
-body.dark-mode .level-card.special {
+html.dark-mode .level-card.special {
     background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
     border-color: #3b82f6;
 }
@@ -111,17 +111,17 @@ body.dark-mode .level-card.special {
     transition: all 0.3s ease;
 }
 
-body.dark-mode .tab {
+html.dark-mode .tab {
     background: var(--backdrop-blur);
     border-color: var(--border-light);
 }
 
-body.dark-mode .tab:hover {
-    background: rgba(255,255,255,0.1);
+html.dark-mode .tab:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .tab.active {
-    background: rgba(255,255,255,0.2);
+html.dark-mode .tab.active {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .notice {
@@ -242,12 +242,12 @@ body.dark-mode .tab.active {
     transition: all 0.3s ease;
 }
 
-body.dark-mode .btn-outline {
+html.dark-mode .btn-outline {
     border-color: #3b82f6;
     color: #3b82f6;
 }
 
-body.dark-mode .btn-outline:hover {
+html.dark-mode .btn-outline:hover {
     background: #3b82f6;
     color: white;
 }
@@ -263,7 +263,7 @@ body.dark-mode .btn-outline:hover {
     border-color: #667eea;
 }
 
-body.dark-mode .setting-select:focus {
+html.dark-mode .setting-select:focus {
     border-color: #3b82f6;
 }
 
@@ -341,9 +341,9 @@ body.dark-mode .setting-select:focus {
     border-color: #4facfe;
 }
 
-body.dark-mode .form-group input:focus,
-body.dark-mode .form-group textarea:focus,
-body.dark-mode .form-group select:focus {
+html.dark-mode .form-group input:focus,
+html.dark-mode .form-group textarea:focus,
+html.dark-mode .form-group select:focus {
     border-color: #3b82f6;
 }
 
@@ -358,114 +358,114 @@ body.dark-mode .form-group select:focus {
     border-color: #4facfe;
 }
 
-body.dark-mode .image-upload:hover {
+html.dark-mode .image-upload:hover {
     border-color: #3b82f6;
     background: rgba(59, 130, 246, 0.1);
 }
 
-body.dark-mode::-webkit-scrollbar {
+html.dark-mode::-webkit-scrollbar {
     width: 8px;
 }
 
-body.dark-mode::-webkit-scrollbar-track {
+html.dark-mode::-webkit-scrollbar-track {
     background: var(--bg-secondary);
 }
 
-body.dark-mode::-webkit-scrollbar-thumb {
+html.dark-mode::-webkit-scrollbar-thumb {
     background: var(--border-color);
     border-radius: 4px;
 }
 
-body.dark-mode::-webkit-scrollbar-thumb:hover {
+html.dark-mode::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
 }
 
-body.dark-mode .btn:focus,
-body.dark-mode .tab:focus,
-body.dark-mode .toggle-switch input:focus + .slider {
+html.dark-mode .btn:focus,
+html.dark-mode .tab:focus,
+html.dark-mode .toggle-switch input:focus+.slider {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-body.dark-mode {
+html.dark-mode {
     color-scheme: dark;
 }
 
 * {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease, 
-                box-shadow 0.3s ease;
+    transition: background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
-body.dark-mode .level-page-header {
+html.dark-mode .level-page-header {
     color: var(--text-primary);
 }
 
-body.dark-mode .level-content {
+html.dark-mode .level-content {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
 }
 
-body.dark-mode .section-title {
+html.dark-mode .section-title {
     color: var(--text-primary);
 }
 
-body.dark-mode .back-btn {
+html.dark-mode .back-btn {
     background: var(--backdrop-blur);
     border: 1px solid var(--border-light);
     color: var(--text-primary);
 }
 
-body.dark-mode .back-btn:hover {
-    background: rgba(255,255,255,0.1);
+html.dark-mode .back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .volver-btn {
+html.dark-mode .volver-btn {
     background-color: #3b82f6;
     color: white;
 }
 
-body.dark-mode .volver-btn:hover {
+html.dark-mode .volver-btn:hover {
     background-color: #1d4ed8;
 }
 
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6 {
     color: var(--text-primary);
 }
 
-body.dark-mode p,
-body.dark-mode span,
-body.dark-mode div {
+html.dark-mode p,
+html.dark-mode span,
+html.dark-mode div {
     color: var(--text-secondary);
 }
 
-body.dark-mode .fas,
-body.dark-mode .far,
-body.dark-mode i {
+html.dark-mode .fas,
+html.dark-mode .far,
+html.dark-mode i {
     color: inherit;
 }
 
-body.dark-mode .level-card:hover {
+html.dark-mode .level-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
 }
 
-body.dark-mode .action-card:hover {
+html.dark-mode .action-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
 }
 
 @media (max-width: 768px) {
-    body.dark-mode {
+    html.dark-mode {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     }
-    
-    body.dark-mode .settings-panel {
+
+    html.dark-mode .settings-panel {
         background: var(--bg-primary);
         color: var(--text-primary);
     }
@@ -500,7 +500,7 @@ body {
     font-weight: 700;
     color: white;
     margin-bottom: 20px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .tabs {
@@ -512,27 +512,27 @@ body {
 
 .tab {
     padding: 12px 24px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     text-decoration: none;
     border-radius: 25px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .tab:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
 }
 
 .tab.active {
-    background: rgba(255,255,255,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .notice {
-    background: rgba(255,193,7,0.9);
+    background: rgba(255, 193, 7, 0.9);
     color: #856404;
     padding: 12px 20px;
     border-radius: 8px;
@@ -554,7 +554,7 @@ body {
 
 .description p {
     font-size: 1.1rem;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
 }
 
@@ -625,7 +625,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
 }
 
@@ -635,10 +635,15 @@ body {
 }
 
 @keyframes heartbeat {
-    0%, 50%, 100% {
+
+    0%,
+    50%,
+    100% {
         transform: scale(1);
     }
-    25%, 75% {
+
+    25%,
+    75% {
         transform: scale(1.1);
     }
 }
@@ -647,18 +652,18 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     margin-bottom: 20px;
     padding: 8px 16px;
     border-radius: 20px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
 
 .back-btn:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     transform: translateX(-3px);
 }
 
@@ -672,22 +677,22 @@ body {
     font-weight: 700;
     color: white;
     margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .level-description {
     font-size: 1.1rem;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 20px;
 }
 
 .level-content {
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     padding: 40px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -713,7 +718,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .grammar-cards {
@@ -723,17 +728,17 @@ body {
 }
 
 .grammar-card {
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .grammar-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .card-header {
@@ -813,7 +818,7 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     align-items: center;
     justify-content: center;
@@ -827,7 +832,7 @@ body {
     max-width: 800px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .modal-header {
@@ -859,7 +864,7 @@ body {
 }
 
 .close-modal:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .modal-body {
@@ -931,7 +936,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .comparison-table th,
@@ -1024,9 +1029,12 @@ body {
 }
 
 @keyframes heartbeat {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.1);
     }
@@ -1050,7 +1058,7 @@ body {
     margin: 0 auto;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     min-height: calc(100vh - 40px);
 }
@@ -1087,8 +1095,15 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .deck-grid {
@@ -1110,7 +1125,7 @@ body {
 
 .deck-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border-color: #4facfe;
 }
 
@@ -1511,11 +1526,11 @@ a:hover {
     border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #667eea;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(26px);
 }
 
@@ -1645,163 +1660,134 @@ input:checked + .slider:before {
         justify-content: flex-end;
     }
 }
+
 @media (min-width: 769px) {
-    .carousel-indicators, .swipe-hint, .carousel-container::before, .carousel-container::after {
+
+    .carousel-indicators,
+    .swipe-hint,
+    .carousel-container::before,
+    .carousel-container::after {
         display: none !important;
     }
+
     /* Restore Grids */
-    .levels-grid, .features-grid, .tech-grid, .screenshots-grid {
+    .levels-grid,
+    .features-grid,
+    .tech-grid,
+    .screenshots-grid {
         display: grid !important;
         overflow: visible !important;
     }
+
     /* Show all cards */
-    .level-card, .feature-card, .tech-item, .screenshot-placeholder {
+    .level-card,
+    .feature-card,
+    .tech-item,
+    .screenshot-placeholder {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
+
     /* Hide Mobile Flashcard Section */
     .flashcard-section {
         display: none !important;
     }
 }
 
-/* --- 2. MOBILE LAYOUT & CAROUSEL LOGIC (< 768px) --- */
-@media (max-width: 768px) {
-    
-    /* GLOBAL RESET FOR MOBILE */
-    html, body {
-        overflow-x: hidden !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-    }
-
-    /* --- CAROUSEL STRUCTURE (The "Engine") --- */
-    .carousel-container .levels-grid,
-    .carousel-container .features-grid,
-    .carousel-container .tech-grid,
-    .carousel-container .screenshots-grid,
-    .levels-carousel-container .levels-grid {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch !important;
-        gap: 15px !important;
-        padding: 10px 15px 20px 15px !important;
-        margin: 0 -15px !important;
-        width: calc(100% + 30px) !important;
-        
-        /* Hide Scrollbar */
-        scrollbar-width: none !important;
-        -ms-overflow-style: none !important;
-        
-        /* Fade Mask (From Critical Fixes) */
-        -webkit-mask-image: linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%) !important;
-        mask-image: linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%) !important;
-    }
-    
-    /* Hide Scrollbars (Chrome/Safari) */
-    .carousel-container .levels-grid::-webkit-scrollbar,
-    .carousel-container .features-grid::-webkit-scrollbar { display: none !important; }
-
-    /* --- CAROUSEL ITEMS (Sizing) --- */
-    .carousel-container .levels-grid > .level-card:not(.special),
-    .levels-carousel-container .levels-grid > .level-card:not(.special),
-    .carousel-container .features-grid > .feature-card {
-        flex: 0 0 85% !important;
-        min-width: 280px !important;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
-    }
-
-    .carousel-container .tech-grid > .tech-item {
-        flex: 0 0 35% !important;
-        min-width: 110px !important;
-        scroll-snap-align: center;
-    }
-
-    /* --- HIDE DESKTOP ELEMENTS ON MOBILE --- */
-    .levels-grid > .level-card.special,
-    .carousel-container::before, /* Hide the purple lines */
-    .carousel-container::after { 
-        display: none !important; 
-    }
-
-    /* --- MOBILE FLASHCARD SECTION --- */
-    .flashcard-section {
-        display: block !important;
-        margin-top: 15px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .flashcard-section .level-card {
-        width: 100% !important; 
-        display: block !important;
-    }
-
-    /* --- INDICATORS (From Critical Fixes - Tiny Dots) --- */
-    .carousel-indicators {
-        display: flex !important;
-        justify-content: center;
-        gap: 6px !important;
-        margin-top: 10px !important;
-        padding: 5px !important;
-        background: none !important;
-    }
-    
-    .carousel-indicator {
-        width: 5px !important;
-        height: 5px !important;
-        border-radius: 50% !important;
-        background: rgba(255, 255, 255, 0.35) !important;
-        border: none !important;
-        padding: 0 !important;
-    }
-    
-    .carousel-indicator.active {
-        width: 14px !important;
-        border-radius: 3px !important;
-        background: rgba(255, 255, 255, 0.85) !important;
-    }
-
-    /* --- CRITICAL SPACING FIXES --- */
-    /* Remove default margins that cause gaps */
-    .content > * { margin-bottom: 0 !important; }
-    
-    /* Uniform Spacing between sections */
-    .hero-dashboard, .mission-section, .features-dashboard, 
-    .developer-section, .roadmap-section, .support-project-section {
-        margin-bottom: 25px !important;
-        padding: 30px 20px !important; /* Uniform padding */
-    }
-
-    /* Fix Header Spacing */
-    .header {
-        padding: 15px !important;
-        margin-bottom: 0 !important;
-    }
-
-    /* Fix Description Box */
-    .description {
-        margin: 10px 0 15px 0 !important;
-    }
-
-    /* Hide Notice when Logged In (CRITICAL) */
-    body.user-logged-in .notice {
-        display: none !important;
-    }
-
-    /* --- TOUCH OPTIMIZATIONS --- */
-    button, .btn, .tab {
-        min-height: 44px !important; /* Apple Human Interface Guidelines */
-    }
-    
-    /* Smooth Scroll */
-    html { scroll-behavior: smooth; }
+/* --- CAROUSEL ITEMS (Sizing) --- */
+.carousel-container .levels-grid>.level-card:not(.special),
+.levels-carousel-container .levels-grid>.level-card:not(.special),
+.carousel-container .features-grid>.feature-card {
+    flex: 0 0 85% !important;
+    min-width: 280px !important;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
 }
+
+.carousel-container .tech-grid>.tech-item {
+    margin-top: 15px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.flashcard-section .level-card {
+    width: 100% !important;
+    display: block !important;
+}
+
+/* --- INDICATORS (From Critical Fixes - Tiny Dots) --- */
+.carousel-indicators {
+    display: flex !important;
+    justify-content: center;
+    gap: 6px !important;
+    margin-top: 10px !important;
+    padding: 5px !important;
+    background: none !important;
+}
+
+.carousel-indicator {
+    width: 5px !important;
+    height: 5px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.35) !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.carousel-indicator.active {
+    width: 14px !important;
+    border-radius: 3px !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* --- CRITICAL SPACING FIXES --- */
+/* Remove default margins that cause gaps */
+.content>* {
+    margin-bottom: 0 !important;
+}
+
+/* Uniform Spacing between sections */
+.hero-dashboard,
+.mission-section,
+.features-dashboard,
+.developer-section,
+.roadmap-section,
+.support-project-section {
+    margin-bottom: 25px !important;
+    padding: 30px 20px !important;
+    /* Uniform padding */
+}
+
+/* Fix Header Spacing */
+.header {
+    padding: 15px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Fix Description Box */
+.description {
+    margin: 10px 0 15px 0 !important;
+}
+
+/* Hide Notice when Logged In (CRITICAL) */
+body.user-logged-in .notice {
+    display: none !important;
+}
+
+/* --- TOUCH OPTIMIZATIONS --- */
+button,
+.btn,
+.tab {
+    min-height: 44px !important;
+    /* Apple Human Interface Guidelines */
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
 
 /* --- 3. FIX FOR IOS SAFARI --- */
 @supports (-webkit-touch-callout: none) {
@@ -1811,11 +1797,12 @@ input:checked + .slider:before {
         }
     }
 }
+
 * {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease, 
-                box-shadow 0.3s ease !important;
+    transition: background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease !important;
     /* Removed: all properties, width, height, padding, margin */
 }
 
@@ -1828,11 +1815,11 @@ input:checked + .slider:before {
 .setting-item,
 .donation-card,
 .developer-card {
-    transition: transform 0.3s ease, 
-                box-shadow 0.3s ease, 
-                opacity 0.3s ease,
-                background-color 0.3s ease,
-                border-color 0.3s ease !important;
+    transition: transform 0.3s ease,
+        box-shadow 0.3s ease,
+        opacity 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease !important;
     /* NOT transitioning: width, height, padding, margin, flex, min-width, max-width */
 }
 
@@ -1846,25 +1833,27 @@ input:checked + .slider:before {
 .contact-btn,
 .download-btn,
 .donate-btn {
-    transition: transform 0.3s ease, 
-                background 0.3s ease, 
-                color 0.3s ease,
-                border-color 0.3s ease,
-                box-shadow 0.3s ease !important;
+    transition: transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease !important;
 }
 
 /* Prevent carousel items from transitioning size during scroll */
 @media (max-width: 768px) {
+
     .carousel-container .level-card,
     .carousel-container .feature-card,
     .carousel-container .tech-item,
     .levels-carousel-container .level-card {
-        transition: transform 0.3s ease, 
-                    box-shadow 0.3s ease, 
-                    opacity 0.3s ease !important;
+        transition: transform 0.3s ease,
+            box-shadow 0.3s ease,
+            opacity 0.3s ease !important;
         /* No width/height transitions during carousel scroll */
     }
 }
+
 /* Al final del archivo, busca la sección de .level-card o agrégalo después */
 
 /* Flashcard Special Card Styling */
@@ -1885,13 +1874,22 @@ input:checked + .slider:before {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
     animation: pulse 4s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
 }
 
 .level-card.special .level-header h3 {
@@ -1899,7 +1897,7 @@ input:checked + .slider:before {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 8px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .level-card.special .level-subtitle {
@@ -1917,14 +1915,15 @@ input:checked + .slider:before {
 }
 
 /* Dark mode version */
-body.dark-mode .level-card.special {
+html.dark-mode .level-card.special {
     background: linear-gradient(135deg, #c471ed 0%, #f64f59 100%);
     box-shadow: 0 8px 25px rgba(198, 113, 237, 0.4);
 }
 
-body.dark-mode .level-card.special:hover {
+html.dark-mode .level-card.special:hover {
     box-shadow: 0 15px 40px rgba(198, 113, 237, 0.6);
 }
+
 /* ========================================
    COLOR PALETTE (ORIGINAL)
    ======================================== */
@@ -1932,22 +1931,22 @@ body.dark-mode .level-card.special:hover {
     /* Original Beautiful Gradient */
     --gradient-start: #667eea;
     --gradient-end: #764ba2;
-    
+
     /* Light Mode */
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;
-    --bg-card: rgba(255,255,255,0.95);
+    --bg-card: rgba(255, 255, 255, 0.95);
     --text-primary: #333333;
     --text-secondary: #666666;
     --text-muted: #888888;
     --border-color: #e1e5e9;
-    
+
     /* Original Blues/Purples */
     --accent-blue: #4A90E2;
     --accent-purple: #667eea;
     --accent-light-purple: #818cf8;
     --accent-pink: #f093fb;
-    
+
     /* Status Colors (Original) */
     --success-green: #4CAF50;
     --warning-yellow: #fbbf24;
@@ -1955,7 +1954,7 @@ body.dark-mode .level-card.special:hover {
     --info-blue: #60a5fa;
 }
 
-body.dark-mode {
+html.dark-mode {
     /* Dark Mode - Same Color Family */
     --bg-primary: #1e293b;
     --bg-secondary: #0f172a;
@@ -1964,13 +1963,13 @@ body.dark-mode {
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
     --border-color: #475569;
-    
+
     /* Keep Same Blues/Purples */
     --accent-blue: #60a5fa;
     --accent-purple: #818cf8;
     --accent-light-purple: #a78bfa;
     --accent-pink: #f093fb;
-    
+
     /* Adjusted for dark mode */
     --success-green: #4ade80;
     --warning-yellow: #fbbf24;
@@ -1983,7 +1982,7 @@ body.dark-mode {
    ======================================== */
 .level-card.special {
     background: linear-gradient(135deg, #f6f5ff 0%, #3369be 100%) !important;
-   
+
     box-shadow: 0 10px 30px rgba(70, 34, 133, 0.5) !important;
     color: white !important;
 }
@@ -1992,20 +1991,20 @@ body.dark-mode {
     color: white !important;
     font-size: 1.8rem !important;
     font-weight: 700 !important;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.4) !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
 }
 
 .level-card.special .level-subtitle {
     color: rgba(255, 255, 255, 0.95) !important;
     font-size: 1.1rem !important;
     font-weight: 500 !important;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3) !important;
 }
 
-body.dark-mode .level-card.special {
+html.dark-mode .level-card.special {
     background: linear-gradient(135deg, #47474b 0%, #0c2674 100%) !important;
-   
-   
+
+
 }
 
 /* ========================================
@@ -2048,13 +2047,13 @@ body.dark-mode .level-card.special {
     transform: scale(1.1) !important;
 }
 
-body.dark-mode .close-btn {
+html.dark-mode .close-btn {
     background: rgba(129, 140, 248, 0.2) !important;
     border-color: rgba(129, 140, 248, 0.4) !important;
     color: #818cf8 !important;
 }
 
-body.dark-mode .close-btn:hover {
+html.dark-mode .close-btn:hover {
     background: rgba(129, 140, 248, 0.35) !important;
     border-color: #818cf8 !important;
 }
@@ -2064,7 +2063,7 @@ body.dark-mode .close-btn:hover {
     .settings-header {
         padding: 20px 15px !important;
     }
-    
+
     .close-btn {
         top: 15px !important;
         right: 15px !important;
@@ -2096,50 +2095,50 @@ body.dark-mode .close-btn:hover {
     background: white;
 }
 
-body.dark-mode .search-box input {
+html.dark-mode .search-box input {
     background: #334155 !important;
     color: #f1f5f9 !important;
     border: 2px solid #475569 !important;
 }
 
-body.dark-mode .search-box input:focus {
+html.dark-mode .search-box input:focus {
     border-color: #818cf8 !important;
     background: #475569 !important;
 }
 
-body.dark-mode .search-box input::placeholder {
+html.dark-mode .search-box input::placeholder {
     color: #94a3b8 !important;
 }
 
-body.dark-mode .search-box i {
+html.dark-mode .search-box i {
     color: #94a3b8 !important;
 }
 
 /* Topics Panel */
-body.dark-mode .topics-panel {
+html.dark-mode .topics-panel {
     background: #1e293b !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
 }
 
-body.dark-mode .panel-header {
+html.dark-mode .panel-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
 
-body.dark-mode .topic-item {
+html.dark-mode .topic-item {
     background: #334155 !important;
     color: #f1f5f9 !important;
 }
 
-body.dark-mode .topic-item:hover {
+html.dark-mode .topic-item:hover {
     background: #818cf8 !important;
     color: white !important;
 }
 
-body.dark-mode .topic-item i {
+html.dark-mode .topic-item i {
     color: #818cf8 !important;
 }
 
-body.dark-mode .topic-item:hover i {
+html.dark-mode .topic-item:hover i {
     color: white !important;
 }
 
@@ -2153,7 +2152,7 @@ body.dark-mode .topic-item:hover i {
     color: #155724;
 }
 
-body.dark-mode .difficulty-badge.beginner {
+html.dark-mode .difficulty-badge.beginner {
     background: rgba(74, 222, 128, 0.2) !important;
     color: #4ade80 !important;
     border: 1px solid rgba(74, 222, 128, 0.3) !important;
@@ -2166,7 +2165,7 @@ body.dark-mode .difficulty-badge.beginner {
     color: #92400e;
 }
 
-body.dark-mode .difficulty-badge.intermediate {
+html.dark-mode .difficulty-badge.intermediate {
     background: rgba(96, 165, 250, 0.2) !important;
     color: #60a5fa !important;
     border: 1px solid rgba(96, 165, 250, 0.3) !important;
@@ -2179,7 +2178,7 @@ body.dark-mode .difficulty-badge.intermediate {
     color: #991b1b;
 }
 
-body.dark-mode .difficulty-badge.advanced {
+html.dark-mode .difficulty-badge.advanced {
     background: rgba(129, 140, 248, 0.2) !important;
     color: #818cf8 !important;
     border: 1px solid rgba(129, 140, 248, 0.3) !important;
@@ -2192,7 +2191,7 @@ body.dark-mode .difficulty-badge.advanced {
     color: #191919;
 }
 
-body.dark-mode .difficulty-badge.hardadvanced {
+html.dark-mode .difficulty-badge.hardadvanced {
     background: rgba(251, 191, 36, 0.2) !important;
     color: #fbbf24 !important;
     border: 1px solid rgba(251, 191, 36, 0.3) !important;
@@ -2208,87 +2207,87 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-body.dark-mode {
+html.dark-mode {
     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%) !important;
 }
 
 /* Container */
-body.dark-mode .container {
+html.dark-mode .container {
     background: #1e293b !important;
     border: 1px solid #334155 !important;
 }
 
 /* Cards */
-body.dark-mode .level-card,
-body.dark-mode .grammar-card,
-body.dark-mode .action-card,
-body.dark-mode .deck-card {
+html.dark-mode .level-card,
+html.dark-mode .grammar-card,
+html.dark-mode .action-card,
+html.dark-mode .deck-card {
     background: #334155 !important;
     border: 1px solid #475569 !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
 }
 
-body.dark-mode .level-card:hover,
-body.dark-mode .grammar-card:hover,
-body.dark-mode .action-card:hover,
-body.dark-mode .deck-card:hover {
+html.dark-mode .level-card:hover,
+html.dark-mode .grammar-card:hover,
+html.dark-mode .action-card:hover,
+html.dark-mode .deck-card:hover {
     border-color: #818cf8 !important;
     box-shadow: 0 8px 25px rgba(129, 140, 248, 0.3) !important;
 }
 
 /* Description box */
-body.dark-mode .description {
+html.dark-mode .description {
     background: rgba(15, 23, 42, 0.8) !important;
     backdrop-filter: blur(10px) !important;
 }
 
-body.dark-mode .description p {
+html.dark-mode .description p {
     color: #cbd5e1 !important;
 }
 
 /* Notice - Blue theme */
-body.dark-mode .notice {
+html.dark-mode .notice {
     background: rgba(96, 165, 250, 0.15) !important;
     color: #60a5fa !important;
     border: 1px solid rgba(96, 165, 250, 0.3) !important;
 }
 
-body.dark-mode .notice i {
+html.dark-mode .notice i {
     color: #60a5fa !important;
 }
 
 /* Modal */
-body.dark-mode .modal-content {
+html.dark-mode .modal-content {
     background: #1e293b !important;
     border: 1px solid #334155 !important;
 }
 
-body.dark-mode .modal-header {
+html.dark-mode .modal-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     border-bottom: 1px solid #475569 !important;
 }
 
-body.dark-mode .modal-body {
+html.dark-mode .modal-body {
     background: #1e293b !important;
 }
 
-body.dark-mode .modal-body h4,
-body.dark-mode .modal-body h5 {
+html.dark-mode .modal-body h4,
+html.dark-mode .modal-body h5 {
     color: #818cf8 !important;
 }
 
 /* Tables */
-body.dark-mode .comparison-table th {
+html.dark-mode .comparison-table th {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
 
-body.dark-mode .comparison-table td {
+html.dark-mode .comparison-table td {
     background: #334155 !important;
     color: #cbd5e1 !important;
     border-bottom: 1px solid #475569 !important;
 }
 
-body.dark-mode .comparison-table tr:hover td {
+html.dark-mode .comparison-table tr:hover td {
     background: #475569 !important;
 }
 
@@ -2297,25 +2296,25 @@ body.dark-mode .comparison-table tr:hover td {
     background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
 }
 
-body.dark-mode .btn-primary {
+html.dark-mode .btn-primary {
     background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
 }
 
-body.dark-mode .btn-primary:hover {
+html.dark-mode .btn-primary:hover {
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
 }
 
 /* Tabs */
-body.dark-mode .tab {
+html.dark-mode .tab {
     background: rgba(15, 23, 42, 0.8);
     border-color: rgba(71, 85, 105, 0.5);
 }
 
-body.dark-mode .tab:hover {
+html.dark-mode .tab:hover {
     background: rgba(129, 140, 248, 0.1);
 }
 
-body.dark-mode .tab.active {
+html.dark-mode .tab.active {
     background: rgba(129, 140, 248, 0.2);
 }
 
@@ -2324,7 +2323,7 @@ body.dark-mode .tab.active {
    ======================================== */
 
 /* Profile Header */
-body.dark-mode .profile-header {
+html.dark-mode .profile-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
 
@@ -2337,114 +2336,114 @@ body.dark-mode .profile-header {
     background: #5568d3 !important;
 }
 
-body.dark-mode .change-avatar-btn {
+html.dark-mode .change-avatar-btn {
     background: #818cf8 !important;
 }
 
-body.dark-mode .change-avatar-btn:hover {
+html.dark-mode .change-avatar-btn:hover {
     background: #a78bfa !important;
 }
 
 /* Level Badge */
-body.dark-mode .level-badge {
+html.dark-mode .level-badge {
     background: rgba(96, 165, 250, 0.2) !important;
     color: #60a5fa !important;
     border: 1px solid rgba(96, 165, 250, 0.3) !important;
 }
 
 /* Streak Section */
-body.dark-mode .streak-section {
+html.dark-mode .streak-section {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(249, 115, 22, 0.2) 100%) !important;
     border: 1px solid rgba(239, 68, 68, 0.3) !important;
 }
 
 /* Form Sections */
-body.dark-mode .profile-form-section,
-body.dark-mode .preferences-section,
-body.dark-mode .account-actions {
+html.dark-mode .profile-form-section,
+html.dark-mode .preferences-section,
+html.dark-mode .account-actions {
     background: #334155 !important;
     border: 1px solid #475569 !important;
 }
 
-body.dark-mode .profile-form-section h3 {
+html.dark-mode .profile-form-section h3 {
     color: #818cf8 !important;
 }
 
-body.dark-mode .preferences-section h3 {
+html.dark-mode .preferences-section h3 {
     color: #60a5fa !important;
 }
 
-body.dark-mode .account-actions h3 {
+html.dark-mode .account-actions h3 {
     color: #fbbf24 !important;
 }
 
 /* Inputs */
-body.dark-mode .profile-form input,
-body.dark-mode .profile-form textarea,
-body.dark-mode .profile-form select,
-body.dark-mode .pref-select,
-body.dark-mode .pref-input {
+html.dark-mode .profile-form input,
+html.dark-mode .profile-form textarea,
+html.dark-mode .profile-form select,
+html.dark-mode .pref-select,
+html.dark-mode .pref-input {
     background: #1e293b !important;
     color: #f1f5f9 !important;
     border: 2px solid #475569 !important;
 }
 
-body.dark-mode .profile-form input:focus,
-body.dark-mode .profile-form textarea:focus,
-body.dark-mode .profile-form select:focus,
-body.dark-mode .pref-select:focus,
-body.dark-mode .pref-input:focus {
+html.dark-mode .profile-form input:focus,
+html.dark-mode .profile-form textarea:focus,
+html.dark-mode .profile-form select:focus,
+html.dark-mode .pref-select:focus,
+html.dark-mode .pref-input:focus {
     border-color: #818cf8 !important;
 }
 
 /* Preference Items */
-body.dark-mode .pref-item {
+html.dark-mode .pref-item {
     background: #1e293b !important;
     border: 1px solid #475569 !important;
 }
 
-body.dark-mode .pref-info i {
+html.dark-mode .pref-info i {
     color: #818cf8 !important;
 }
 
 /* Toggle Switch - Blue */
-.toggle-switch input:checked + .slider {
+.toggle-switch input:checked+.slider {
     background-color: #667eea;
 }
 
-body.dark-mode .toggle-switch input:checked + .slider {
+html.dark-mode .toggle-switch input:checked+.slider {
     background-color: #818cf8 !important;
 }
 
-body.dark-mode .toggle-switch .slider {
+html.dark-mode .toggle-switch .slider {
     background-color: #475569 !important;
 }
 
 /* ========================================
    7. SETTINGS PANEL - FULL BLUE THEME
    ======================================== */
-body.dark-mode .settings-panel {
+html.dark-mode .settings-panel {
     background: #1e293b !important;
 }
 
-body.dark-mode .settings-header {
+html.dark-mode .settings-header {
     border-bottom-color: #475569 !important;
 }
 
-body.dark-mode .setting-item {
+html.dark-mode .setting-item {
     background: #334155 !important;
     border: 1px solid #475569 !important;
 }
 
-body.dark-mode .setting-icon {
+html.dark-mode .setting-icon {
     background: #475569 !important;
 }
 
-body.dark-mode .setting-icon i {
+html.dark-mode .setting-icon i {
     color: #818cf8 !important;
 }
 
-body.dark-mode .setting-select {
+html.dark-mode .setting-select {
     background: #1e293b !important;
     color: #f1f5f9 !important;
     border: 1px solid #475569 !important;
@@ -2454,18 +2453,18 @@ body.dark-mode .setting-select {
    8. MOBILE CONSISTENCY
    ======================================== */
 @media (max-width: 768px) {
-    body.dark-mode {
+    html.dark-mode {
         background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%) !important;
     }
-    
-    body.dark-mode .container,
-    body.dark-mode .level-card,
-    body.dark-mode .grammar-card {
+
+    html.dark-mode .container,
+    html.dark-mode .level-card,
+    html.dark-mode .grammar-card {
         background: #334155 !important;
         border: 1px solid #475569 !important;
     }
-    
-    body.dark-mode .settings-panel {
+
+    html.dark-mode .settings-panel {
         background: #1e293b !important;
         border-top: 1px solid #475569 !important;
     }
@@ -2474,27 +2473,213 @@ body.dark-mode .setting-select {
 /* ========================================
    9. EXAMPLE & TIP BOXES - BLUE THEME
    ======================================== */
-body.dark-mode .example-box {
+html.dark-mode .example-box {
     background: #334155 !important;
     border-left: 4px solid #818cf8 !important;
 }
 
-body.dark-mode .tip-box {
+html.dark-mode .tip-box {
     background: rgba(129, 140, 248, 0.1) !important;
     border: 1px solid rgba(129, 140, 248, 0.3) !important;
 }
 
-body.dark-mode .tip-box i {
+html.dark-mode .tip-box i {
     color: #818cf8 !important;
 }
 
 /* ========================================
    10. FOCUS STATES - BLUE THEME
    ======================================== */
-body.dark-mode button:focus,
-body.dark-mode input:focus,
-body.dark-mode textarea:focus,
-body.dark-mode select:focus {
+html.dark-mode button:focus,
+html.dark-mode input:focus,
+html.dark-mode textarea:focus,
+html.dark-mode select:focus {
     outline: 2px solid #818cf8 !important;
     outline-offset: 2px;
+}
+
+/* ========================================
+   11. LEVEL PAGES STYLES
+   ======================================== */
+
+.level-page-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+}
+
+.level-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.level-description {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.level-content {
+    margin-bottom: 30px;
+}
+
+.pdf-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.grammar-section {
+    margin-top: 40px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.section-title i {
+    color: #667eea;
+}
+
+.grammar-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.grammar-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.grammar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.grammar-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.difficulty-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.difficulty-badge.beginner {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.difficulty-badge.intermediate {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.difficulty-badge.advanced {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.card-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card-actions {
+    margin-top: auto;
+}
+
+.explanation-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Dark Mode Overrides for Level Pages */
+html.dark-mode .level-page-header {
+    background: linear-gradient(135deg, #312e81 0%, #4c1d95 100%);
+}
+
+html.dark-mode .section-title {
+    color: #f1f5f9;
+    border-bottom-color: #475569;
+}
+
+html.dark-mode .section-title i {
+    color: #818cf8;
+}
+
+html.dark-mode .grammar-card {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+html.dark-mode .grammar-card:hover {
+    border-color: #818cf8;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .grammar-card h3 {
+    color: #f1f5f9;
+}
+
+html.dark-mode .card-description {
+    color: #94a3b8;
+}
+
+html.dark-mode .difficulty-badge.beginner {
+    background-color: #064e3b;
+    color: #6ee7b7;
+}
+
+html.dark-mode .difficulty-badge.intermediate {
+    background-color: #1e3a8a;
+    color: #93c5fd;
+}
+
+html.dark-mode .difficulty-badge.advanced {
+    background-color: #7f1d1d;
+    color: #fca5a5;
 }

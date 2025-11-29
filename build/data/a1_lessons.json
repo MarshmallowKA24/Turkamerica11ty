@@ -58,5 +58,9 @@
   "tiempo-intervalos": {
     "title": "Intervalos de Tiempo",
     "content": "<ul><li><strong>-DAn -(y)A kadar</strong> – de… hasta… (<em>9'dan 12'ye kadar</em>).</li><li><strong>-DAn önce / sonra</strong> – antes de / después de (<em>Ders bitmeden önce</em>).</li><li><strong>-DAn beri / -dir</strong> – desde hace / lleva (<em>İki yıldır</em> – lleva dos años).</li></ul>"
+  },
+  "vocabulario": {
+    "title": "Vocabulario Básico",
+    "content": "<h4>Saludos y Despedidas</h4><ul><li><strong>Merhaba</strong> – Hola.</li><li><strong>Günaydın</strong> – Buenos días.</li><li><strong>İyi günler</strong> – Buenos días / Que tengas buen día.</li><li><strong>İyi akşamlar</strong> – Buenas tardes/noches.</li><li><strong>İyi geceler</strong> – Buenas noches (al dormir).</li><li><strong>Hoşça kal</strong> – Adiós (el que se queda).</li><li><strong>Güle güle</strong> – Adiós (el que se va).</li><li><strong>Görüşürüz</strong> – Nos vemos.</li></ul><h4>Palabras de Cortesía</h4><ul><li><strong>Teşekkür ederim</strong> – Gracias.</li><li><strong>Sağ ol</strong> – Gracias (informal).</li><li><strong>Rica ederim</strong> – De nada.</li><li><strong>Lütfen</strong> – Por favor.</li><li><strong>Özür dilerim</strong> – Lo siento / Me disculpo.</li><li><strong>Affedersiniz</strong> – Disculpe / Perdón.</li></ul>"
   }
 }

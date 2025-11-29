@@ -1,0 +1,255 @@
+---
+layout: base.njk
+styles:
+- contribute.css
+- lesson-editor.css
+scripts:
+- contribute.js
+- lesson-editor.js
+---
+
+<div class="content contribute-page">
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-hands-helping"></i>
+            Contribuir al Proyecto
+        </h1>
+        <p class="page-subtitle">Ayuda a mejorar TurkAmerica compartiendo lecciones o recursos</p>
+    </div>
+
+    <!-- Contribution Type Selection -->
+    <div class="contribution-types">
+        <button class="type-card active" data-type="lesson" id="lessonTypeBtn">
+            <i class="fas fa-book-open"></i>
+            <h3>Crear Lección</h3>
+            <p>Crea una lección completa con formato profesional</p>
+        </button>
+
+        <button class="type-card" data-type="book" id="bookTypeBtn">
+            <i class="fas fa-file-pdf"></i>
+            <h3>Compartir Libro</h3>
+            <p>Comparte libros o recursos de aprendizaje (solo enlace)</p>
+        </button>
+    </div>
+
+    <!-- Lesson Creation Form (SIMPLIFIED) -->
+    <form id="lessonEditForm" class="contribution-form active">
+        <h2><i class="fas fa-edit"></i> Crear Nueva Lección</h2>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="lessonTitle">Título de la Lección *</label>
+                <input type="text" id="lessonTitle" required placeholder="Ej: Presente Simple - Nivel A1">
+            </div>
+
+            <div class="form-group">
+                <label for="lessonLevel">Nivel *</label>
+                <select id="lessonLevel" required>
+                    <option value="">Seleccionar nivel</option>
+                    <option value="A1">A1 - Principiante</option>
+                    <option value="A2">A2 - Elemental</option>
+                    <option value="B1">B1 - Intermedio</option>
+                    <option value="B2">B2 - Intermedio Alto</option>
+                    <option value="C1">C1 - Avanzado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lessonDescription">Descripción Breve *</label>
+            <textarea id="lessonDescription" required rows="2"
+                placeholder="Breve descripción de qué trata la lección..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Contenido de la Lección *</label>
+            <p class="help-text">
+                <i class="fas fa-info-circle"></i>
+                Usa la barra de herramientas para dar formato a tu lección. Puedes añadir tablas, resaltados, tips y
+                ejemplos.
+            </p>
+            <div class="lesson-editor">
+                <div id="lessonContentEditor">
+                    <h2>Título de la Sección</h2>
+                    <p>Escribe aquí el contenido de tu lección...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-paper-plane"></i> Enviar Lección
+            </button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='/'">
+                <i class="fas fa-times"></i> Cancelar
+            </button>
+        </div>
+    </form>
+
+    <!-- Book Upload Form (UNCHANGED) -->
+    <form id="bookUploadForm" class="contribution-form">
+        <h2><i class="fas fa-upload"></i> Compartir Libro o Recurso</h2>
+
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i>
+            <p><strong>Nota:</strong> Solo compartimos enlaces a libros. No subimos archivos directamente para ahorrar
+                espacio en el servidor.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="bookTitle">Título del Libro *</label>
+            <input type="text" id="bookTitle" required placeholder="Ej: Gramática Turca Completa">
+        </div>
+
+        <div class="form-group">
+            <label for="bookAuthor">Autor *</label>
+            <input type="text" id="bookAuthor" required placeholder="Nombre del autor">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bookLevel">Nivel *</label>
+                <select id="bookLevel" required>
+                    <option value="">Seleccionar nivel</option>
+                    <option value="A1">A1 - Principiante</option>
+                    <option value="A2">A2 - Elemental</option>
+                    <option value="B1">B1 - Intermedio</option>
+                    <option value="B2">B2 - Intermedio Alto</option>
+                    <option value="C1">C1 - Avanzado</option>
+                    <option value="Todos">Todos los niveles</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bookCategory">Categoría *</label>
+                <select id="bookCategory" required>
+                    <option value="">Seleccionar categoría</option>
+                    <option value="Gramática">Gramática</option>
+                    <option value="Vocabulario">Vocabulario</option>
+                    <option value="Lectura">Lectura</option>
+                    <option value="Ejercicios">Ejercicios</option>
+                    <option value="Cultura">Cultura</option>
+                    <option value="General">General</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="bookUrl">Enlace al Libro *</label>
+            <input type="url" id="bookUrl" required placeholder="https://ejemplo.com/libro.pdf">
+            <small>Google Drive, Dropbox, o cualquier enlace público</small>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bookFormat">Formato *</label>
+                <select id="bookFormat" required>
+                    <option value="">Seleccionar formato</option>
+                    <option value="PDF">PDF</option>
+                    <option value="EPUB">EPUB</option>
+                    <option value="MOBI">MOBI</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bookSize">Tamaño Aproximado</label>
+                <input type="text" id="bookSize" placeholder="Ej: 5 MB">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="bookDescription">Descripción *</label>
+            <textarea id="bookDescription" required rows="4"
+                placeholder="Describe el contenido del libro y por qué es útil..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="bookLanguage">Idioma del Libro *</label>
+            <select id="bookLanguage" required>
+                <option value="">Seleccionar idioma</option>
+                <option value="Español">Español</option>
+                <option value="Turco">Turco</option>
+                <option value="Inglés">Inglés</option>
+                <option value="Bilingüe">Bilingüe</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-paper-plane"></i> Enviar Propuesta
+            </button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='/'">
+                <i class="fas fa-times"></i> Cancelar
+            </button>
+        </div>
+    </form>
+
+    <!-- My Contributions Section -->
+    <div class="my-contributions">
+        <h2><i class="fas fa-list"></i> Mis Contribuciones</h2>
+        <div id="myContributionsList" class="contributions-list">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<style>
+    .help-text {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    body.compact-mode {
+        padding-top: 20px;
+        background-color: #f8f9fa;
+    }
+
+    body.compact-mode .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    body.compact-mode .form-card {
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
+    }
+
+    body.compact-mode .page-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+
+    /* Compact header for edit mode */
+    .compact-header {
+        display: none;
+        padding: 10px 20px;
+        background: white;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    body.compact-mode .compact-header {
+        display: flex;
+    }
+
+    .compact-back-btn {
+        text-decoration: none;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9rem;
+    }
+
+    .compact-back-btn:hover {
+        color: #333;
+    }
+</style>

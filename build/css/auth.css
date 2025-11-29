@@ -140,39 +140,39 @@ body.auth-page {
 }
 
 /* Dark mode support for auth pages */
-body.dark-mode .auth-card {
+html.dark-mode .auth-card {
     background: #2d3748;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode .auth-card h1 {
+html.dark-mode .auth-card h1 {
     color: #e2e8f0;
 }
 
-body.dark-mode .form-group label {
+html.dark-mode .form-group label {
     color: #cbd5e0;
 }
 
-body.dark-mode .form-group input {
+html.dark-mode .form-group input {
     background: #1a202c;
     border-color: #4a5568;
     color: #e2e8f0;
 }
 
-body.dark-mode .form-group input:focus {
+html.dark-mode .form-group input:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
-body.dark-mode .form-group input::placeholder {
+html.dark-mode .form-group input::placeholder {
     color: #718096;
 }
 
-body.dark-mode .auth-card p {
+html.dark-mode .auth-card p {
     color: #a0aec0;
 }
 
-body.dark-mode .error-message {
+html.dark-mode .error-message {
     background: #742a2a;
     color: #fc8181;
     border-color: #c53030;

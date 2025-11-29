@@ -1,5 +1,5 @@
-// perfil.js - FIXED VERSION
-// Complete profile management with all features working
+// perfil.js - COMPLETE WORKING VERSION
+// Full profile management with all features
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🔧 Profile page initializing...');
@@ -27,7 +27,6 @@ async function initProfile() {
 // AVATAR UPLOAD SETUP
 // ================================
 function setupAvatarUpload() {
-    // Create hidden file input if it doesn't exist
     let fileInput = document.getElementById('avatarInput');
     if (!fileInput) {
         fileInput = document.createElement('input');
@@ -38,7 +37,6 @@ function setupAvatarUpload() {
         document.body.appendChild(fileInput);
     }
 
-    // Avatar container click handler
     const avatarContainer = document.querySelector('.avatar-container');
     const changeAvatarBtn = document.querySelector('.change-avatar-btn');
     
@@ -55,7 +53,6 @@ function setupAvatarUpload() {
         });
     }
 
-    // File input change handler
     fileInput.addEventListener('change', handleAvatarUpload);
     
     console.log('✅ Avatar upload initialized');
@@ -65,38 +62,25 @@ async function handleAvatarUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error('Por favor selecciona una imagen válida');
-        } else {
-            alert('Por favor selecciona una imagen válida');
-        }
+        showNotification('Por favor selecciona una imagen válida', 'error');
         return;
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error('La imagen debe ser menor a 5MB');
-        } else {
-            alert('La imagen debe ser menor a 5MB');
-        }
+        showNotification('La imagen debe ser menor a 5MB', 'error');
         return;
     }
 
     try {
-        // Show loading
         const avatarContainer = document.querySelector('.avatar-container i');
         const originalClass = avatarContainer.className;
         avatarContainer.className = 'fas fa-spinner fa-spin';
 
-        // Convert to base64
         const reader = new FileReader();
         reader.onload = async function(e) {
             const base64Image = e.target.result;
             
-            // Save to profile
             const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/profile`, {
                 method: 'PUT',
                 headers: window.AuthService.getAuthHeaders(),
@@ -109,23 +93,13 @@ async function handleAvatarUpload(e) {
 
             if (response.ok) {
                 const data = await response.json();
-                
-                // Update local storage
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
-                
-                // Update UI
                 updateAvatarDisplay(base64Image);
-                
-                if (window.AppUtils && window.AppUtils.Notification) {
-                    window.AppUtils.Notification.success('Foto de perfil actualizada');
-                } else {
-                    alert('Foto de perfil actualizada');
-                }
+                showNotification('Foto de perfil actualizada', 'success');
             } else {
                 throw new Error('Error al guardar la imagen');
             }
             
-            // Restore icon
             avatarContainer.className = originalClass;
         };
         
@@ -138,18 +112,13 @@ async function handleAvatarUpload(e) {
 
     } catch (error) {
         console.error('Error uploading avatar:', error);
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error('Error al subir la imagen');
-        } else {
-            alert('Error al subir la imagen');
-        }
+        showNotification('Error al subir la imagen', 'error');
     }
 }
 
 function updateAvatarDisplay(base64Image) {
     const avatarContainer = document.querySelector('.avatar-container');
     if (avatarContainer) {
-        // Remove icon, add image
         avatarContainer.innerHTML = `
             <img src="${base64Image}" alt="Avatar" style="
                 width: 100%;
@@ -162,7 +131,6 @@ function updateAvatarDisplay(base64Image) {
             </button>
         `;
         
-        // Re-attach event listener
         const changeBtn = avatarContainer.querySelector('.change-avatar-btn');
         if (changeBtn) {
             changeBtn.addEventListener('click', function(e) {
@@ -191,7 +159,7 @@ async function loadUserProfile() {
         document.getElementById('userEmail').textContent = user.email || '';
         document.getElementById('userLevel').textContent = user.profile?.level || 'A1';
 
-        // Load avatar if exists
+        // Load avatar
         if (user.profile?.avatar) {
             updateAvatarDisplay(user.profile.avatar);
         }
@@ -215,16 +183,13 @@ async function loadUserProfile() {
             document.getElementById('fontSizePref').value = user.preferences.fontSize || 'medium';
             document.getElementById('dailyGoalPref').value = user.preferences.dailyGoal || 30;
             
-            // Apply preferences
             applyPreferences(user.preferences);
         }
 
         console.log('✅ User profile loaded');
     } catch (error) {
         console.error('❌ Error loading profile:', error);
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error('Error al cargar el perfil');
-        }
+        showNotification('Error al cargar el perfil', 'error');
     }
 }
 
@@ -235,7 +200,6 @@ async function loadStreakData() {
     try {
         console.log('📊 Loading streak data...');
         
-        // Update streak on server
         const updateResponse = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/update-streak`, {
             method: 'POST',
             headers: window.AuthService.getAuthHeaders()
@@ -246,7 +210,6 @@ async function loadStreakData() {
             const data = await updateResponse.json();
             streakData = data.streak;
         } else {
-            // Fallback: get current streak
             const getResponse = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/streak`, {
                 headers: window.AuthService.getAuthHeaders()
             });
@@ -255,7 +218,6 @@ async function loadStreakData() {
                 const data = await getResponse.json();
                 streakData = data.streak;
             } else {
-                // Use default values
                 streakData = {
                     current: 0,
                     longest: 0,
@@ -269,7 +231,6 @@ async function loadStreakData() {
         console.log('✅ Streak data loaded:', streakData);
     } catch (error) {
         console.error('❌ Error loading streak:', error);
-        // Display default values
         displayStreak({
             current: 0,
             longest: 0,
@@ -280,13 +241,11 @@ async function loadStreakData() {
 }
 
 function displayStreak(streakData) {
-    // Current streak
     const currentStreakEl = document.getElementById('currentStreak');
     if (currentStreakEl) {
         currentStreakEl.textContent = streakData.current || 0;
     }
     
-    // Statistics
     const longestStreakEl = document.getElementById('longestStreak');
     if (longestStreakEl) {
         longestStreakEl.textContent = streakData.longest || 0;
@@ -297,7 +256,6 @@ function displayStreak(streakData) {
         totalDaysEl.textContent = streakData.totalDays || 0;
     }
     
-    // Last activity
     const lastActivityEl = document.getElementById('lastActivity');
     if (lastActivityEl && streakData.lastActivity) {
         const lastDate = new Date(streakData.lastActivity);
@@ -316,7 +274,6 @@ function displayStreak(streakData) {
         lastActivityEl.textContent = 'Hoy';
     }
     
-    // Motivational message
     const messageEl = document.getElementById('streakMessage');
     if (messageEl) {
         const current = streakData.current || 0;
@@ -380,14 +337,13 @@ function setupEventListeners() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', handleLogout);
         console.log('✅ Logout button connected');
-    } else {
-        console.warn('⚠️ Logout button not found');
     }
 
     // Change password
     const changePasswordBtn = document.getElementById('changePasswordBtn');
     if (changePasswordBtn) {
-        changePasswordBtn.addEventListener('click', handleChangePassword);
+        changePasswordBtn.addEventListener('click', openChangePasswordModal);
+        console.log('✅ Change password button connected');
     }
 
     // Dark mode toggle
@@ -401,12 +357,12 @@ function setupEventListeners() {
                     window.AppUtils.DarkMode.disable();
                 }
             } else {
-                // Fallback if AppUtils not available
+                // Fallback
                 if (this.checked) {
-                    document.body.classList.add('dark-mode');
+                    document.documentElement.classList.add('dark-mode');
                     localStorage.setItem('darkMode', 'enabled');
                 } else {
-                    document.body.classList.remove('dark-mode');
+                    document.documentElement.classList.remove('dark-mode');
                     localStorage.setItem('darkMode', 'disabled');
                 }
             }
@@ -417,7 +373,7 @@ function setupEventListeners() {
 }
 
 // ================================
-// UPDATE CHARACTER COUNT
+// CHARACTER COUNT
 // ================================
 function updateCharCount() {
     const bioTextarea = document.getElementById('bio');
@@ -464,20 +420,12 @@ async function handleProfileSubmit(e) {
 
         if (response.ok) {
             const data = await response.json();
-            
-            // Update local storage
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             
-            // Update UI
             document.getElementById('userName').textContent = data.user.username;
             document.getElementById('userLevel').textContent = data.user.profile.level;
             
-            if (window.AppUtils && window.AppUtils.Notification) {
-                window.AppUtils.Notification.success('Perfil actualizado correctamente');
-            } else {
-                alert('Perfil actualizado correctamente');
-            }
-            
+            showNotification('Perfil actualizado correctamente', 'success');
             console.log('✅ Profile saved successfully');
         } else {
             const error = await response.json();
@@ -485,11 +433,7 @@ async function handleProfileSubmit(e) {
         }
     } catch (error) {
         console.error('❌ Error saving profile:', error);
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error(error.message || 'Error al guardar el perfil');
-        } else {
-            alert(error.message || 'Error al guardar el perfil');
-        }
+        showNotification(error.message || 'Error al guardar el perfil', 'error');
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -527,19 +471,9 @@ async function handlePreferencesSave() {
 
         if (response.ok) {
             const data = await response.json();
-            
-            // Update local storage
             localStorage.setItem('currentUser', JSON.stringify(data.user));
-            
-            // Apply preferences
             applyPreferences(preferencesData.preferences);
-            
-            if (window.AppUtils && window.AppUtils.Notification) {
-                window.AppUtils.Notification.success('Preferencias guardadas correctamente');
-            } else {
-                alert('Preferencias guardadas correctamente');
-            }
-            
+            showNotification('Preferencias guardadas correctamente', 'success');
             console.log('✅ Preferences saved successfully');
         } else {
             const error = await response.json();
@@ -547,11 +481,7 @@ async function handlePreferencesSave() {
         }
     } catch (error) {
         console.error('❌ Error saving preferences:', error);
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error(error.message || 'Error al guardar preferencias');
-        } else {
-            alert(error.message || 'Error al guardar preferencias');
-        }
+        showNotification(error.message || 'Error al guardar preferencias', 'error');
     } finally {
         btn.disabled = false;
         btn.innerHTML = originalText;
@@ -566,10 +496,10 @@ function applyPreferences(preferences) {
     
     // Dark mode
     if (preferences.darkMode) {
-        document.body.classList.add('dark-mode');
+        document.documentElement.classList.add('dark-mode');
         localStorage.setItem('darkMode', 'enabled');
     } else {
-        document.body.classList.remove('dark-mode');
+        document.documentElement.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'disabled');
     }
 
@@ -583,7 +513,7 @@ function applyPreferences(preferences) {
         document.documentElement.style.fontSize = sizes[preferences.fontSize];
     }
 
-    // Save to localStorage for synchronization
+    // Save to localStorage
     localStorage.setItem('notifications', preferences.notifications);
     localStorage.setItem('sound', preferences.sound);
     localStorage.setItem('language', preferences.language);
@@ -593,7 +523,7 @@ function applyPreferences(preferences) {
 }
 
 // ================================
-// LOGOUT HANDLER - FIXED
+// LOGOUT HANDLER
 // ================================
 async function handleLogout() {
     console.log('🚪 Logout requested');
@@ -606,11 +536,9 @@ async function handleLogout() {
     try {
         console.log('🔄 Processing logout...');
         
-        // Call logout API if AuthService exists
         if (window.AuthService && typeof window.AuthService.logout === 'function') {
             await window.AuthService.logout();
         } else {
-            // Fallback: manual cleanup
             localStorage.removeItem('token');
             localStorage.removeItem('currentUser');
             localStorage.removeItem('isLoggedIn');
@@ -618,26 +546,17 @@ async function handleLogout() {
         }
         
         console.log('✅ Logout successful');
+        showNotification('Sesión cerrada correctamente', 'success');
         
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.success('Sesión cerrada correctamente');
-        }
-        
-        // Redirect after short delay
         setTimeout(() => {
             window.location.href = '/';
         }, 1000);
         
     } catch (error) {
         console.error('❌ Error during logout:', error);
-        
-        // Force logout anyway
         localStorage.clear();
         sessionStorage.clear();
-        
-        if (window.AppUtils && window.AppUtils.Notification) {
-            window.AppUtils.Notification.error('Error al cerrar sesión, pero se cerró de todas formas');
-        }
+        showNotification('Error al cerrar sesión, pero se cerró de todas formas', 'warning');
         
         setTimeout(() => {
             window.location.href = '/';
@@ -646,16 +565,172 @@ async function handleLogout() {
 }
 
 // ================================
-// CHANGE PASSWORD
+// CHANGE PASSWORD MODAL
 // ================================
-function handleChangePassword() {
-    console.log('🔐 Change password requested');
-    if (window.AppUtils && window.AppUtils.Notification) {
-        window.AppUtils.Notification.info('Funcionalidad próximamente disponible');
-    } else {
-        alert('Funcionalidad próximamente disponible');
+function openChangePasswordModal() {
+    console.log('🔐 Opening change password modal...');
+    
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('changePasswordModal');
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'changePasswordModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-key"></i> Cambiar Contraseña</h3>
+                    <button class="close-modal" onclick="closeChangePasswordModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="currentPassword">
+                                <i class="fas fa-lock"></i>
+                                Contraseña Actual
+                            </label>
+                            <input 
+                                type="password" 
+                                id="currentPassword" 
+                                required
+                                placeholder="Ingresa tu contraseña actual"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newPassword">
+                                <i class="fas fa-key"></i>
+                                Nueva Contraseña
+                            </label>
+                            <input 
+                                type="password" 
+                                id="newPassword" 
+                                required
+                                minlength="8"
+                                placeholder="Mínimo 8 caracteres"
+                            >
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                Mínimo 8 caracteres, incluye mayúsculas, minúsculas y números
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-check"></i>
+                                Confirmar Nueva Contraseña
+                            </label>
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                required
+                                placeholder="Confirma tu nueva contraseña"
+                            >
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button type="submit" class="btn btn-primary" style="flex: 1;">
+                                <i class="fas fa-check"></i>
+                                Cambiar Contraseña
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">
+                                <i class="fas fa-times"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add form submit handler
+        const form = document.getElementById('changePasswordForm');
+        form.addEventListener('submit', handleChangePassword);
     }
-    // TODO: Implement password change modal
+    
+    modal.style.display = 'flex';
+}
+
+window.closeChangePasswordModal = function() {
+    const modal = document.getElementById('changePasswordModal');
+    if (modal) {
+        modal.style.display = 'none';
+        // Reset form
+        const form = document.getElementById('changePasswordForm');
+        if (form) form.reset();
+    }
+};
+
+async function handleChangePassword(e) {
+    e.preventDefault();
+    console.log('🔐 Changing password...');
+    
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    // Validations
+    if (newPassword !== confirmPassword) {
+        showNotification('Las contraseñas no coinciden', 'error');
+        return;
+    }
+    
+    if (newPassword.length < 8) {
+        showNotification('La contraseña debe tener al menos 8 caracteres', 'error');
+        return;
+    }
+    
+    if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+        showNotification('La contraseña debe incluir mayúsculas, minúsculas y números', 'error');
+        return;
+    }
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cambiando...';
+    
+    try {
+        const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/change-password`, {
+            method: 'POST',
+            headers: window.AuthService.getAuthHeaders(),
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+        });
+        
+        if (response.ok) {
+            showNotification('Contraseña cambiada correctamente', 'success');
+            closeChangePasswordModal();
+            console.log('✅ Password changed successfully');
+        } else {
+            const error = await response.json();
+            throw new Error(error.message || 'Error al cambiar la contraseña');
+        }
+    } catch (error) {
+        console.error('❌ Error changing password:', error);
+        showNotification(error.message || 'Error al cambiar la contraseña', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+// ================================
+// NOTIFICATION SYSTEM
+// ================================
+function showNotification(message, type = 'info') {
+    if (window.AppUtils && window.AppUtils.Notification) {
+        window.AppUtils.Notification[type](message);
+    } else {
+        // Fallback: Simple alert
+        alert(message);
+    }
 }
 
 console.log('✅ Profile script loaded successfully');

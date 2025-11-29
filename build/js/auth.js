@@ -2,24 +2,24 @@ const ENABLE_MOCK = true;
 
 if (ENABLE_MOCK) {
     const mockUsers = JSON.parse(localStorage.getItem('mockUsers') || '[{"id":1,"username":"demo","email":"demo@test.com","password":"demo123"}]');
-    
+
     const originalFetch = window.fetch;
-    window.fetch = async function(url, options = {}) {
+    window.fetch = async function (url, options = {}) {
         if (url.includes('/register') || url.includes('/api/register')) {
             const body = JSON.parse(options.body);
             const exists = mockUsers.find(u => u.username === body.username || u.email === body.email);
-            
+
             if (exists) {
                 return {
                     ok: false,
                     json: async () => ({ message: 'Usuario o email ya registrado' })
                 };
             }
-            
+
             const newUser = { id: Date.now(), username: body.username, email: body.email, password: body.password };
             mockUsers.push(newUser);
             localStorage.setItem('mockUsers', JSON.stringify(mockUsers));
-            
+
             return {
                 ok: true,
                 json: async () => ({
@@ -28,14 +28,14 @@ if (ENABLE_MOCK) {
                 })
             };
         }
-        
+
         if (url.includes('/login') || url.includes('/api/login')) {
             const body = JSON.parse(options.body);
-            const user = mockUsers.find(u => 
-                (u.username === body.identifier || u.email === body.identifier) && 
+            const user = mockUsers.find(u =>
+                (u.username === body.identifier || u.email === body.identifier) &&
                 u.password === body.password
             );
-            
+
             if (user) {
                 return {
                     ok: true,
@@ -51,7 +51,7 @@ if (ENABLE_MOCK) {
                 };
             }
         }
-        
+
         if (url.includes('/verify') || url.includes('/api/verify')) {
             const token = options.headers?.Authorization?.replace('Bearer ', '');
             if (token && token.startsWith('mock-token-')) {
@@ -62,7 +62,7 @@ if (ENABLE_MOCK) {
             }
             return { ok: false, json: async () => ({ message: 'Token inválido' }) };
         }
-        
+
         return originalFetch(url, options);
     };
 }
@@ -86,7 +86,7 @@ class AuthService {
 
     async register(userData) {
         try {
-            const API_URL = window.APP_CONFIG 
+            const API_URL = window.APP_CONFIG
                 ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_REGISTER)
                 : `${window.location.origin}/api/register`;
 
@@ -108,12 +108,12 @@ class AuthService {
 
             this.token = data.token;
             this.currentUser = data.user;
-            
+
             localStorage.setItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken', this.token);
             localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
 
             this.dispatchAuthEvent(true);
-            
+
             return { success: true, user: this.currentUser };
 
         } catch (error) {
@@ -124,7 +124,7 @@ class AuthService {
 
     async login(identifier, password) {
         try {
-            const API_URL = window.APP_CONFIG 
+            const API_URL = window.APP_CONFIG
                 ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGIN)
                 : `${window.location.origin}/api/login`;
 
@@ -134,98 +134,78 @@ class AuthService {
                 body: JSON.stringify({ identifier, password })
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Error en el login');
-            }
-
-            this.token = data.token;
-            this.currentUser = data.user;
-            
-            localStorage.setItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken', this.token);
-            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
-
-            this.dispatchAuthEvent(true);
-
-            return { success: true, user: this.currentUser };
-
-        } catch (error) {
-            console.error('Error en login:', error);
-            return { success: false, error: error.message };
         }
-    }
 
     async logout() {
-        try {
-            if (this.token && !ENABLE_MOCK) {
-                const API_URL = window.APP_CONFIG 
-                    ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGOUT)
-                    : `${window.location.origin}/api/auth/logout`;
+            try {
+                if (this.token && !ENABLE_MOCK) {
+                    const API_URL = window.APP_CONFIG
+                        ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGOUT)
+                        : `${window.location.origin}/api/auth/logout`;
 
-                await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${this.token}`,
-                        'Content-Type': 'application/json',
-                    }
-                });
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error en logout:', error);
+            } finally {
+                this.token = null;
+                this.currentUser = null;
+                localStorage.removeItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
+                localStorage.removeItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser');
+
+                this.dispatchAuthEvent(false);
             }
-        } catch (error) {
-            console.error('Error en logout:', error);
-        } finally {
-            this.token = null;
-            this.currentUser = null;
-            localStorage.removeItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
-            localStorage.removeItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser');
-            
-            this.dispatchAuthEvent(false);
         }
-    }
 
     async verifyToken() {
-        if (!this.token) return false;
+            if (!this.token) return false;
 
-        try {
-            const API_URL = window.APP_CONFIG 
-                ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_VERIFY)
-                : `${window.location.origin}/api/auth/verify`;
+            try {
+                const API_URL = window.APP_CONFIG
+                    ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_VERIFY)
+                    : `${window.location.origin}/api/auth/verify`;
 
-            const response = await fetch(API_URL, {
-                headers: this.getAuthHeaders()
-            });
+                const response = await fetch(API_URL, {
+                    headers: this.getAuthHeaders()
+                });
 
-            if (!response.ok) {
+                if (!response.ok) {
+                    await this.logout();
+                    return false;
+                }
+
+                const data = await response.json();
+                this.currentUser = data.user;
+                localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
+
+                return true;
+            } catch (error) {
+                console.error('Error verificando token:', error);
                 await this.logout();
                 return false;
             }
+        }
 
-            const data = await response.json();
-            this.currentUser = data.user;
-            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
-            
-            return true;
-        } catch (error) {
-            console.error('Error verificando token:', error);
-            await this.logout();
-            return false;
+        dispatchAuthEvent(isLoggedIn) {
+            const event = new CustomEvent('authStateChanged', {
+                detail: { isLoggedIn: isLoggedIn, user: this.currentUser }
+            });
+            window.dispatchEvent(event);
+        }
+
+        getAuthHeaders() {
+            return {
+                'Authorization': `Bearer ${this.token}`,
+                'Content-Type': 'application/json',
+            };
         }
     }
-
-    dispatchAuthEvent(isLoggedIn) {
-        const event = new CustomEvent('authStateChanged', {
-            detail: { isLoggedIn: isLoggedIn, user: this.currentUser }
-        });
-        window.dispatchEvent(event);
-    }
-
-    getAuthHeaders() {
-        return {
-            'Authorization': `Bearer ${this.token}`,
-            'Content-Type': 'application/json',
-        };
-    }
-}
 
 window.AuthService = new AuthService();
 
@@ -241,19 +221,19 @@ function validateUsername(username) {
     if (!username) return false;
     const config = window.APP_CONFIG?.VALIDATION.USERNAME;
     if (!config) return username.length >= 3 && username.length <= 20;
-    
-    return username.length >= config.MIN_LENGTH && 
-           username.length <= config.MAX_LENGTH &&
-           config.PATTERN.test(username);
+
+    return username.length >= config.MIN_LENGTH &&
+        username.length <= config.MAX_LENGTH &&
+        config.PATTERN.test(username);
 }
 
 function validatePassword(password) {
     if (!password) return false;
     const config = window.APP_CONFIG?.VALIDATION.PASSWORD;
     if (!config) return password.length >= 6;
-    
-    return password.length >= config.MIN_LENGTH && 
-           password.length <= config.MAX_LENGTH;
+
+    return password.length >= config.MIN_LENGTH &&
+        password.length <= config.MAX_LENGTH;
 }
 
 // ================================
@@ -316,13 +296,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = document.getElementById('username')?.value.trim();
             const email = document.getElementById('email')?.value.trim();
             const password = document.getElementById('password')?.value;
             const confirmPassword = document.getElementById('confirmPassword')?.value;
             const errorDiv = document.getElementById('errorMessage');
-            
+
             if (errorDiv) {
                 errorDiv.style.display = 'none';
                 errorDiv.textContent = '';
@@ -375,11 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = document.getElementById('username')?.value.trim();
             const password = document.getElementById('password')?.value;
             const errorDiv = document.getElementById('errorMessage');
-            
+
             if (errorDiv) {
                 errorDiv.style.display = 'none';
                 errorDiv.textContent = '';

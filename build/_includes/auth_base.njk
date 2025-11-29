@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<script>
+        (function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si el usuario guardó 'enabled' O no guardó nada y prefiere oscuro,
+            // aplica la clase 'dark-mode' inmediatamente.
+            if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+                // Se usa document.documentElement (<html>) en lugar de <body> 
+                // para asegurar que el fondo de la página se aplique antes
+                // de que cualquier contenido se cargue.
+            }
+        })();
+    </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { font-size: 16px; }
@@ -10,19 +25,18 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        body.loaded { opacity: 1; }
-        body.auth-page {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        body.loaded { opacity: 1;
         }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - TurkAmerica</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
     
     <!-- CSS -->
     <link rel="stylesheet" href="/css/styles.css?v={{ timestamp }}">
     <link rel="stylesheet" href="/css/darkmode.css?v={{ timestamp }}">
+    
     <link rel="stylesheet" href="/css/auth.css?v={{ timestamp }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

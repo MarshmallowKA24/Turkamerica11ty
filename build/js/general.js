@@ -1,5 +1,5 @@
 // ========================================
-// GENERAL.JS - FINAL VERSION
+// GENERAL.JS - FINAL VERSION (MODIFICADO para document.documentElement)
 // Global utilities with proper initialization order
 // ========================================
 
@@ -15,11 +15,11 @@ window.AppUtils.DarkMode = {
         const savedTheme = localStorage.getItem('darkMode');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        // Apply initial theme to body immediately
+        // Aplica el tema inicial al <html> inmediatamente, USANDO document.documentElement
         if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
-            document.body.classList.add('dark-mode');
+            document.documentElement.classList.add('dark-mode');
         } else {
-            document.body.classList.remove('dark-mode');
+            document.documentElement.classList.remove('dark-mode');
         }
         
         // Sincroniza la configuración de toggle una vez que el DOM esté listo
@@ -31,6 +31,7 @@ window.AppUtils.DarkMode = {
         
         // Listeners for system preference and storage remain
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // Solo cambia si el usuario no tiene una preferencia guardada (null)
             if (!localStorage.getItem('darkMode')) {
                 e.matches ? this.enable() : this.disable();
             }
@@ -38,6 +39,7 @@ window.AppUtils.DarkMode = {
         
         window.addEventListener('storage', (e) => {
             if (e.key === 'darkMode') {
+                // Siempre obedece el cambio de almacenamiento para sincronizar entre pestañas
                 e.newValue === 'enabled' ? this.enable() : this.disable();
             }
         });
@@ -47,7 +49,8 @@ window.AppUtils.DarkMode = {
         const toggles = document.querySelectorAll('#darkModeToggle, #darkModePref');
         toggles.forEach(toggle => {
             if (toggle) {
-                toggle.checked = document.body.classList.contains('dark-mode');
+                // Usa document.documentElement para verificar el estado
+                toggle.checked = document.documentElement.classList.contains('dark-mode');
                 toggle.addEventListener('change', () => {
                     toggle.checked ? this.enable() : this.disable();
                 });
@@ -56,13 +59,15 @@ window.AppUtils.DarkMode = {
     },
     
     enable() {
-        document.body.classList.add('dark-mode');
+        // Usa document.documentElement
+        document.documentElement.classList.add('dark-mode');
         localStorage.setItem('darkMode', 'enabled');
         this.updateToggleState(true);
     },
     
     disable() {
-        document.body.classList.remove('dark-mode');
+        // Usa document.documentElement
+        document.documentElement.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'disabled');
         this.updateToggleState(false);
     },
@@ -327,7 +332,8 @@ window.AppUtils.Utils = {
 window.AppUtils.init = function() {
     console.log('🔧 Initializing AppUtils...');
     
-    // 1. Initialize dark mode FIRST (before DOM ready)
+    // 1. Initialize dark mode FIRST (before DOM ready). 
+    // La detección inicial se hizo en el <head>, aquí solo se inicia el sistema completo.
     this.DarkMode.init();
     
     // 2. Initialize other systems when DOM is ready

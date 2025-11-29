@@ -178,11 +178,11 @@
 
 /* Collaboration Section */
 .collaboration-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
     padding: 40px;
     border-radius: 20px;
     margin-bottom: 50px;
-    color: white;
+    color: #1e293b;
 }
 
 .collaboration-section h2 {
@@ -191,7 +191,7 @@
     gap: 12px;
     font-size: 1.8rem;
     margin-bottom: 25px;
-    color: white;
+    color: #1e293b;
 }
 
 .collab-content p {
@@ -201,16 +201,18 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
+    color: #475569;
 }
 
 .collab-content i {
     margin-top: 4px;
     flex-shrink: 0;
+    color: #667eea;
 }
 
 /* Roadmap Section */
 .roadmap-section {
-    background: white;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
     padding: 40px;
     border-radius: 20px;
     margin-bottom: 50px;
@@ -239,7 +241,7 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: #e5e7eb;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
 }
 
 .timeline-item {
@@ -286,7 +288,7 @@
 
 /* Support Project Section */
 .support-project-section {
-    background: white;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
     padding: 40px;
     border-radius: 20px;
     margin-bottom: 50px;
@@ -312,24 +314,25 @@
 }
 
 .donation-card {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
     padding: 30px;
     border-radius: 15px;
     margin-bottom: 30px;
     display: flex;
     gap: 25px;
     align-items: flex-start;
+    border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .donation-icon {
     font-size: 3rem;
-    color: #f59e0b;
+    color: #667eea;
     flex-shrink: 0;
 }
 
 .donation-info h3 {
     font-size: 1.4rem;
-    color: #92400e;
+    color: #1e293b;
     margin-bottom: 15px;
 }
 
@@ -343,12 +346,12 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
-    color: #78350f;
+    color: #475569;
     font-size: 1rem;
 }
 
 .donation-benefits i {
-    color: #10b981;
+    color: #667eea;
     flex-shrink: 0;
 }
 
@@ -358,21 +361,20 @@
     justify-content: center;
     gap: 20px;
     padding: 20px 40px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     text-decoration: none;
     border-radius: 15px;
     font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
     margin: 0 auto;
     max-width: 500px;
 }
 
 .donate-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .donate-btn i {
@@ -400,7 +402,7 @@
     color: #475569;
     margin-top: 25px;
     padding: 20px;
-    background: #f8fafc;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
     border-radius: 10px;
 }
 
@@ -570,4 +572,25 @@
     .tech-grid {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
+}
+
+/* Match Index Style - Glassmorphism Effect */
+.mission-section,
+.feature-card,
+.developer-card,
+.roadmap-section,
+.support-project-section,
+.credits-section,
+.tech-item {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(74, 144, 226, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mission-section:hover,
+.feature-card:hover,
+.developer-card:hover,
+.tech-item:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
 }

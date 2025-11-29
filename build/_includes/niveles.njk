@@ -1,0 +1,101 @@
+---
+layout: base.njk
+---
+
+
+<div class="container">
+    <div class="topics-panel" id="topicsPanel" style="margin-bottom: 30px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
+        <div class="panel-header" style="background: #6366f1; padding: 15px 20px; color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+            <h3 style="margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-search"></i>
+                Buscar Temas
+            </h3>
+            <button class="panel-toggle" id="panelToggle" aria-label="Alternar panel" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; padding: 5px;">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="panel-content" id="panelContent" style="background: white; padding: 20px;">
+            <div class="search-box" style="position: relative; width: 100%;">
+                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                <input type="text" id="topicSearch" placeholder="Buscar por tema..." autocomplete="off" 
+                       style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; transition: all 0.3s ease;"
+                       onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
+            </div>
+        </div>
+    </div>
+
+    {{ content | safe }}
+
+    <div class="level-actions" style="margin-top: 60px; margin-bottom: 60px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px; border: 1px solid #e2e8f0;">
+        <h3 style="margin-bottom: 15px; color: #475569; font-size: 1.1rem;">¿Quieres contribuir?</h3>
+        <a href="/Contribute.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fas fa-plus"></i>
+            Crear Nueva Lección
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const panel = document.getElementById('topicsPanel');
+        const panelToggle = document.getElementById('panelToggle');
+        const panelHeader = document.querySelector('.panel-header');
+        const searchInput = document.getElementById('topicSearch');
+        const searchBox = document.querySelector('.search-box');
+        
+        // Function to stop propagation
+        function stop(e) { e.stopPropagation(); }
+        
+        // Prevent search input from closing the panel
+        if (searchInput) {
+            searchInput.addEventListener('click', stop);
+            searchInput.addEventListener('mousedown', stop);
+            searchInput.addEventListener('touchstart', stop);
+            searchInput.addEventListener('keydown', stop);
+        }
+        if (searchBox) {
+            searchBox.addEventListener('click', stop);
+            searchBox.addEventListener('mousedown', stop);
+            searchBox.addEventListener('touchstart', stop);
+        }
+
+        // Toggle Logic
+        function togglePanel(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (panel) {
+                panel.classList.toggle('collapsed');
+            }
+        }
+
+        if (panelToggle) {
+            panelToggle.addEventListener('click', togglePanel);
+        }
+
+        if (panelHeader) {
+            panelHeader.addEventListener('click', function(e) {
+                // Only toggle if the click wasn't on the toggle button (handled above)
+                // or the search input (handled by stop propagation)
+                if (!e.target.closest('.panel-toggle') && !e.target.closest('.search-box')) {
+                    togglePanel(e);
+                }
+            });
+        }
+    });
+</script>
+
+<div id="explanationModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Explicación</h3>
+      <button class="close-modal" id="closeModalBtn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+</div>

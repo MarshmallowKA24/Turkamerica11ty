@@ -251,16 +251,16 @@ body {
     }
     
     /* === DARK MODE === */
-    body.dark-mode .carousel-indicator {
+    html.dark-mode .carousel-indicator {
         background: rgba(255, 255, 255, 0.25);
     }
     
-    body.dark-mode .carousel-indicator.active {
+    html.dark-mode .carousel-indicator.active {
         background: rgba(129, 140, 248, 0.85);
         box-shadow: 0 1px 3px rgba(129, 140, 248, 0.4);
     }
     
-    body.dark-mode .swipe-hint {
+    html.dark-mode .swipe-hint {
         color: rgba(255, 255, 255, 0.5);
     }
 }
@@ -510,3 +510,4 @@ body {
         }
     }
 }
+
