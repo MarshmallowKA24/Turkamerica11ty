@@ -134,78 +134,98 @@ class AuthService {
                 body: JSON.stringify({ identifier, password })
             });
 
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error en el inicio de sesión');
+            }
+
+            this.token = data.token;
+            this.currentUser = data.user;
+
+            localStorage.setItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken', this.token);
+            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
+
+            this.dispatchAuthEvent(true);
+
+            return { success: true, user: this.currentUser };
+
+        } catch (error) {
+            console.error('Error en login:', error);
+            return { success: false, error: error.message };
         }
+    }
 
     async logout() {
-            try {
-                if (this.token && !ENABLE_MOCK) {
-                    const API_URL = window.APP_CONFIG
-                        ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGOUT)
-                        : `${window.location.origin}/api/auth/logout`;
+        try {
+            if (this.token && !ENABLE_MOCK) {
+                const API_URL = window.APP_CONFIG
+                    ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_LOGOUT)
+                    : `${window.location.origin}/api/auth/logout`;
 
-                    await fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${this.token}`,
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Error en logout:', error);
-            } finally {
-                this.token = null;
-                this.currentUser = null;
-                localStorage.removeItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
-                localStorage.removeItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser');
-
-                this.dispatchAuthEvent(false);
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
             }
+        } catch (error) {
+            console.error('Error en logout:', error);
+        } finally {
+            this.token = null;
+            this.currentUser = null;
+            localStorage.removeItem(window.APP_CONFIG?.AUTH.TOKEN_KEY || 'authToken');
+            localStorage.removeItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser');
+
+            this.dispatchAuthEvent(false);
         }
+    }
 
     async verifyToken() {
-            if (!this.token) return false;
+        if (!this.token) return false;
 
-            try {
-                const API_URL = window.APP_CONFIG
-                    ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_VERIFY)
-                    : `${window.location.origin}/api/auth/verify`;
+        try {
+            const API_URL = window.APP_CONFIG
+                ? window.APP_CONFIG.getFullApiUrl(window.APP_CONFIG.ENDPOINTS.AUTH_VERIFY)
+                : `${window.location.origin}/api/auth/verify`;
 
-                const response = await fetch(API_URL, {
-                    headers: this.getAuthHeaders()
-                });
+            const response = await fetch(API_URL, {
+                headers: this.getAuthHeaders()
+            });
 
-                if (!response.ok) {
-                    await this.logout();
-                    return false;
-                }
-
-                const data = await response.json();
-                this.currentUser = data.user;
-                localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
-
-                return true;
-            } catch (error) {
-                console.error('Error verificando token:', error);
+            if (!response.ok) {
                 await this.logout();
                 return false;
             }
-        }
 
-        dispatchAuthEvent(isLoggedIn) {
-            const event = new CustomEvent('authStateChanged', {
-                detail: { isLoggedIn: isLoggedIn, user: this.currentUser }
-            });
-            window.dispatchEvent(event);
-        }
+            const data = await response.json();
+            this.currentUser = data.user;
+            localStorage.setItem(window.APP_CONFIG?.AUTH.USER_KEY || 'currentUser', JSON.stringify(this.currentUser));
 
-        getAuthHeaders() {
-            return {
-                'Authorization': `Bearer ${this.token}`,
-                'Content-Type': 'application/json',
-            };
+            return true;
+        } catch (error) {
+            console.error('Error verificando token:', error);
+            await this.logout();
+            return false;
         }
     }
+
+    dispatchAuthEvent(isLoggedIn) {
+        const event = new CustomEvent('authStateChanged', {
+            detail: { isLoggedIn: isLoggedIn, user: this.currentUser }
+        });
+        window.dispatchEvent(event);
+    }
+
+    getAuthHeaders() {
+        return {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+        };
+    }
+}
 
 window.AuthService = new AuthService();
 

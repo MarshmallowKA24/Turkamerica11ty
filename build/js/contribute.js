@@ -131,7 +131,8 @@ function handleLessonSubmit(e) {
         level: document.getElementById('lessonLevel').value,
         description: document.getElementById('lessonDescription').value,
         newContent: lessonContent,
-        lessonId: editingLessonId || null // If editing, include original lesson ID
+        lessonId: editingLessonId || null, // If editing, include original lesson ID
+        source: 'community' // Mark as community contribution
     };
 
     try {

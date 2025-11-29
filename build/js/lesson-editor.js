@@ -9,6 +9,7 @@ class LessonEditor {
 
         this.editor.contentEditable = true;
         this.editor.classList.add('editor-content');
+        this.savedRange = null; // Store selection for modal operations
         this.setupToolbar();
         this.setupTableBuilder();
     }
@@ -147,7 +148,18 @@ class LessonEditor {
     }
 
     insertComponent(type) {
-        const selection = window.getSelection();
+        this.editor.focus(); // Ensure editor has focus first
+
+        let selection = window.getSelection();
+        if (selection.rangeCount === 0) {
+            // If still no range, create one at the end
+            const range = document.createRange();
+            range.selectNodeContents(this.editor);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
         const range = selection.getRangeAt(0);
 
         let component;
@@ -169,6 +181,13 @@ class LessonEditor {
         if (component) {
             range.deleteContents();
             range.insertNode(component);
+
+            // Move cursor after component
+            range.setStartAfter(component);
+            range.setEndAfter(component);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
             this.editor.focus();
         }
     }
@@ -215,11 +234,11 @@ class LessonEditor {
                 <div class="table-size-inputs">
                     <div>
                         <label>Filas:</label>
-                        <input type="number" id="tableRows" min="2" max="10" value="3">
+                        <input type="number" id="tableRows" min="2" max="15" value="3">
                     </div>
                     <div>
                         <label>Columnas:</label>
-                        <input type="number" id="tableCols" min="2" max="6" value="2">
+                        <input type="number" id="tableCols" min="2" max="15" value="2">
                     </div>
                 </div>
                 <div class="table-preview" id="tablePreview"></div>
@@ -241,8 +260,13 @@ class LessonEditor {
         const preview = modal.querySelector('#tablePreview');
 
         const updatePreview = () => {
-            const rows = parseInt(rowsInput.value);
-            const cols = parseInt(colsInput.value);
+            let rows = parseInt(rowsInput.value) || 2;
+            let cols = parseInt(colsInput.value) || 2;
+
+            // Immediate visual feedback/clamping
+            if (rows > 15) { rowsInput.value = 15; rows = 15; }
+            if (cols > 15) { colsInput.value = 15; cols = 15; }
+
             preview.innerHTML = this.generateTableHTML(rows, cols, true);
         };
 
@@ -250,8 +274,12 @@ class LessonEditor {
         colsInput.addEventListener('input', updatePreview);
 
         modal.querySelector('#insertTableBtn').addEventListener('click', () => {
-            const rows = parseInt(rowsInput.value);
-            const cols = parseInt(colsInput.value);
+            let rows = parseInt(rowsInput.value) || 2;
+            let cols = parseInt(colsInput.value) || 2;
+
+            // Enforce limits
+            if (rows > 15) rows = 15;
+            if (cols > 15) cols = 15;
 
             // Get data from preview inputs
             const tableData = this.getTableData(rows, cols);
@@ -271,6 +299,18 @@ class LessonEditor {
     }
 
     showTableBuilder() {
+        // Save current selection before opening modal
+        this.editor.focus();
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            this.savedRange = selection.getRangeAt(0).cloneRange();
+        } else {
+            // Create fallback range at end
+            this.savedRange = document.createRange();
+            this.savedRange.selectNodeContents(this.editor);
+            this.savedRange.collapse(false);
+        }
+
         const modal = document.getElementById('tableBuilderModal');
         modal.classList.add('active');
 
@@ -285,6 +325,14 @@ class LessonEditor {
     }
 
     generateTableHTML(rows, cols, editable = false) {
+        // Validate inputs to prevent RangeError
+        rows = parseInt(rows) || 2;
+        cols = parseInt(cols) || 2;
+        if (rows < 1) rows = 1;
+        if (cols < 1) cols = 1;
+        if (rows > 15) rows = 15; // Safety limit
+        if (cols > 15) cols = 15; // Safety limit
+
         let html = '<table class="lesson-table"><thead><tr>';
 
         // Headers
@@ -352,9 +400,31 @@ class LessonEditor {
         }
         html += '</tbody></table><p><br></p>';
 
-        // Insert at cursor
-        document.execCommand('insertHTML', false, html);
+        // Restore selection and insert
         this.editor.focus();
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+
+        if (this.savedRange) {
+            selection.addRange(this.savedRange);
+        } else {
+            // Fallback if somehow lost
+            const range = document.createRange();
+            range.selectNodeContents(this.editor);
+            range.collapse(false);
+            selection.addRange(range);
+        }
+
+        // Insert using execCommand for better undo history support, 
+        // but ensure we have the right focus.
+        // If execCommand fails, we can fallback to insertHTML
+        if (!document.execCommand('insertHTML', false, html)) {
+            const range = selection.getRangeAt(0);
+            const fragment = range.createContextualFragment(html);
+            range.deleteContents();
+            range.insertNode(fragment);
+            range.collapse(false);
+        }
     }
 
     getContent() {

@@ -3,6 +3,27 @@ layout: base.njk
 ---
 
 
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v={{ timestamp }}">
+    <link rel="stylesheet" href="/css/darkmode.css?v={{ timestamp }}">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v={{ timestamp }}">
+    
+    <link rel="stylesheet" href="/css/fix.css?v={{ timestamp }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<link rel="stylesheet" href="/css/gramatica.css">
+
+<link rel="stylesheet" href="/css/contribute.css?v={{ timestamp }}">
+<link rel="stylesheet" href="/css/nivel-modals.css?v={{ timestamp }}">
+
 <div class="container">
     <div class="topics-panel" id="topicsPanel" style="margin-bottom: 30px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
         <div class="panel-header" style="background: #6366f1; padding: 15px 20px; color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
@@ -25,6 +46,58 @@ layout: base.njk
     </div>
 
     {{ content | safe }}
+
+    <!-- INLINE LESSON EDITOR -->
+    <div id="inlineEditorContainer" style="display: none; margin: 40px 0; padding: 30px; background: #f8fafc; border-radius: 15px; border: 2px solid #6366f1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 style="color: #6366f1; margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-edit"></i>
+                Editar Lección
+            </h2>
+            <button id="cancelEditBtn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-times"></i>
+                Cancelar
+            </button>
+        </div>
+
+        <form id="inlineLessonForm">
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonTitle" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Título de la Lección
+                </label>
+                <input type="text" id="inlineLessonTitle" required 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem;">
+            </div>
+
+            <input type="hidden" id="inlineLessonId">
+
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonDescription" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Descripción (opcional)
+                </label>
+                <textarea id="inlineLessonDescription" rows="2" 
+                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; resize: vertical;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Contenido de la Lección
+                </label>
+                <div id="inlineLessonContentEditor" style="min-height: 300px; background: white; border-radius: 8px; border: 2px solid #e2e8f0;"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+                <button type="button" id="cancelEditBtn2" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Propuesta de Edición
+                </button>
+            </div>
+        </form>
+    </div>
 
     <div class="level-actions" style="margin-top: 60px; margin-bottom: 60px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px; border: 1px solid #e2e8f0;">
         <h3 style="margin-bottom: 15px; color: #475569; font-size: 1.1rem;">¿Quieres contribuir?</h3>
@@ -98,4 +171,12 @@ layout: base.njk
       <div id="modalContent"></div>
     </div>
   </div>
+  
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/nivel-common.js?v={{ timestamp }}"></script>
+    <script src="/js/lesson-editor.js?v={{ timestamp }}"></script>
+    <script src="/js/contribute.js?v={{ timestamp }}"></script>
+    <script src="/js/admin-contributions.js?v={{ timestamp }}"></script>
+    
+
 </div>

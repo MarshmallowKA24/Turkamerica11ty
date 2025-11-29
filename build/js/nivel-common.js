@@ -1,26 +1,40 @@
 // =====================================================
-// NIVEL C1 - SEARCH AND MODAL FUNCTIONALITY
+// UNIVERSAL NIVEL JAVASCRIPT - WORKS FOR ALL LEVELS
+// Auto-detects level from URL (A1, A2, B1, B2, C1)
 // =====================================================
 
-// Cache global para las explicaciones
-let c1ExplanationsCache = null;
+// Detect current level from URL
+function getCurrentLevel() {
+    const path = window.location.pathname;
+    const match = path.match(/Nivel([ABC][12])/i);
+    if (match) {
+        return match[1].toUpperCase(); // Returns 'A1', 'A2', 'B1', 'B2', or 'C1'
+    }
+    return 'A1'; // Default fallback
+}
 
-// Función para obtener las explicaciones del archivo JSON
-async function getC1Explanations() {
-    if (c1ExplanationsCache) {
-        return c1ExplanationsCache;
+const CURRENT_LEVEL = getCurrentLevel();
+const LEVEL_LOWER = CURRENT_LEVEL.toLowerCase();
+
+// Almacenar las explicaciones globalmente una vez cargadas
+let explanationsCache = null;
+
+// Función para obtener las explicaciones del archivo JSON (o caché)
+async function getExplanations() {
+    if (explanationsCache) {
+        return explanationsCache;
     }
 
     try {
-        const response = await fetch('/data/c1_lessons.json');
+        const response = await fetch(`/data/${LEVEL_LOWER}_lessons.json`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        c1ExplanationsCache = data;
+        explanationsCache = data;
         return data;
     } catch (error) {
-        console.error("Error al cargar las lecciones de C1:", error);
+        console.error(`Error al cargar las lecciones de ${CURRENT_LEVEL}:`, error);
         const modal = document.getElementById('explanationModal');
         if (modal) {
             document.getElementById('modalTitle').textContent = "Error de Carga";
@@ -44,7 +58,7 @@ async function openExplanation(topic) {
     const title = document.getElementById('modalTitle');
     const content = document.getElementById('modalContent');
 
-    const explanations = await getC1Explanations();
+    const explanations = await getExplanations();
 
     if (explanations && explanations[topic]) {
         title.textContent = explanations[topic].title;
@@ -177,6 +191,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const cancelEditBtn2 = document.getElementById('cancelEditBtn2');
+    if (cancelEditBtn2) {
+        cancelEditBtn2.addEventListener('click', function (e) {
+            e.preventDefault();
+            closeInlineEditor();
+        });
+    }
+
     // Handle Inline Submit
     const inlineForm = document.getElementById('inlineLessonForm');
     if (inlineForm) {
@@ -190,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function openInlineEditor(topic) {
     // Get lesson data from cache
-    getC1Explanations().then(explanations => {
+    getExplanations().then(explanations => {
         if (!explanations || !explanations[topic]) {
             alert('Error al cargar la lección');
             return;
@@ -213,7 +235,7 @@ function openInlineEditor(topic) {
 
         // Show Editor, Hide Content
         const editorContainer = document.getElementById('inlineEditorContainer');
-        const cardsContainer = document.querySelector('.grammar-cards');
+        const cardsContainer = document.querySelector('.grammar-cards-container, .grammar-cards');
         const topicsPanel = document.getElementById('topicsPanel');
         const modal = document.getElementById('explanationModal');
 
@@ -228,12 +250,12 @@ function openInlineEditor(topic) {
 
 function closeInlineEditor() {
     const editorContainer = document.getElementById('inlineEditorContainer');
-    const cardsContainer = document.querySelector('.grammar-cards');
+    const cardsContainer = document.querySelector('.grammar-cards-container, .grammar-cards');
     const topicsPanel = document.getElementById('topicsPanel');
 
     if (editorContainer) editorContainer.style.display = 'none';
-    if (cardsContainer) cardsContainer.style.display = 'block';
-    if (topicsPanel) topicsPanel.style.display = 'block';
+    if (cardsContainer) cardsContainer.style.display = '';
+    if (topicsPanel) topicsPanel.style.display = '';
 }
 
 async function handleInlineSubmit(e) {
@@ -248,10 +270,11 @@ async function handleInlineSubmit(e) {
 
     const lessonData = {
         lessonTitle: document.getElementById('inlineLessonTitle').value,
-        level: 'C1',
+        level: CURRENT_LEVEL,
         description: document.getElementById('inlineLessonDescription').value,
         newContent: content,
-        lessonId: document.getElementById('inlineLessonId').value
+        lessonId: document.getElementById('inlineLessonId').value,
+        source: 'nivel-edit' // Mark as nivel-specific edit
     };
 
     try {

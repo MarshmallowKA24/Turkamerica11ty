@@ -7,8 +7,11 @@ let currentRequestId = null;
 let confirmAction = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Only run on admin dashboard
+    if (!document.getElementById('adminDashboard')) return;
+
     // Check admin access
-    if (!window.ContributionService.isAdmin()) {
+    if (!window.ContributionService || !window.ContributionService.isAdmin()) {
         showToast('Acceso denegado. Solo administradores pueden acceder a esta página.', 'error');
         setTimeout(() => {
             window.location.href = '/';
@@ -241,13 +244,136 @@ function viewRequest(id) {
             <div class="detail-section">
                 <h3><i class="fas fa-user"></i> Enviado por</h3>
                 <p>${request.submittedBy.username} (${request.submittedBy.email || 'Sin email'})</p>
-return date.toLocaleDateString('es-ES', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+            </div>
+        `;
+    }
+
+    document.getElementById('requestModal').style.display = 'flex';
+}
+
+// ========================================
+// HANDLE APPROVE/REJECT
+// ========================================
+
+function handleApprove(id) {
+    currentRequestId = id;
+    confirmAction = 'approve';
+
+    document.getElementById('confirmTitle').textContent = 'Confirmar Aprobación';
+    document.getElementById('confirmMessage').textContent = '¿Estás seguro de que quieres aprobar esta solicitud?';
+    document.getElementById('reasonGroup').style.display = 'none';
+
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function handleReject(id) {
+    currentRequestId = id;
+    confirmAction = 'reject';
+
+    document.getElementById('confirmTitle').textContent = 'Confirmar Rechazo';
+    document.getElementById('confirmMessage').textContent = '¿Estás seguro de que quieres rechazar esta solicitud?';
+    document.getElementById('reasonGroup').style.display = 'block';
+
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+// Confirm button handler
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('confirmBtn')?.addEventListener('click', () => {
+        if (confirmAction === 'approve') {
+            approveRequest();
+        } else if (confirmAction === 'reject') {
+            rejectRequest();
+        }
+    });
 });
+
+function approveRequest() {
+    try {
+        // Get edited content if in editor mode
+        let finalContent = null;
+        if (window.adminEditorInstance) {
+            const editorContainer = document.getElementById('adminEditorContainer');
+            if (editorContainer && editorContainer.style.display !== 'none') {
+                finalContent = window.adminEditorInstance.getContent();
+            }
+        }
+
+        window.ContributionService.approveRequest(currentRequestId, finalContent);
+        showToast('Solicitud aprobada correctamente', 'success');
+        closeConfirmModal();
+        closeModal();
+        loadStats();
+        loadRequests();
+    } catch (error) {
+        console.error('Error approving request:', error);
+        showToast('Error al aprobar la solicitud', 'error');
+    }
+}
+
+function rejectRequest() {
+    try {
+        const reason = document.getElementById('rejectionReason').value;
+        window.ContributionService.rejectRequest(currentRequestId, reason);
+        showToast('Solicitud rechazada', 'info');
+        closeConfirmModal();
+        closeModal();
+        loadStats();
+        loadRequests();
+    } catch (error) {
+        console.error('Error rejecting request:', error);
+        showToast('Error al rechazar la solicitud', 'error');
+    }
+}
+
+// ========================================
+// MODAL CONTROLS
+// ========================================
+
+const modal = document.getElementById('requestModal');
+if (modal) modal.style.display = 'none';
+currentRequestId = null;
+if (window.adminEditorInstance) {
+    window.adminEditorInstance = null;
+}
+
+
+function closeConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.style.display = 'none';
+    const reasonInput = document.getElementById('rejectionReason');
+    if (reasonInput) reasonInput.value = '';
+}
+
+function toggleAdminEditor() {
+    const preview = document.getElementById('contentPreview');
+    const editor = document.getElementById('adminEditorContainer');
+    const btn = document.getElementById('toggleEditBtn');
+
+    if (editor.style.display === 'none') {
+        preview.style.display = 'none';
+        editor.style.display = 'block';
+        btn.innerHTML = '<i class="fas fa-eye"></i> Ver Vista Previa';
+    } else {
+        preview.style.display = 'block';
+        editor.style.display = 'none';
+        btn.innerHTML = '<i class="fas fa-edit"></i> Editar Contenido';
+    }
+}
+
+// ========================================
+// UTILITY FUNCTIONS
+// ========================================
+
+function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 function truncate(text, length) {

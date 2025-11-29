@@ -70,7 +70,8 @@ class ContributionService {
                 lessonId: lessonEdit.lessonId,
                 level: lessonEdit.level,
                 changes: lessonEdit.changes, // Array of change descriptions
-                newContent: lessonEdit.newContent // Optional: new content blocks
+                newContent: lessonEdit.newContent, // Optional: new content blocks
+                source: lessonEdit.source || 'community' // 'community' or 'nivel-edit'
             }
         });
     }
@@ -150,21 +151,34 @@ class ContributionService {
 
         let publishedItem = null;
 
-        // Auto-publish based on type
+        // Auto-publish based on type and source
         if (request.type === 'lesson_edit') {
             // Use edited data if provided, otherwise use original
             const lessonData = editedData || request.data;
-            publishedItem = this.publishLesson({
-                id: lessonData.lessonId || this.generateId(),
-                title: request.title,
-                level: lessonData.level,
-                description: request.description,
-                content: lessonData.newContent || '',
-                changes: lessonData.changes || [],
-                author: request.submittedBy.username,
-                publishedAt: new Date().toISOString(),
-                status: 'published'
-            });
+
+            // Only publish to Community Lessons if it's from the community page
+            if (lessonData.source === 'community') {
+                publishedItem = this.publishLesson({
+                    id: lessonData.lessonId || this.generateId(),
+                    title: request.title,
+                    level: lessonData.level,
+                    description: request.description,
+                    content: lessonData.newContent || '',
+                    changes: lessonData.changes || [],
+                    author: request.submittedBy.username,
+                    publishedAt: new Date().toISOString(),
+                    status: 'published'
+                });
+            } else {
+                // For nivel edits, we just approve without publishing to community
+                // The JSON update would need to be manual or via a different flow
+                publishedItem = {
+                    id: lessonData.lessonId,
+                    title: request.title,
+                    level: lessonData.level,
+                    note: 'Nivel edit approved - JSON file needs manual update'
+                };
+            }
         } else if (request.type === 'book_upload') {
             const bookData = editedData || request.data;
             publishedItem = this.publishBook({
