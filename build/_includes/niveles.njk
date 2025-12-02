@@ -49,7 +49,51 @@ layout: base.njk
 
     {{ content | safe }}
 
-    <!-- INLINE LESSON EDITOR REMOVED AS REQUESTED -->
+    <!-- INLINE LESSON EDITOR -->
+    <div id="inlineEditorContainer" style="display: none; margin: 40px 0; padding: 30px; background: #f8fafc; border-radius: 15px; border: 2px solid #6366f1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 style="color: #6366f1; margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-edit"></i>
+                Editar Lección
+            </h2>
+            <button id="cancelEditBtn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 8px; font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="inlineLessonForm">
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonTitle" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Título de la Lección
+                </label>
+                <input type="text" id="inlineLessonTitle" required 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem;">
+            </div>
+
+            <input type="hidden" id="inlineLessonId">
+
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonDescription" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Descripción (opcional)
+                </label>
+                <textarea id="inlineLessonDescription" rows="2" 
+                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; resize: vertical;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Contenido de la Lección
+                </label>
+                <div id="inlineLessonContentEditor" style="min-height: 300px; background: white; border-radius: 8px; border: 2px solid #e2e8f0;"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button type="submit" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; font-size: 1.2rem;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 
     <div class="level-actions" style="margin-top: 60px; margin-bottom: 60px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px; border: 1px solid #e2e8f0;">
         <h3 style="margin-bottom: 15px; color: #475569; font-size: 1.1rem;">¿Quieres contribuir?</h3>
