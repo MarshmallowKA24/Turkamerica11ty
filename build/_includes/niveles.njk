@@ -23,6 +23,8 @@ layout: base.njk
 
 <link rel="stylesheet" href="/css/contribute.css?v={{ timestamp }}">
 <link rel="stylesheet" href="/css/nivel-modals.css?v={{ timestamp }}">
+<link rel="stylesheet" href="/css/inline-editor-mobile-fixes.css?v={{ timestamp }}">
+<link rel="stylesheet" href="/css/tip-box-fix.css?v={{ timestamp }}">
 
 <div class="container">
     <div class="topics-panel" id="topicsPanel" style="margin-bottom: 30px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
@@ -47,61 +49,11 @@ layout: base.njk
 
     {{ content | safe }}
 
-    <!-- INLINE LESSON EDITOR -->
-    <div id="inlineEditorContainer" style="display: none; margin: 40px 0; padding: 30px; background: #f8fafc; border-radius: 15px; border: 2px solid #6366f1;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-            <h2 style="color: #6366f1; margin: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-edit"></i>
-                Editar Lección
-            </h2>
-            <button id="cancelEditBtn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-times"></i>
-                Cancelar
-            </button>
-        </div>
-
-        <form id="inlineLessonForm">
-            <div style="margin-bottom: 20px;">
-                <label for="inlineLessonTitle" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
-                    Título de la Lección
-                </label>
-                <input type="text" id="inlineLessonTitle" required 
-                       style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem;">
-            </div>
-
-            <input type="hidden" id="inlineLessonId">
-
-            <div style="margin-bottom: 20px;">
-                <label for="inlineLessonDescription" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
-                    Descripción (opcional)
-                </label>
-                <textarea id="inlineLessonDescription" rows="2" 
-                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; resize: vertical;"></textarea>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
-                    Contenido de la Lección
-                </label>
-                <div id="inlineLessonContentEditor" style="min-height: 300px; background: white; border-radius: 8px; border: 2px solid #e2e8f0;"></div>
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: flex-end;">
-                <button type="button" id="cancelEditBtn2" class="btn btn-secondary">
-                    <i class="fas fa-times"></i>
-                    Cancelar
-                </button>
-                <button type="submit" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-paper-plane"></i>
-                    Enviar Propuesta de Edición
-                </button>
-            </div>
-        </form>
-    </div>
+    <!-- INLINE LESSON EDITOR REMOVED AS REQUESTED -->
 
     <div class="level-actions" style="margin-top: 60px; margin-bottom: 60px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px; border: 1px solid #e2e8f0;">
         <h3 style="margin-bottom: 15px; color: #475569; font-size: 1.1rem;">¿Quieres contribuir?</h3>
-        <a href="/Contribute.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <a href="/Contribute/" id="createLessonBtn" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <i class="fas fa-plus"></i>
             Crear Nueva Lección
         </a>
@@ -155,6 +107,21 @@ layout: base.njk
                     togglePanel(e);
                 }
             });
+        }
+
+        // Detect current level from page URL and update contribute button
+        const createLessonBtn = document.getElementById('createLessonBtn');
+        if (createLessonBtn) {
+            // Extract level from current page path (e.g., /NivelA1.html -> A1)
+            const currentPath = window.location.pathname;
+            const levelMatch = currentPath.match(/Nivel([A-C][12])/i);
+            
+            if (levelMatch) {
+                const level = levelMatch[1].toUpperCase(); // A1, A2, B1, B2, or C1
+                // Update the href to include the level parameter
+                createLessonBtn.href = `/Contribute/?level=${level}`;
+                console.log(`✅ Contribute button updated for level: ${level}`);
+            }
         }
     });
 </script>

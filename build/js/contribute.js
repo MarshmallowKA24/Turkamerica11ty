@@ -35,6 +35,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Also update title placeholder or description if needed
             showToast(`Creando lección para Nivel ${level}`, 'info');
         }
+
+        // Hide Book Option when coming from a specific level
+        const bookTypeBtn = document.getElementById('bookTypeBtn');
+        if (bookTypeBtn) {
+            bookTypeBtn.style.display = 'none';
+        }
+
+        // Ensure Lesson Form is active
+        const lessonTypeBtn = document.getElementById('lessonTypeBtn');
+        if (lessonTypeBtn) {
+            lessonTypeBtn.click();
+        }
     }
 });
 
@@ -153,7 +165,7 @@ function handleLessonSubmit(e) {
         }
 
         // Clear URL parameter
-        window.history.replaceState({}, '', '/Contribute.html');
+        window.history.replaceState({}, '', '/Contribute/');
 
         // Reload contributions list
         loadMyContributions();

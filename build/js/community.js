@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('communitySearch');
             if (searchInput) searchInput.value = '';
 
+            // Update contribute button
+            updateContributeButton();
+
             loadLessons();
             loadBooks();
         });
@@ -309,7 +312,7 @@ function closeLessonModal() {
 }
 
 function editPublishedLesson(id) {
-    window.location.href = `/Contribute.html?editLesson=${id}`;
+    window.location.href = `/Contribute/?editLesson=${id}`;
 }
 
 function formatDate(dateString) {
@@ -327,6 +330,19 @@ function formatDate(dateString) {
         month: 'short',
         day: 'numeric'
     });
+}
+
+function updateContributeButton() {
+    const contributeBtn = document.getElementById('communityCreateBtn');
+    if (!contributeBtn) return;
+
+    if (currentLevel === 'all') {
+        // No level selected, just go to contribute page
+        contributeBtn.href = '/Contribute/';
+    } else {
+        // Pass the selected level as a parameter
+        contributeBtn.href = `/Contribute/?level=${currentLevel}`;
+    }
 }
 
 console.log('✅ Community Lessons JS loaded');

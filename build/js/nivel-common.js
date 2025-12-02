@@ -191,14 +191,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    const cancelEditBtn2 = document.getElementById('cancelEditBtn2');
-    if (cancelEditBtn2) {
-        cancelEditBtn2.addEventListener('click', function (e) {
-            e.preventDefault();
-            closeInlineEditor();
-        });
-    }
-
     // Handle Inline Submit
     const inlineForm = document.getElementById('inlineLessonForm');
     if (inlineForm) {

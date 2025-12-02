@@ -247,7 +247,7 @@ class LessonEditor {
                         <i class="fas fa-check"></i> Insertar Tabla
                     </button>
                     <button class="btn-cancel" id="cancelTableBtn">
-                        Cancelar
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>

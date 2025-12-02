@@ -46,13 +46,13 @@ const getAllowedOrigins = () => {
     'http://127.0.0.1:8000',
     'http://127.0.0.1:5500'
   ];
-  
+
   // Add production origins from environment
   if (process.env.ALLOWED_ORIGINS) {
     const prodOrigins = process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim());
     return [...baseOrigins, ...prodOrigins];
   }
-  
+
   return baseOrigins;
 };
 
@@ -60,9 +60,9 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, Postman, curl)
     if (!origin) return callback(null, true);
-    
+
     const allowedOrigins = getAllowedOrigins();
-    
+
     if (allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
@@ -123,7 +123,7 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // ✅ MODIFICADO para servir la carpeta _site_tmp de Eleventy
-const FRONTEND_PATH = path.join(__dirname, '..', '_site_tmp'); 
+const FRONTEND_PATH = path.join(__dirname, '..', '_site_tmp');
 app.use(express.static(FRONTEND_PATH, {
   maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
   etag: true
@@ -142,7 +142,7 @@ connectDB(); // Esto ahora funcionará
 // Health check endpoint
 app.get('/health', (req, res) => {
   const mongoose = require('mongoose');
-  
+
   res.json({
     status: 'OK',
     message: 'TurkAmerica MVP Server is running',
@@ -186,7 +186,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(FRONTEND_PATH, 'index.html'), (err) => {
     if (err) {
       console.error('Error serving index.html:', err);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Could not serve frontend application',
         message: process.env.NODE_ENV === 'development' ? err.message : undefined
       });
@@ -216,18 +216,18 @@ mongoose.connection.on('reconnected', () => {
 // Global error handler
 app.use((error, req, res, next) => {
   console.error('❌ Error:', error.message);
-  
+
   // CORS errors
   if (error.message === 'Not allowed by CORS') {
     return res.status(403).json({
       error: 'CORS policy violation',
       message: 'Origin not allowed',
-      hint: process.env.NODE_ENV === 'development' 
-        ? 'Make sure your origin is in the allowed list' 
+      hint: process.env.NODE_ENV === 'development'
+        ? 'Make sure your origin is in the allowed list'
         : undefined
     });
   }
-  
+
   // JWT errors
   if (error.name === 'JsonWebTokenError') {
     return res.status(401).json({
@@ -235,14 +235,14 @@ app.use((error, req, res, next) => {
       message: 'Please log in again'
     });
   }
-  
+
   if (error.name === 'TokenExpiredError') {
     return res.status(401).json({
       error: 'Token expired',
       message: 'Please log in again'
     });
   }
-  
+
   // Validation errors
   if (error.name === 'ValidationError') {
     return res.status(400).json({
@@ -251,7 +251,7 @@ app.use((error, req, res, next) => {
       fields: error.errors ? Object.keys(error.errors) : undefined
     });
   }
-  
+
   // MongoDB duplicate key error
   if (error.code === 11000) {
     const field = Object.keys(error.keyPattern || {})[0];
@@ -261,7 +261,7 @@ app.use((error, req, res, next) => {
       field: field
     });
   }
-  
+
   // Cast errors (invalid ObjectId, etc.)
   if (error.name === 'CastError') {
     return res.status(400).json({
@@ -269,7 +269,7 @@ app.use((error, req, res, next) => {
       message: 'The provided ID or data format is invalid'
     });
   }
-  
+
   // Default server error
   res.status(error.status || 500).json({
     error: 'Internal server error',
@@ -302,19 +302,19 @@ process.on('uncaughtException', (error) => {
 
 const gracefulShutdown = (signal) => {
   console.log(`\n🔄 Received ${signal}. Starting graceful shutdown...`);
-  
+
   // Close server first
   const server = app.listen(PORT);
   server.close(() => {
     console.log('🚪 HTTP server closed');
-    
+
     // Then close database
     mongoose.connection.close(false, () => {
       console.log('📦 MongoDB connection closed');
       process.exit(0);
     });
   });
-  
+
   // Force close after 10 seconds
   setTimeout(() => {
     console.error('⚠️  Forced shutdown after timeout');
@@ -340,7 +340,7 @@ const startServer = async () => {
         mongoose.connection.once('error', reject);
       }
     });
-    
+
     app.listen(PORT, () => {
       console.log('\n╔═══════════════════════════════════════╗');
       console.log('║   TurkAmerica MVP Server Started   ║');

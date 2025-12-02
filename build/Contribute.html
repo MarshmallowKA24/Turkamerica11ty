@@ -1,7 +1,7 @@
----
+﻿---
 layout: base.njk
 styles:
-- contribute.css
+- inline-editor-mobile-fixes.css
 - lesson-editor.css
 scripts:
 - contribute.js
@@ -9,6 +9,18 @@ scripts:
 ---
 
 <div class="content contribute-page">
+    <!-- Compact Header for Mobile Edit Mode -->
+    <div class="compact-header">
+        <a href="/" class="compact-back-btn">
+            <i class="fas fa-times"></i>
+        </a>
+        <span style="font-weight: 600;">Editar Lección</span>
+        <button type="button"
+            onclick="document.getElementById('lessonEditForm').dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}))"
+            class="btn-text" style="color: #667eea; font-weight: 600; background: none; border: none; font-size: 1rem;">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
     <div class="page-header">
 
 
@@ -73,10 +85,10 @@ scripts:
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary">
-                    <i class="fas fa-paper-plane"></i> Enviar Lección
+                    <i class="fas fa-paper-plane"></i>
                 </button>
                 <button type="button" class="btn-secondary" onclick="window.location.href='/'">
-                    <i class="fas fa-times"></i> Cancelar
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
         </form>
@@ -176,7 +188,7 @@ scripts:
                     <i class="fas fa-paper-plane"></i> Enviar Propuesta
                 </button>
                 <button type="button" class="btn-secondary" onclick="window.location.href='/'">
-                    <i class="fas fa-times"></i> Cancelar
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
         </form>
@@ -242,11 +254,19 @@ scripts:
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
         }
 
         .compact-back-btn:hover {
             color: #333;
+        }
+
+        .compact-header .btn-text {
+            font-size: 1.5rem !important;
+        }
+
+        .compact-header .btn-text:hover {
+            color: #5568d3 !important;
         }
     </style>
     <script src="/js/contribution-service.js"></script>

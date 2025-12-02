@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+        (function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si el usuario guardó 'enabled' O no guardó nada y prefiere oscuro,
+            // aplica la clase 'dark-mode' inmediatamente.
+            if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+                // Se usa document.documentElement (<html>) en lugar de <body> 
+                // para asegurar que el fondo de la página se aplique antes
+                // de que cualquier contenido se cargue.
+            }
+        })();
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded { opacity: 1; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1764671087048">
+    
+    <link rel="stylesheet" href="/css/fix.css?v=1764671087048">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    
+    <link rel="stylesheet" href="/css/index.css?v=1764671087048">
+    
+    <link rel="stylesheet" href="/css/Consejos.css?v=1764671087048">
+    
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1764671087048">
+    
+    
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
+            <div class="tabs">
+                <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
+                <a href="/Consejos/" class="tab">Consejos</a>
+                <a href="/Gramatica/" class="tab">Gramática</a>
+                <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+            </div>
+            <div id="authButton" class="auth-buttons">
+                <a href="/login/">Iniciar Sesión</a>
+            </div>
+        </header>
+
+        
+<div class="notice">
+    <i class="fas fa-info-circle"></i>
+    <span>Regístrate para guardar tu progreso y sincronizar con la app móvil</span>
+    <a href="/register/">Registrarme</a>
+</div>
+
+<div class="content">
+    <section class="schedule-section">
+        <h2 class="section-title">
+            <i class="fas fa-clock"></i>
+            Horario de Estudio Intensivo
+        </h2>
+        
+        <div class="schedule-grid">
+            <div class="time-block morning">
+                <div class="time-period">
+                    <i class="fas fa-sun"></i>
+                    <span>Mañana</span>
+                </div>
+                
+                <div class="activities">
+                    <div class="activity-item">
+                        <div class="time-slot">7:30 - 8:15</div>
+                        <div class="activity-content">
+                            <h4>Leer un texto en turco</h4>
+                            <p>İstanbul book PDF/sacar un texto de noticias</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">8:15 - 8:45</div>
+                        <div class="activity-content">
+                            <h4>Practicar vocabulario</h4>
+                            <p>Sozluk.gov.tr o pdfs de verbos o vocabularios</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">9:00 - 9:45</div>
+                        <div class="activity-content">
+                            <h4>Podcast Türkçe o noticias</h4>
+                            <p>Luego tomar resumen</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-podcast"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">9:45 - 10:30</div>
+                        <div class="activity-content">
+                            <h4>Gramática</h4>
+                            <p>Usar una web de gramática o texto o clases</p>
+                        </div>
+                        <div class="activity-icon">
+                             <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block afternoon">
+                <div class="time-period">
+                    <i class="fas fa-cloud"></i>
+                    <span>Tarde</span>
+                </div>
+                
+                <div class="activities">
+                    <div class="activity-item">
+                        <div class="time-slot">11:15 - 12:00</div>
+                        <div class="activity-content">
+                            <h4>Práctica de escritura</h4>
+                            <p>Tema diario, pedir a AI o buscar en internet</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">13:00 - 13:45</div>
+                        <div class="activity-content">
+                            <h4>Leer un texto avanzado</h4>
+                            <p>Tratar de reconocer patrones</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">13:45 - 14:15</div>
+                        <div class="activity-content">
+                            <h4>Mirar video sin subtítulos</h4>
+                            <p>Práctica de comprensión auditiva</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">14:15 - 14:45</div>
+                        <div class="activity-content">
+                            <h4>Práctica de refranes</h4>
+                            <p>Buscar en Sozluk.gov.tr o internet o AI</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">15:00 - 15:45</div>
+                        <div class="activity-content">
+                            <h4>Gramática avanzada</h4>
+                            <p>Yunus emre o cualquiera</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="time-slot">17:15 - 18:00</div>
+                        <div class="activity-content">
+                            <h4>Revisión general</h4>
+                            <p>Escritura + recitarlo (Tema diario)</p>
+                        </div>
+                        <div class="activity-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="youtube-section">
+        <h2 class="section-title">
+            <i class="fab fa-youtube"></i>
+            Canales de YouTube
+        </h2>
+        
+        <div class="channels-grid">
+            <div class="channel-category">
+                <h3 class="category-title">
+                    <i class="fas fa-plane"></i>
+                    Blogs de aventura
+                </h3>
+                <ul class="channel-list">
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@gunesinpesinde" target="_blank">Güneşin Peşinde</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/c/sumeyracenetvideolari" target="_blank">Sümeyra Çenet Videoları</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@MertAktasTravel" target="_blank">Mert Aktas Travel</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/channel/UCWpk9PSGHoJW1hZT4egxTNQ" target="_blank">Ruhi Çenet</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="channel-category">
+                <h3 class="category-title">
+                    <i class="fas fa-newspaper"></i>
+                    Noticieros
+                </h3>
+                <ul class="channel-list">
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@ContextTürkçe" target="_blank">Context Türkçe</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@49W" target="_blank">49W</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/cnnturk" target="_blank">CNN TÜRK</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="channel-category">
+                <h3 class="category-title">
+                    <i class="fas fa-language"></i>
+                    Canales de Gramática Turca
+                </h3>
+                <ul class="channel-list">
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@learnturkishlanguagesandmusic" target="_blank">learnturkishlanguagesandmusic</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@TurkishClass101" target="_blank">Learn Turkish with TurkishClass101</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@Turkishle" target="_blank">Turkishle</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@teacheraliyilmaz" target="_blank">Teacher Ali Yılmaz</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@colegioturco" target="_blank">Colegio Turco</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@LearnTurkishTheEasyWay" target="_blank">Learn Turkish The Easy Way</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@LearnTurkishwithJihan" target="_blank">Learn Turkish with Jihan</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@LearnTurkishWithTurkishCoffee" target="_blank">Learn Turkish with Turkish Coffee</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@yeeorgtr" target="_blank">Yunus Emre Enstitüsü</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@budapesteyunusemre" target="_blank">Budapeşte Yunus Emre Enstitüsü</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="channel-category">
+                <h3 class="category-title">
+                    <i class="fas fa-flag"></i>
+                    Canales en Español
+                </h3>
+                <ul class="channel-list">
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@estambulmagico" target="_blank">ESTAMBUL MÁGICO vivir en TURQUÍA</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@AprenderTurco" target="_blank">Aprender Turco</a>
+                    </li>
+                    <li class="channel-item">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/@FabianEnTurquia" target="_blank">Fabian en Turquía</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+        <div class="settings-overlay" id="settingsOverlay">
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h2>Configuración</h2>
+                    <button class="close-btn" id="closeSettings" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-user"></i></div>
+                        <div class="setting-content">
+                            <h3>Perfil</h3>
+                            <p>Ver tu racha y configuración personal</p>
+                        </div>
+                        <div class="setting-action">
+                            <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-bell"></i></div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-moon"></i></div>
+                        <div class="setting-content">
+                            <h3>Tema Oscuro</h3>
+                            <p>Cambiar apariencia de la aplicación</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-font"></i></div>
+                        <div class="setting-content">
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
+                        </div>
+                        <div class="setting-action">
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <span class="made-with">Made with</span>
+                <i class="fas fa-heart heart-icon"></i>
+                <span class="made-with">by LatinCTC</span>
+            </div>
+            <div class="footer-links">
+                <span>•</span>
+                <a href="/Dashboard/">Sobre el Proyecto</a>
+                <span>•</span>
+                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+              
+            </div>
+        </footer>
+    </div>
+    
+    <!-- CRITICAL: Load in this exact order -->
+    <!-- 1. Cache Manager FIRST (detects updates) -->
+    <script src="/js/cache-manager.js?v=1764671087048"></script>
+    
+    <!-- 2. General utilities (settings, dark mode, etc) -->
+    <script src="/js/general.js?v=1764671087048"></script>
+    
+    <!-- 3. Core systems -->
+    <script src="/js/config.js?v=1764671087048"></script>
+    <script src="/js/cache.js?v=1764671087048"></script>
+    <script src="/js/loader.js?v=1764671087048"></script>
+    <script src="/js/toast.js?v=1764671087048"></script>
+    <script src="/js/analytics.js?v=1764671087048"></script>
+    <script src="/js/search.js?v=1764671087048"></script>
+    
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/auth.js?v=1764671087048"></script>
+    <script src="/js/index.js?v=1764671087048"></script>
+    <script src="/js/app.js?v=1764671087048"></script>
+    
+    <!-- Page-specific scripts -->
+    
+    
+    <script src="/js/consejos.js?v=1764671087048"></script>
+    
+    <script src="/js/index.js?v=1764671087048"></script>
+    
+    
+    
+    <!-- Load indicator -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>

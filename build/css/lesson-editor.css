@@ -1,4 +1,4 @@
-/* ========================================
+﻿/* ========================================
    LESSON EDITOR STYLES
    Visual editor for creating beautiful lessons
    ======================================== */
@@ -138,7 +138,9 @@
     margin: 20px 0;
     border-radius: 8px;
     display: flex;
-    gap: 12px;
+    gap: column;
+    gap: 8px;
+    flex-direction: column;
 }
 
 .tip-box::before {
@@ -334,7 +336,9 @@
         margin: 20px 0;
         border-radius: 8px;
         display: flex;
-        gap: 12px;
+        gap: column;
+        gap: 8px;
+        flex-direction: column;
     }
 
     .tip-box::before {
@@ -531,3 +535,13 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* Override for text overflow fix */
+    .editor-content {
+        overflow-wrap: break-word !important;
+        word-break: break-word !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+}
