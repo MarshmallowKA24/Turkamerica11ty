@@ -102,7 +102,8 @@ scripts:
 </div>
 
 
-<div class="level-card special" onclick="window.location.href='/Community-Lessons/'" style="cursor: pointer;">
+<div class="level-card special mobile-only-card" onclick="window.location.href='/Community-Lessons/'"
+    style="cursor: pointer;">
     <div class="level-header">
         <h3><i class="fas fa-users"></i> Lecciones de la Comunidad</h3>
         <p class="level-subtitle">Explora y aprende con lecciones creadas por otros estudiantes</p>
@@ -132,6 +133,12 @@ scripts:
     @media (max-width: 768px) {
         .mobile-community-btn-container {
             display: block !important;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .mobile-only-card {
+            display: none !important;
         }
     }
 </style>
