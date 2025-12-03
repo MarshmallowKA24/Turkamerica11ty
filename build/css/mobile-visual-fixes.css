@@ -20,12 +20,13 @@ body {
    DESKTOP - Grid Normal
    ======================================== */
 @media (min-width: 769px) {
+
     .carousel-indicators,
     .swipe-hint,
     .flashcard-section {
         display: none !important;
     }
-    
+
     .levels-grid,
     .features-grid,
     .tech-grid,
@@ -33,7 +34,7 @@ body {
         display: grid !important;
         overflow: visible !important;
     }
-    
+
     .level-card,
     .feature-card,
     .tech-item,
@@ -48,7 +49,7 @@ body {
    MOBILE - CAROUSEL SYSTEM
    ======================================== */
 @media (max-width: 768px) {
-    
+
     /* === CAROUSEL CONTAINERS === */
     .carousel-container,
     .levels-carousel-container {
@@ -57,7 +58,7 @@ body {
         padding-bottom: 10px;
         overflow: hidden;
     }
-    
+
     /* === HORIZONTAL GRIDS === */
     .carousel-container .levels-grid,
     .carousel-container .features-grid,
@@ -75,28 +76,24 @@ body {
         padding: 10px 20px 20px 20px !important;
         margin: 0 -20px !important;
         width: calc(100% + 40px) !important;
-        
+
         /* Hide scrollbar */
         scrollbar-width: none;
         -ms-overflow-style: none;
-        
+
         /* Fade edges */
-        -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0px,
-            black 20px,
-            black calc(100% - 20px),
-            transparent 100%
-        );
-        mask-image: linear-gradient(
-            to right,
-            transparent 0px,
-            black 20px,
-            black calc(100% - 20px),
-            transparent 100%
-        );
+        -webkit-mask-image: linear-gradient(to right,
+                transparent 0px,
+                black 20px,
+                black calc(100% - 20px),
+                transparent 100%);
+        mask-image: linear-gradient(to right,
+                transparent 0px,
+                black 20px,
+                black calc(100% - 20px),
+                transparent 100%);
     }
-    
+
     .carousel-container .levels-grid::-webkit-scrollbar,
     .carousel-container .features-grid::-webkit-scrollbar,
     .carousel-container .tech-grid::-webkit-scrollbar,
@@ -104,10 +101,10 @@ body {
     .levels-carousel-container .levels-grid::-webkit-scrollbar {
         display: none;
     }
-    
+
     /* === HORIZONTAL CARDS === */
-    .carousel-container .levels-grid > .level-card:not(.special),
-    .levels-carousel-container .levels-grid > .level-card:not(.special) {
+    .carousel-container .levels-grid>.level-card:not(.special),
+    .levels-carousel-container .levels-grid>.level-card:not(.special) {
         flex: 0 0 85%;
         min-width: 280px;
         max-width: 350px;
@@ -119,8 +116,8 @@ body {
         opacity: 1 !important;
         visibility: visible !important;
     }
-    
-    .carousel-container .features-grid > .feature-card {
+
+    .carousel-container .features-grid>.feature-card {
         flex: 0 0 85%;
         min-width: 260px;
         max-width: 320px;
@@ -129,8 +126,8 @@ body {
         display: flex !important;
         flex-direction: column;
     }
-    
-    .carousel-container .tech-grid > .tech-item {
+
+    .carousel-container .tech-grid>.tech-item {
         flex: 0 0 35%;
         min-width: 110px;
         max-width: 140px;
@@ -139,8 +136,8 @@ body {
         display: flex !important;
         flex-direction: column;
     }
-    
-    .carousel-container .screenshots-grid > .screenshot-placeholder {
+
+    .carousel-container .screenshots-grid>.screenshot-placeholder {
         flex: 0 0 60%;
         min-width: 200px;
         max-width: 250px;
@@ -148,52 +145,22 @@ body {
         scroll-snap-stop: always;
         display: flex !important;
     }
-    
+
     /* Hide flashcard from carousel */
-    .levels-grid > .level-card.special,
-    .levels-carousel-container .levels-grid > .level-card.special {
+    .levels-grid>.level-card.special,
+    .levels-carousel-container .levels-grid>.level-card.special {
         display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
         position: absolute !important;
         pointer-events: none !important;
     }
-    
-    /* === CAROUSEL INDICATORS (BEAUTIFUL SMALL DOTS) === */
+
+    /* === CAROUSEL INDICATORS REMOVED FOR PROGRESS BAR === */
     .carousel-indicators {
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        margin-top: 12px;
-        padding: 6px 8px;
-        background: transparent;
+        display: none !important;
     }
-    
-    .carousel-indicator {
-        width: 6px !important;
-        height: 6px !important;
-        min-width: 6px !important;
-        min-height: 6px !important;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
-    
-    .carousel-indicator.active {
-        width: 16px !important;
-        min-width: 16px !important;
-        height: 6px !important;
-        min-height: 6px !important;
-        border-radius: 3px;
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    }
-    
+
     /* === SWIPE HINT === */
     .swipe-hint {
         display: flex !important;
@@ -208,22 +175,25 @@ body {
         padding: 4px 12px;
         animation: swipeAnimation 2s ease-in-out infinite;
     }
-    
+
     .swipe-hint i {
         font-size: 0.9rem;
     }
-    
+
     @keyframes swipeAnimation {
-        0%, 100% { 
-            transform: translateX(0); 
-            opacity: 0.8; 
+
+        0%,
+        100% {
+            transform: translateX(0);
+            opacity: 0.8;
         }
-        50% { 
-            transform: translateX(10px); 
-            opacity: 1; 
+
+        50% {
+            transform: translateX(10px);
+            opacity: 1;
         }
     }
-    
+
     /* === FLASHCARD SECTION (SEPARATE) === */
     .flashcard-section {
         display: block !important;
@@ -236,7 +206,7 @@ body {
         -webkit-mask-image: none !important;
         mask-image: none !important;
     }
-    
+
     .flashcard-section .level-card {
         width: 100% !important;
         max-width: 100% !important;
@@ -249,17 +219,17 @@ body {
         -webkit-mask-image: none !important;
         mask-image: none !important;
     }
-    
+
     /* === DARK MODE === */
     html.dark-mode .carousel-indicator {
         background: rgba(255, 255, 255, 0.25);
     }
-    
+
     html.dark-mode .carousel-indicator.active {
         background: rgba(129, 140, 248, 0.85);
         box-shadow: 0 1px 3px rgba(129, 140, 248, 0.4);
     }
-    
+
     html.dark-mode .swipe-hint {
         color: rgba(255, 255, 255, 0.5);
     }
@@ -269,49 +239,49 @@ body {
    MOBILE - GENERAL ADJUSTMENTS
    ======================================== */
 @media (max-width: 768px) {
-    
+
     .container {
         padding: 10px !important;
         max-width: 100vw;
         overflow-x: hidden;
     }
-    
+
     .content {
         padding: 15px !important;
         overflow-x: hidden;
         max-width: 100%;
     }
-    
+
     .header {
         padding: 12px 15px !important;
     }
-    
+
     .main-title {
         font-size: 1.3rem !important;
         line-height: 1.2;
         text-align: center;
     }
-    
+
     .tabs {
         flex-direction: column !important;
         gap: 6px !important;
         padding: 0 10px 10px !important;
     }
-    
+
     .tab {
         width: 100% !important;
         text-align: center !important;
         padding: 10px 16px !important;
         font-size: 0.9rem !important;
     }
-    
+
     .description {
         padding: 15px !important;
         margin: 0 0 15px 0 !important;
         border-radius: 12px !important;
         font-size: 0.95rem !important;
     }
-    
+
     /* === NOTICE - HIDE WHEN LOGGED IN === */
     .notice {
         padding: 10px 12px !important;
@@ -324,7 +294,7 @@ body {
         text-align: center;
         gap: 8px;
     }
-    
+
     body.user-logged-in .notice,
     .notice.hidden {
         display: none !important;
@@ -334,23 +304,23 @@ body {
         margin: 0 !important;
         padding: 0 !important;
     }
-    
+
     .level-card,
     .feature-card {
         padding: 20px 15px !important;
         border-radius: 15px !important;
     }
-    
+
     .level-header {
         text-align: center;
         margin-bottom: 15px;
     }
-    
+
     .level-header h3 {
         font-size: 1.3rem !important;
         margin-bottom: 6px;
     }
-    
+
     .level-actions {
         display: flex !important;
         flex-direction: column !important;
@@ -359,7 +329,7 @@ body {
         align-items: center;
         margin-top: 15px;
     }
-    
+
     .btn,
     .btn-primary,
     .btn-secondary {
@@ -369,7 +339,7 @@ body {
         font-size: 0.95rem !important;
         border-radius: 10px !important;
     }
-    
+
     /* === MODALS === */
     .modal-content {
         width: calc(100vw - 30px) !important;
@@ -378,41 +348,41 @@ body {
         max-height: 85vh !important;
         border-radius: 15px !important;
     }
-    
+
     .modal-header {
         padding: 20px 15px !important;
     }
-    
+
     .modal-body {
         padding: 20px 15px !important;
         max-height: calc(85vh - 140px) !important;
         overflow-y: auto !important;
     }
-    
+
     /* === FOOTER === */
     .footer {
         padding: 20px 15px !important;
         margin-top: 30px !important;
     }
-    
+
     .footer-content {
         font-size: 0.9rem !important;
         flex-direction: column !important;
         gap: 8px !important;
         text-align: center !important;
     }
-    
+
     /* === SPACING === */
     * {
         margin-block-start: 0 !important;
         margin-block-end: 0 !important;
     }
-    
-    .description + .levels-carousel-container {
+
+    .description+.levels-carousel-container {
         margin-top: 0 !important;
     }
-    
-    .levels-carousel-container + .flashcard-section {
+
+    .levels-carousel-container+.flashcard-section {
         margin-top: 15px !important;
     }
 }
@@ -424,14 +394,14 @@ body {
     .main-title {
         font-size: 1.2rem !important;
     }
-    
-    .carousel-container .levels-grid > .level-card:not(.special),
-    .levels-carousel-container .levels-grid > .level-card:not(.special) {
+
+    .carousel-container .levels-grid>.level-card:not(.special),
+    .levels-carousel-container .levels-grid>.level-card:not(.special) {
         flex: 0 0 90%;
         min-width: 260px;
     }
-    
-    .carousel-container .features-grid > .feature-card {
+
+    .carousel-container .features-grid>.feature-card {
         flex: 0 0 90%;
         min-width: 240px;
     }
@@ -442,7 +412,7 @@ body {
         width: 5px !important;
         height: 5px !important;
     }
-    
+
     .carousel-indicator.active {
         width: 14px !important;
         height: 5px !important;
@@ -453,6 +423,7 @@ body {
    TOUCH IMPROVEMENTS
    ======================================== */
 @media (hover: none) and (pointer: coarse) {
+
     .btn,
     .tab,
     .carousel-indicator {
@@ -465,18 +436,17 @@ body {
    ======================================== */
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 768px) {
+
         .carousel-container .levels-grid,
         .carousel-container .features-grid,
         .carousel-container .tech-grid,
         .carousel-container .screenshots-grid,
         .levels-carousel-container .levels-grid {
-            -webkit-mask-image: -webkit-linear-gradient(
-                left,
-                rgba(0,0,0,0) 0px,
-                rgba(0,0,0,1) 20px,
-                rgba(0,0,0,1) calc(100% - 20px),
-                rgba(0,0,0,0) 100%
-            ) !important;
+            -webkit-mask-image: -webkit-linear-gradient(left,
+                    rgba(0, 0, 0, 0) 0px,
+                    rgba(0, 0, 0, 1) 20px,
+                    rgba(0, 0, 0, 1) calc(100% - 20px),
+                    rgba(0, 0, 0, 0) 100%) !important;
         }
     }
 }
@@ -489,14 +459,15 @@ body {
         outline: 2px solid #667eea;
         outline-offset: 3px;
     }
-    
+
     .btn:focus,
     .tab:focus {
         outline: 2px solid #667eea;
         outline-offset: 2px;
     }
-    
+
     @media (prefers-reduced-motion: reduce) {
+
         *,
         *::before,
         *::after {
@@ -504,10 +475,9 @@ body {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
         }
-        
+
         .swipe-hint {
             animation: none !important;
         }
     }
 }
-

@@ -416,6 +416,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // UPDATE UI BASED ON AUTH STATE
+    function updateAuthUI(isLoggedIn, user) {
+        const authButton = document.getElementById('authButton');
+        const adminTab = document.getElementById('adminTab');
+
+        if (authButton) {
+            if (isLoggedIn && user) {
+                authButton.innerHTML = `
+                    <div class="user-menu">
+                        <span class="username"><i class="fas fa-user-circle"></i> ${user.username}</span>
+                        <button id="logoutBtn" class="btn-logout" title="Cerrar Sesión">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Add logout handler
+                document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                    window.AuthService.logout();
+                });
+
+                // Show admin tab if user is admin
+                if (adminTab && window.ContributionService && window.ContributionService.isAdmin()) {
+                    adminTab.style.display = 'flex';
+                } else if (adminTab) {
+                    adminTab.style.display = 'none';
+                }
+
+            } else {
+                authButton.innerHTML = `<a href="/login/">Iniciar Sesión</a>`;
+                if (adminTab) adminTab.style.display = 'none';
+            }
+        }
+    }
+
+    // Listen for auth changes
+    window.addEventListener('authStateChanged', (e) => {
+        updateAuthUI(e.detail.isLoggedIn, e.detail.user);
+    });
+
+    // Initial check
+    const currentUser = window.AuthService.getCurrentUser();
+    updateAuthUI(window.AuthService.isLoggedIn(), currentUser);
 });
 
 console.log('✅ Authentication system loaded');

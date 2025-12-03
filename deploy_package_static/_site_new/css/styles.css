@@ -2683,3 +2683,30 @@ html.dark-mode .difficulty-badge.advanced {
     background-color: #7f1d1d;
     color: #fca5a5;
 }
+/* Fix for lists losing padding due to reset */
+ul, ol {
+    padding-left: 25px;
+    margin-bottom: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+/* Fix for missing scrollbar */
+.container {
+    overflow: visible !important;
+}
+
+/* Topics Panel Toggle Styles */
+.topics-panel.collapsed .panel-content {
+    display: none;
+}
+
+.topics-panel.collapsed .panel-toggle i {
+    transform: rotate(-90deg);
+}
+
+.panel-toggle i {
+    transition: transform 0.3s ease;
+}

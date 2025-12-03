@@ -517,18 +517,27 @@
     /* Responsive */
     @media (max-width: 768px) {
         .editor-toolbar {
-            flex-direction: column;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .editor-toolbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari */
         }
 
         .toolbar-group {
-            border-right: none;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            padding-right: 0;
+            border-right: 1px solid var(--border-color);
+            padding-right: 10px;
+            flex-shrink: 0;
         }
 
         .toolbar-group:last-child {
-            border-bottom: none;
+            border-right: none;
         }
 
         .table-size-inputs {

@@ -63,6 +63,22 @@ class ContributionService {
         return JSON.parse(localStorage.getItem(this.STORAGE_KEYS.REQUESTS) || '[]');
     }
 
+    getPendingRequests() {
+        return this.getAllRequests().filter(req => req.status === 'pending');
+    }
+
+    getStats() {
+        const requests = this.getAllRequests();
+        return {
+            total: requests.length,
+            pending: requests.filter(r => r.status === 'pending').length,
+            approved: requests.filter(r => r.status === 'approved').length,
+            rejected: requests.filter(r => r.status === 'rejected').length,
+            lessonEdits: requests.filter(r => r.status === 'pending' && r.type === 'lesson_edit').length,
+            bookUploads: requests.filter(r => r.status === 'pending' && r.type === 'book_upload').length
+        };
+    }
+
     isAdmin() {
         // Mock admin check - in real app this would check user role
         const user = JSON.parse(localStorage.getItem('currentUser'));

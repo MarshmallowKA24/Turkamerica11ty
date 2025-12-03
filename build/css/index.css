@@ -222,8 +222,87 @@ html.dark-mode .footer-links a:hover {
         display: none !important;
     }
 }
+
 @media (min-width: 769px) {
     .level-card.mobile-only-card {
+        display: none !important;
+    }
+}
+
+/* Mobile Carousel Fixes */
+@media (max-width: 768px) {
+    .levels-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 15px;
+        padding-bottom: 20px;
+        /* Space for scrollbar if visible, or just padding */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scrolling on iOS */
+        scrollbar-width: none;
+        /* Hide scrollbar Firefox */
+    }
+
+    .levels-grid::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbar Chrome/Safari */
+    }
+
+    .level-card {
+        min-width: 85%;
+        /* Show part of next card */
+        scroll-snap-align: center;
+        margin-bottom: 0;
+        /* Remove bottom margin in flex context */
+    }
+
+    /* Hide the dots/indicators on mobile as requested */
+    .carousel-indicators {
+        display: none !important;
+    }
+
+    /* Ensure the container doesn't overflow horizontally */
+    .levels-carousel-container {
+        width: 100%;
+        overflow: hidden;
+    }
+}
+
+/* Carousel Progress Bar */
+.carousel-progress-container {
+    display: none;
+    width: 100%;
+    padding: 10px 20px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.carousel-progress-track {
+    width: 100%;
+    max-width: 200px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+@media (max-width: 768px) {
+    .carousel-progress-container {
+        display: flex;
+    }
+
+    /* Hide dots */
+    .carousel-indicators {
         display: none !important;
     }
 }

@@ -114,13 +114,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Toggle panel
     if (panelToggle && panel) {
         panelToggle.addEventListener('click', function (e) {
+            e.preventDefault();
             e.stopPropagation();
             panel.classList.toggle('collapsed');
         });
 
         const panelHeader = document.querySelector('.panel-header');
         if (panelHeader) {
-            panelHeader.addEventListener('click', function () {
+            panelHeader.addEventListener('click', function (e) {
+                // Prevent toggle if clicking search box or toggle button (handled above)
+                if (e.target.closest('.search-box') || e.target.closest('.panel-toggle')) return;
                 panel.classList.toggle('collapsed');
             });
         }

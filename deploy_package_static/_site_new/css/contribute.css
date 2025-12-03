@@ -626,3 +626,33 @@
         padding: 15px !important;
     }
 }
+/* Header and Button Centering Fixes */
+.contribution-types {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.type-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+    width: 280px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-hover);
+    border-color: #667eea;
+}
+
+.contribution-form h2 {
+    justify-content: center;
+    text-align: center;
+}

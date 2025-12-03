@@ -1788,16 +1788,6 @@ html {
     scroll-behavior: smooth;
 }
 
-
-/* --- 3. FIX FOR IOS SAFARI --- */
-@supports (-webkit-touch-callout: none) {
-    @media (max-width: 768px) {
-        .carousel-container .levels-grid {
-            -webkit-mask-image: -webkit-linear-gradient(left, transparent 0px, black 20px, black 90%, transparent 100%) !important;
-        }
-    }
-}
-
 * {
     transition: background-color 0.3s ease,
         color 0.3s ease,
@@ -2683,8 +2673,10 @@ html.dark-mode .difficulty-badge.advanced {
     background-color: #7f1d1d;
     color: #fca5a5;
 }
+
 /* Fix for lists losing padding due to reset */
-ul, ol {
+ul,
+ol {
     padding-left: 25px;
     margin-bottom: 1rem;
 }

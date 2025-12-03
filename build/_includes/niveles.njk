@@ -106,9 +106,6 @@ layout: base.njk
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const panel = document.getElementById('topicsPanel');
-        const panelToggle = document.getElementById('panelToggle');
-        const panelHeader = document.querySelector('.panel-header');
         const searchInput = document.getElementById('topicSearch');
         const searchBox = document.querySelector('.search-box');
         
@@ -128,30 +125,7 @@ layout: base.njk
             searchBox.addEventListener('touchstart', stop);
         }
 
-        // Toggle Logic
-        function togglePanel(e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            if (panel) {
-                panel.classList.toggle('collapsed');
-            }
-        }
-
-        if (panelToggle) {
-            panelToggle.addEventListener('click', togglePanel);
-        }
-
-        if (panelHeader) {
-            panelHeader.addEventListener('click', function(e) {
-                // Only toggle if the click wasn't on the toggle button (handled above)
-                // or the search input (handled by stop propagation)
-                if (!e.target.closest('.panel-toggle') && !e.target.closest('.search-box')) {
-                    togglePanel(e);
-                }
-            });
-        }
+        // Toggle Logic is now handled in nivel-common.js to avoid conflicts
 
         // Detect current level from page URL and update contribute button
         const createLessonBtn = document.getElementById('createLessonBtn');
@@ -170,24 +144,8 @@ layout: base.njk
     });
 </script>
 
-<div id="explanationModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="modalTitle">Explicación</h3>
-      <button class="close-modal" id="closeModalBtn">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div id="modalContent"></div>
-    </div>
-  </div>
-  
     <!-- 4. Auth & page-specific -->
     <script src="/js/nivel-common.js?v={{ timestamp }}"></script>
     <script src="/js/lesson-editor.js?v={{ timestamp }}"></script>
     <script src="/js/contribute.js?v={{ timestamp }}"></script>
     <script src="/js/admin-contributions.js?v={{ timestamp }}"></script>
-    
-
-</div>
