@@ -2,18 +2,19 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
 
     // --- Passthrough de assets estáticos (COMBINADO Y AJUSTADO) ---
     // Reglas existentes (asumiendo que los archivos están en 'build/...')
     eleventyConfig.addPassthroughCopy({ "build/css": "css" });
     eleventyConfig.addPassthroughCopy({ "build/js": "js" });
     eleventyConfig.addPassthroughCopy({ "build/data": "data" });
-    
+    eleventyConfig.addPassthroughCopy({ "build/assets": "assets" });
+
     // Archivos sueltos/root
     eleventyConfig.addPassthroughCopy({ "build/*.pdf": "." });
     eleventyConfig.addPassthroughCopy({ "build/sw.js": "sw.js" });
-    
+
     // Reglas nuevas (asumiendo que estos archivos están en la raíz o en carpetas específicas)
     // Ajusta la fuente si 'public', 'icons', 'images' no están en la raíz del input dir.
     eleventyConfig.addPassthroughCopy("public");
@@ -21,8 +22,8 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy("images");
     eleventyConfig.addPassthroughCopy("manifest.json");
     eleventyConfig.addPassthroughCopy("favicon.ico");
-    
-  
+
+
 
     // ===== FIX UTF-8 para Nunjucks =====
     eleventyConfig.setNunjucksEnvironmentOptions({
@@ -30,7 +31,7 @@ module.exports = function(eleventyConfig) {
         throwOnUndefined: true
     });
 
-    eleventyConfig.addFilter("safe", function(value) {
+    eleventyConfig.addFilter("safe", function (value) {
         return value;
     });
 

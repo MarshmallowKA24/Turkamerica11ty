@@ -445,7 +445,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
             } else {
-                authButton.innerHTML = `<a href="/login/">Iniciar Sesión</a>`;
+                authButton.innerHTML = `
+                    <div class="auth-buttons-container">
+                        <a href="/login/" class="btn-auth-dark">Inicia Sesión</a>
+                        <a href="/register/" class="btn-auth-dark">Registrarme</a>
+                    </div>
+                `;
                 if (adminTab) adminTab.style.display = 'none';
             }
         }

@@ -340,10 +340,18 @@ function formatDate(dateString) {
 }
 
 function showToast(message, type = 'info') {
-    if (window.ToastManager) {
+    if (window.ToastSystem) {
+        window.ToastSystem.show({ message, type });
+    } else if (window.ToastManager) {
         window.ToastManager.show(message, type);
     } else {
-        alert(message);
+        console.log(`Toast (${type}): ${message}`);
+        // Fallback custom toast if system not ready
+        const div = document.createElement('div');
+        div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#333;color:white;padding:15px;border-radius:5px;z-index:9999;box-shadow:0 4px 6px rgba(0,0,0,0.1);animation:fadeIn 0.3s;';
+        div.textContent = message;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 3000);
     }
 }
 

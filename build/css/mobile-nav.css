@@ -77,22 +77,22 @@
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 6px 10px !important;
+        padding: 4px 8px !important;
         /* Smaller padding */
-        min-width: auto !important;
+        min-width: 50px !important;
         background: transparent !important;
         border: none !important;
         color: rgba(255, 255, 255, 0.9) !important;
         text-decoration: none !important;
-        font-size: 0.7rem !important;
+        font-size: 0.65rem !important;
         /* Smaller font */
         font-weight: 500 !important;
-        border-radius: 10px;
-        line-height: 1.1 !important;
+        border-radius: 8px;
+        line-height: 1 !important;
     }
 
     .header .tab i {
-        font-size: 1.1rem !important;
+        font-size: 0.9rem !important;
         /* Smaller icon */
         margin-bottom: 2px !important;
         display: block !important;

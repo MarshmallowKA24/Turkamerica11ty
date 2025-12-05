@@ -65,14 +65,14 @@
     }
 
     .settings-header h2 {
-        font-size: 1.3rem !important;
+        font-size: 1.1rem !important;
         margin: 0 !important;
     }
 
     .close-btn {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 1.3rem !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 1.1rem !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -95,18 +95,18 @@
 
     /* Icon */
     .setting-icon {
-        width: 45px !important;
-        height: 45px !important;
+        width: 40px !important;
+        height: 40px !important;
         flex-shrink: 0 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         background: #f1f5f9 !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
     }
 
     .setting-icon i {
-        font-size: 1.3rem !important;
+        font-size: 1.1rem !important;
         color: #667eea !important;
     }
 
@@ -117,7 +117,7 @@
     }
 
     .setting-content h3 {
-        font-size: 1rem !important;
+        font-size: 0.9rem !important;
         margin: 0 0 4px 0 !important;
         font-weight: 600 !important;
     }

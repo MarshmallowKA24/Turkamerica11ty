@@ -7,6 +7,7 @@ styles:
 scripts:
 - contribute.js
 - lesson-editor.js
+- carousel-universal.js
 ---
 
 <div class="content contribute-page">
@@ -24,18 +25,31 @@ scripts:
     </div>
     <div class="page-header">
         <!-- Contribution Type Selection -->
-        <div class="contribution-types">
-            <button class="type-card active" data-type="lesson" id="lessonTypeBtn">
-                <i class="fas fa-book-open"></i>
-                <h3>Crear Lección</h3>
-                <p>Crea una lección completa con formato profesional</p>
-            </button>
-
-            <button class="type-card" data-type="book" id="bookTypeBtn">
-                <i class="fas fa-file-pdf"></i>
-                <h3>Compartir Libro</h3>
-                <p>Comparte libros o recursos de aprendizaje (solo enlace)</p>
-            </button>
+        <!-- Contribution Type Selection -->
+        <div class="contribution-carousel-container">
+            <div class="contribution-types-grid">
+                <button class="type-card active" data-type="lesson" id="lessonTypeBtn">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Crear Lección</h3>
+                    <p>Crea una lección completa con formato profesional</p>
+                </button>
+    
+                <button class="type-card" data-type="book" id="bookTypeBtn">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Compartir Libro</h3>
+                    <p>Comparte libros o recursos de aprendizaje (solo enlace)</p>
+                </button>
+            </div>
+            
+            <div class="carousel-indicators">
+                <button class="carousel-indicator active" aria-label="Crear Lección"></button>
+                <button class="carousel-indicator" aria-label="Compartir Libro"></button>
+            </div>
+            
+            <div class="swipe-hint">
+                <i class="fas fa-hand-pointer"></i>
+                <p>Desliza para ver más opciones</p>
+            </div>
         </div>
 
         <!-- Lesson Creation Form (SIMPLIFIED) -->
