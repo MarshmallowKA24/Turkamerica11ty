@@ -1,0 +1,253 @@
+/* Mobile Header & Nav Improvements (Blue Gradient & Stacked Nav) */
+
+@media (max-width: 768px) {
+
+    /* Header Container - Blue Gradient */
+    .header {
+        margin-bottom: 15px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+        padding: 15px 10px;
+        border-bottom: none;
+        display: flex;
+        flex-direction: column !important;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Row 1: Title Only (Centered) */
+    .header-title-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-title {
+        display: block !important;
+        font-size: 1.1rem !important;
+        /* Minimalist size */
+        font-weight: 700;
+        color: white !important;
+        margin: 0;
+        text-align: center;
+        white-space: nowrap !important;
+        /* Force single line */
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Row 2: Nav Row (Logo Hidden + Tabs) */
+    .header-nav-row {
+        width: 100%;
+        display: block;
+        overflow: visible;
+    }
+
+    /* Hide Logo on Mobile */
+    .header-logo {
+        display: none !important;
+    }
+
+    /* Navigation Tabs - Horizontal Carousel (Safe & Compact) */
+    .header .tabs {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        width: 100% !important;
+        padding: 0 10px !important;
+        gap: 5px !important;
+        justify-content: flex-start !important;
+        margin: 0 !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .header .tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .header .tab {
+        flex: 0 0 auto !important;
+        display: inline-flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 6px 10px !important;
+        /* Smaller padding */
+        min-width: auto !important;
+        background: transparent !important;
+        border: none !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        text-decoration: none !important;
+        font-size: 0.7rem !important;
+        /* Smaller font */
+        font-weight: 500 !important;
+        border-radius: 10px;
+        line-height: 1.1 !important;
+    }
+
+    .header .tab i {
+        font-size: 1.1rem !important;
+        /* Smaller icon */
+        margin-bottom: 2px !important;
+        display: block !important;
+    }
+
+    .header .tab.active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    html.dark-mode .header .tab.active {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: white !important;
+    }
+
+    /* Row 3: Auth Button - Centered */
+    .auth-buttons {
+        display: block !important;
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
+
+    .auth-buttons a {
+        color: white !important;
+        text-decoration: none;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 25px;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.95rem;
+    }
+
+    body {
+        padding-bottom: 0;
+    }
+
+    .container {
+        padding-top: 0;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 769px) {
+    .header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        /* Center content vertically */
+        padding: 20px 40px;
+        height: auto;
+        min-height: 160px;
+        /* Ensure height for absolute logo */
+        gap: 5px;
+        /* Minimal gap between Title and Tabs */
+        background: #4facfe !important;
+        background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+        position: relative !important;
+        /* For absolute logo */
+    }
+
+    /* Row 1: Title (Centered) */
+    .header-title-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0 !important;
+        /* No bottom margin */
+        z-index: 2;
+    }
+
+    .main-title {
+        display: block !important;
+        font-size: 2.8rem;
+        /* Slightly larger */
+        font-weight: 700;
+        color: white !important;
+        margin: 0;
+        text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Row 2: Nav Row (Tabs Only - Logo Absolute) */
+    .header-nav-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center !important;
+        /* Force Center Tabs */
+        padding: 0;
+        gap: 0;
+        z-index: 2;
+    }
+
+    /* Logo Absolute Left - CORRECTED */
+    .header-logo {
+        display: block !important;
+        position: absolute !important;
+        left: 40px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        height: 140px !important;
+        width: auto !important;
+        margin: 0 !important;
+        z-index: 1;
+        /* No mix-blend-mode for transparent logo */
+    }
+
+    .header .tabs {
+        width: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        flex-wrap: wrap;
+        margin-top: 5px !important;
+        /* Slight spacing from title */
+    }
+
+    .header .tab {
+        flex: 0 1 auto !important;
+        padding: 10px 25px !important;
+        font-size: 1.1rem !important;
+        margin: 0 5px;
+    }
+
+    /* Row 3: Auth Button - Centered (Below Tabs) */
+    .auth-buttons {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 15px;
+        /* Space from tabs */
+        padding-bottom: 10px;
+        z-index: 2;
+    }
+
+    .auth-buttons a {
+        color: white !important;
+        text-decoration: none;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 30px;
+        border-radius: 25px;
+        transition: background 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .auth-buttons a:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+}

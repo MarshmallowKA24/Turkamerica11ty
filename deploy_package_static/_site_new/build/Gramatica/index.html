@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+        (function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si el usuario guardó 'enabled' O no guardó nada y prefiere oscuro,
+            // aplica la clase 'dark-mode' inmediatamente.
+            if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+                // Se usa document.documentElement (<html>) en lugar de <body> 
+                // para asegurar que el fondo de la página se aplique antes
+                // de que cualquier contenido se cargue.
+            }
+        })();
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded { opacity: 1; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v=1764838347051">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1764838347051">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1764838347051">
+    
+    <link rel="stylesheet" href="/css/fix.css?v=1764838347051">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    
+    <link rel="stylesheet" href="/css/index.css?v=1764838347051">
+    
+    <link rel="stylesheet" href="/css/gramatica.css?v=1764838347051">
+    
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1764838347051">
+    
+    
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
+            <div class="tabs">
+                <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
+                <a href="/Consejos/" class="tab">Consejos</a>
+                <a href="/Gramatica/" class="tab">Gramática</a>
+                <a href="/admin-contributions/" class="tab admin-tab" id="adminTab" style="display: none;"><i class="fas fa-shield-alt"></i>Admin</a>
+                <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+            </div>
+            <div id="authButton" class="auth-buttons">
+                <a href="/login/">Iniciar Sesión</a>
+            </div>
+        </header>
+
+        
+<div class="notice">
+    <i class="fas fa-info-circle"></i>
+    <span>Regístrate para guardar tu progreso y sincronizar con la app móvil</span>
+    <a href="/register/">Registrarme</a>
+</div>
+
+<section class="resources-section">
+    <h2 class="section-title">
+        <i class="fas fa-globe"></i>
+        Páginas de Internet
+    </h2>
+
+    <div class="resources-grid">
+        <div class="resource-category">
+            <h3 class="category-title">
+                <i class="fas fa-grammar"></i>
+                Gramática
+            </h3>
+            <ul class="resource-list">
+                <li class="resource-item">
+                    <a href="https://quizlet.com" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Quizlet
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="https://elon.io/" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Elon
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="https://www.turkishtextbook.com/" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        TurkishTextBook
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="https://hepturkce.com/" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        HepTürkçe
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="https://lms.apitwist.com/course/index.php?categoryid=4&lang=en" target="_blank"
+                        class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Apitwist
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="resource-category">
+            <h3 class="category-title">
+                <i class="fas fa-book-open"></i>
+                Diccionarios
+            </h3>
+            <ul class="resource-list">
+                <li class="resource-item">
+                    <a href="https://sozluk.gov.tr" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Sozluk.gov.tr
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="https://wordreference.com" target="_blank" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        WordReference
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div id="explanationModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Explicación</h3>
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="modalContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <span class="made-with">Made with</span>
+                <i class="fas fa-heart heart-icon"></i>
+                <span class="made-with">by LatinCTC</span>
+            </div>
+            <div class="footer-links">
+                <span>•</span>
+                <a href="/Dashboard/">Sobre el Proyecto</a>
+                <span>•</span>
+                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+              
+            </div>
+        </footer>
+    </div>
+    
+    <!-- CRITICAL: Load in this exact order -->
+    <!-- 1. Cache Manager FIRST (detects updates) -->
+    <script src="/js/cache-manager.js?v=1764838347051"></script>
+    
+    <!-- 2. General utilities (settings, dark mode, etc) -->
+    <script src="/js/general.js?v=1764838347051"></script>
+    
+    <!-- 3. Core systems -->
+    <script src="/js/config.js?v=1764838347051"></script>
+    <script src="/js/cache.js?v=1764838347051"></script>
+    <script src="/js/loader.js?v=1764838347051"></script>
+    <script src="/js/toast.js?v=1764838347051"></script>
+    <script src="/js/analytics.js?v=1764838347051"></script>
+    <script src="/js/search.js?v=1764838347051"></script>
+    
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/auth.js?v=1764838347051"></script>
+    <script src="/js/index.js?v=1764838347051"></script>
+    <script src="/js/app.js?v=1764838347051"></script>
+    
+    <!-- Page-specific scripts -->
+    
+    
+    <script src="/js/gramatica.js?v=1764838347051"></script>
+    
+    <script src="/js/index.js?v=1764838347051"></script>
+    
+    
+    
+    <!-- Load indicator -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2>Configuración</h2>
+                <button class="close-btn" id="closeSettings" type="button"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-user"></i></div>
+                    <div class="setting-content">
+                        <h3>Perfil</h3>
+                        <p>Ver tu racha y configuración personal</p>
+                    </div>
+                    <div class="setting-action">
+                        <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-bell"></i></div>
+                    <div class="setting-content">
+                        <h3>Notificaciones</h3>
+                        <p>Configurar recordatorios de estudio</p>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-moon"></i></div>
+                    <div class="setting-content">
+                        <h3>Tema Oscuro</h3>
+                        <p>Cambiar apariencia de la aplicación</p>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="setting-content">
+                        <h3>Sonido</h3>
+                        <p>Configurar efectos de sonido</p>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-font"></i></div>
+                    <div class="setting-content">
+                        <h3>Tamaño de Fuente</h3>
+                        <p>Ajustar tamaño del texto</p>
+                    </div>
+                    <div class="setting-action">
+                        <select class="setting-select">
+                            <option value="small">Pequeño</option>
+                            <option value="medium" selected>Medio</option>
+                            <option value="large">Grande</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
