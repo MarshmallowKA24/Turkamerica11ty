@@ -1,0 +1,189 @@
+/* ========================================
+   SETTINGS PANEL MOBILE FIXES
+   Panel más compacto en móvil
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* === OVERLAY === */
+    .settings-overlay {
+        padding: 0 !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(2px) !important;
+    }
+    
+    /* === PANEL PRINCIPAL === */
+    .settings-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 85vh !important;
+        border-radius: 20px 20px 0 0 !important;
+        margin: 0 !important;
+        overflow-y: auto !important;
+        animation: slideUp 0.3s ease !important;
+    }
+    
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    
+    /* === HEADER === */
+    .settings-header {
+        padding: 20px 15px !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+        background: inherit !important;
+    }
+    
+    .settings-header h2 {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+    }
+    
+    .close-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1.3rem !important;
+    }
+    
+    /* === CONTENT === */
+    .settings-content {
+        padding: 10px 15px 30px 15px !important;
+    }
+    
+    /* === SETTING ITEMS === */
+    .setting-item {
+        padding: 18px 15px !important;
+        margin-bottom: 12px !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    /* Icon */
+    .setting-icon {
+        width: 45px !important;
+        height: 45px !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f1f5f9 !important;
+        border-radius: 12px !important;
+    }
+    
+    .setting-icon i {
+        font-size: 1.3rem !important;
+        color: #667eea !important;
+    }
+    
+    /* Content */
+    .setting-content {
+        flex: 1 !important;
+        min-width: 0 !important;
+    }
+    
+    .setting-content h3 {
+        font-size: 1rem !important;
+        margin: 0 0 4px 0 !important;
+        font-weight: 600 !important;
+    }
+    
+    .setting-content p {
+        font-size: 0.85rem !important;
+        margin: 0 !important;
+        opacity: 0.7 !important;
+    }
+    
+    /* Action */
+    .setting-action {
+        flex-shrink: 0 !important;
+    }
+    
+    /* Toggle switch más grande */
+    .toggle-switch {
+        width: 50px !important;
+        height: 28px !important;
+    }
+    
+    .toggle-switch input {
+        width: 50px !important;
+        height: 28px !important;
+    }
+    
+    .toggle-switch .slider {
+        width: 50px !important;
+        height: 28px !important;
+    }
+    
+    .toggle-switch .slider:before {
+        width: 22px !important;
+        height: 22px !important;
+        left: 3px !important;
+        bottom: 3px !important;
+    }
+    
+    .toggle-switch input:checked + .slider:before {
+        transform: translateX(22px) !important;
+    }
+    
+    /* Select más legible */
+    .setting-select {
+        padding: 8px 12px !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+        min-width: 100px !important;
+    }
+    
+    /* Botón outline */
+    .btn-outline {
+        padding: 8px 16px !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+    }
+}
+
+/* === PANTALLAS MUY PEQUEÑAS === */
+@media (max-width: 374px) {
+    .settings-header h2 {
+        font-size: 1.2rem !important;
+    }
+    
+    .setting-item {
+        padding: 15px 12px !important;
+        gap: 12px !important;
+    }
+    
+    .setting-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .setting-icon i {
+        font-size: 1.1rem !important;
+    }
+    
+    .setting-content h3 {
+        font-size: 0.95rem !important;
+    }
+    
+    .setting-content p {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* === LANDSCAPE MODE === */
+@media (max-width: 768px) and (orientation: landscape) {
+    .settings-panel {
+        max-height: 92vh !important;
+    }
+}

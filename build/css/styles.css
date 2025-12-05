@@ -111,37 +111,6 @@ html.dark-mode .level-card.special {
     transition: all 0.3s ease;
 }
 
-html.dark-mode .tab {
-    background: var(--backdrop-blur);
-    border-color: var(--border-light);
-}
-
-html.dark-mode .tab:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-html.dark-mode .tab.active {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.notice {
-    background: var(--notice-bg);
-    color: var(--notice-color);
-    border: 1px solid var(--notice-border);
-    transition: all 0.3s ease;
-}
-
-.description p {
-    color: var(--text-secondary);
-}
-
-.grammar-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-}
-
 .grammar-card:hover {
     box-shadow: 0 8px 25px var(--shadow-hover);
 }
