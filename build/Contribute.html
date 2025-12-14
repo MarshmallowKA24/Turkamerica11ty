@@ -2,7 +2,7 @@
 layout: base.njk
 styles:
 - contribute.css
-- lesson-editor.css
+- lesson-editor.css?v=6
 - tip-box-fix.css
 scripts:
 - contribute.js
@@ -33,23 +33,19 @@ scripts:
                     <h3>Crear Lección</h3>
                     <p>Crea una lección completa con formato profesional</p>
                 </button>
-    
+
                 <button class="type-card" data-type="book" id="bookTypeBtn">
                     <i class="fas fa-file-pdf"></i>
                     <h3>Compartir Libro</h3>
                     <p>Comparte libros o recursos de aprendizaje (solo enlace)</p>
                 </button>
             </div>
-            
+
             <div class="carousel-indicators">
                 <button class="carousel-indicator active" aria-label="Crear Lección"></button>
                 <button class="carousel-indicator" aria-label="Compartir Libro"></button>
             </div>
-            
-            <div class="swipe-hint">
-                <i class="fas fa-hand-pointer"></i>
-                <p>Desliza para ver más opciones</p>
-            </div>
+
         </div>
 
         <!-- Lesson Creation Form (SIMPLIFIED) -->
@@ -210,7 +206,7 @@ scripts:
         <div class="my-contributions">
             <h2><i class="fas fa-list"></i> Mis Contribuciones</h2>
             <div id="myContributionsList" class="contributions-list">
-                <!-- Will be populated by JavaScript -->
+
             </div>
         </div>
     </div>

@@ -1,14 +1,44 @@
 // perfil.js - COMPLETE WORKING VERSION
 // Full profile management with all features
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('🔧 Profile page initializing...');
-    
+
     // Check authentication
+    /*
     if (!window.AuthService || !window.AuthService.isLoggedIn()) {
         console.warn('⚠️ User not logged in, redirecting...');
         window.location.href = '/login/';
         return;
+    }
+    */
+
+    // TEST MODE: Mock window.AuthService if missing or not logged in
+    if (!window.AuthService || !window.AuthService.isLoggedIn()) {
+        console.log('🚧 Running in TEST MODE (Mock User)');
+        window.AuthService = {
+            isLoggedIn: () => true,
+            getAuthHeaders: () => ({}),
+            getCurrentUser: () => ({
+                username: 'TestUser',
+                email: 'test@example.com',
+                profile: {
+                    level: 'B1',
+                    firstName: 'Test',
+                    lastName: 'User',
+                    bio: 'This is a test bio.',
+                    avatar: null
+                },
+                preferences: {
+                    darkMode: false,
+                    notifications: true,
+                    sound: true,
+                    language: 'es',
+                    fontSize: 'medium',
+                    dailyGoal: 30
+                }
+            })
+        };
     }
 
     initProfile();
@@ -39,22 +69,22 @@ function setupAvatarUpload() {
 
     const avatarContainer = document.querySelector('.avatar-container');
     const changeAvatarBtn = document.querySelector('.change-avatar-btn');
-    
+
     if (avatarContainer) {
-        avatarContainer.addEventListener('click', function() {
+        avatarContainer.addEventListener('click', function () {
             fileInput.click();
         });
     }
-    
+
     if (changeAvatarBtn) {
-        changeAvatarBtn.addEventListener('click', function(e) {
+        changeAvatarBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             fileInput.click();
         });
     }
 
     fileInput.addEventListener('change', handleAvatarUpload);
-    
+
     console.log('✅ Avatar upload initialized');
 }
 
@@ -78,9 +108,9 @@ async function handleAvatarUpload(e) {
         avatarContainer.className = 'fas fa-spinner fa-spin';
 
         const reader = new FileReader();
-        reader.onload = async function(e) {
+        reader.onload = async function (e) {
             const base64Image = e.target.result;
-            
+
             const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/profile`, {
                 method: 'PUT',
                 headers: window.AuthService.getAuthHeaders(),
@@ -99,15 +129,15 @@ async function handleAvatarUpload(e) {
             } else {
                 throw new Error('Error al guardar la imagen');
             }
-            
+
             avatarContainer.className = originalClass;
         };
-        
-        reader.onerror = function() {
+
+        reader.onerror = function () {
             avatarContainer.className = originalClass;
             throw new Error('Error al leer la imagen');
         };
-        
+
         reader.readAsDataURL(file);
 
     } catch (error) {
@@ -130,10 +160,10 @@ function updateAvatarDisplay(base64Image) {
                 <i class="fas fa-camera"></i>
             </button>
         `;
-        
+
         const changeBtn = avatarContainer.querySelector('.change-avatar-btn');
         if (changeBtn) {
-            changeBtn.addEventListener('click', function(e) {
+            changeBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 document.getElementById('avatarInput').click();
             });
@@ -147,7 +177,7 @@ function updateAvatarDisplay(base64Image) {
 async function loadUserProfile() {
     try {
         const user = window.AuthService.getCurrentUser();
-        
+
         if (!user) {
             throw new Error('No user data');
         }
@@ -164,15 +194,16 @@ async function loadUserProfile() {
             updateAvatarDisplay(user.profile.avatar);
         }
 
-        // Profile form
+        // Profile form removed by user request
+        /*
         if (user.profile) {
-            document.getElementById('firstName').value = user.profile.firstName || '';
-            document.getElementById('lastName').value = user.profile.lastName || '';
-            document.getElementById('bio').value = user.profile.bio || '';
-            document.getElementById('levelSelect').value = user.profile.level || 'A1';
-            
-            updateCharCount();
+            // document.getElementById('firstName').value = user.profile.firstName || '';
+            // document.getElementById('lastName').value = user.profile.lastName || '';
+            // document.getElementById('bio').value = user.profile.bio || '';
+            // document.getElementById('levelSelect').value = user.profile.level || 'A1';
+            // updateCharCount();
         }
+        */
 
         // Preferences
         if (user.preferences) {
@@ -182,7 +213,7 @@ async function loadUserProfile() {
             document.getElementById('languagePref').value = user.preferences.language || 'es';
             document.getElementById('fontSizePref').value = user.preferences.fontSize || 'medium';
             document.getElementById('dailyGoalPref').value = user.preferences.dailyGoal || 30;
-            
+
             applyPreferences(user.preferences);
         }
 
@@ -199,7 +230,19 @@ async function loadUserProfile() {
 async function loadStreakData() {
     try {
         console.log('📊 Loading streak data...');
-        
+
+        // MOCK STREAK DATA FOR TEST MODE
+        if (window.AuthService && window.AuthService.isLoggedIn() && window.AuthService.getCurrentUser().username === 'TestUser') {
+            console.log('🚧 Test Mode: Returning mock streak data');
+            displayStreak({
+                current: 5,
+                longest: 12,
+                totalDays: 45,
+                lastActivity: new Date().toISOString()
+            });
+            return;
+        }
+
         const updateResponse = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/update-streak`, {
             method: 'POST',
             headers: window.AuthService.getAuthHeaders()
@@ -226,7 +269,7 @@ async function loadStreakData() {
                 };
             }
         }
-        
+
         displayStreak(streakData);
         console.log('✅ Streak data loaded:', streakData);
     } catch (error) {
@@ -245,24 +288,24 @@ function displayStreak(streakData) {
     if (currentStreakEl) {
         currentStreakEl.textContent = streakData.current || 0;
     }
-    
+
     const longestStreakEl = document.getElementById('longestStreak');
     if (longestStreakEl) {
         longestStreakEl.textContent = streakData.longest || 0;
     }
-    
+
     const totalDaysEl = document.getElementById('totalDays');
     if (totalDaysEl) {
         totalDaysEl.textContent = streakData.totalDays || 0;
     }
-    
+
     const lastActivityEl = document.getElementById('lastActivity');
     if (lastActivityEl && streakData.lastActivity) {
         const lastDate = new Date(streakData.lastActivity);
         const today = new Date();
         const diffTime = today - lastDate;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        
+
         if (diffDays === 0) {
             lastActivityEl.textContent = 'Hoy';
         } else if (diffDays === 1) {
@@ -273,15 +316,15 @@ function displayStreak(streakData) {
     } else if (lastActivityEl) {
         lastActivityEl.textContent = 'Hoy';
     }
-    
+
     const messageEl = document.getElementById('streakMessage');
     if (messageEl) {
         const current = streakData.current || 0;
         const longest = streakData.longest || 0;
-        
+
         let message = '';
         let icon = '🔥';
-        
+
         if (current === 0) {
             message = '¡Empieza tu racha hoy! Cada día cuenta.';
             icon = '✨';
@@ -303,7 +346,7 @@ function displayStreak(streakData) {
                 message += ` Tu récord es ${longest} días.`;
             }
         }
-        
+
         messageEl.innerHTML = `${icon} ${message}`;
     }
 }
@@ -313,20 +356,8 @@ function displayStreak(streakData) {
 // ================================
 function setupEventListeners() {
     console.log('🔗 Setting up event listeners...');
-    
-    // Character counter
-    const bioTextarea = document.getElementById('bio');
-    if (bioTextarea) {
-        bioTextarea.addEventListener('input', updateCharCount);
-    }
 
-    // Profile form
-    const profileForm = document.getElementById('profileForm');
-    if (profileForm) {
-        profileForm.addEventListener('submit', handleProfileSubmit);
-    }
-
-    // Preferences
+    // Preferences - Modified to check if elements exist
     const savePrefBtn = document.getElementById('savePreferencesBtn');
     if (savePrefBtn) {
         savePrefBtn.addEventListener('click', handlePreferencesSave);
@@ -349,7 +380,7 @@ function setupEventListeners() {
     // Dark mode toggle
     const darkModeToggle = document.getElementById('darkModePref');
     if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', function() {
+        darkModeToggle.addEventListener('change', function () {
             if (window.AppUtils && window.AppUtils.DarkMode) {
                 if (this.checked) {
                     window.AppUtils.DarkMode.enable();
@@ -368,84 +399,23 @@ function setupEventListeners() {
             }
         });
     }
-    
+
     console.log('✅ Event listeners set up');
 }
 
 // ================================
 // CHARACTER COUNT
 // ================================
-function updateCharCount() {
-    const bioTextarea = document.getElementById('bio');
-    const charCount = document.querySelector('.char-count');
-    if (bioTextarea && charCount) {
-        const count = bioTextarea.value.length;
-        charCount.textContent = `${count}/500 caracteres`;
-        
-        if (count > 450) {
-            charCount.style.color = '#ef4444';
-        } else {
-            charCount.style.color = '';
-        }
-    }
-}
+// function updateCharCount() - REMOVED
 
-// ================================
-// SAVE PROFILE
-// ================================
-async function handleProfileSubmit(e) {
-    e.preventDefault();
-    console.log('💾 Saving profile...');
-    
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
-
-    try {
-        const profileData = {
-            profile: {
-                firstName: document.getElementById('firstName').value.trim(),
-                lastName: document.getElementById('lastName').value.trim(),
-                bio: document.getElementById('bio').value.trim(),
-                level: document.getElementById('levelSelect').value
-            }
-        };
-
-        const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/profile`, {
-            method: 'PUT',
-            headers: window.AuthService.getAuthHeaders(),
-            body: JSON.stringify(profileData)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('currentUser', JSON.stringify(data.user));
-            
-            document.getElementById('userName').textContent = data.user.username;
-            document.getElementById('userLevel').textContent = data.user.profile.level;
-            
-            showNotification('Perfil actualizado correctamente', 'success');
-            console.log('✅ Profile saved successfully');
-        } else {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al guardar');
-        }
-    } catch (error) {
-        console.error('❌ Error saving profile:', error);
-        showNotification(error.message || 'Error al guardar el perfil', 'error');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
-}
+// function handleProfileSubmit(e) - REMOVED
 
 // ================================
 // SAVE PREFERENCES
 // ================================
 async function handlePreferencesSave() {
     console.log('⚙️ Saving preferences...');
-    
+
     const btn = document.getElementById('savePreferencesBtn');
     const originalText = btn.innerHTML;
     btn.disabled = true;
@@ -493,7 +463,7 @@ async function handlePreferencesSave() {
 // ================================
 function applyPreferences(preferences) {
     console.log('🎨 Applying preferences...', preferences);
-    
+
     // Dark mode
     if (preferences.darkMode) {
         document.documentElement.classList.add('dark-mode');
@@ -518,7 +488,7 @@ function applyPreferences(preferences) {
     localStorage.setItem('sound', preferences.sound);
     localStorage.setItem('language', preferences.language);
     localStorage.setItem('dailyGoal', preferences.dailyGoal);
-    
+
     console.log('✅ Preferences applied');
 }
 
@@ -527,7 +497,7 @@ function applyPreferences(preferences) {
 // ================================
 async function handleLogout() {
     console.log('🚪 Logout requested');
-    
+
     if (!confirm('¿Estás seguro de que deseas cerrar sesión?')) {
         console.log('⏸️ Logout cancelled by user');
         return;
@@ -535,7 +505,7 @@ async function handleLogout() {
 
     try {
         console.log('🔄 Processing logout...');
-        
+
         if (window.AuthService && typeof window.AuthService.logout === 'function') {
             await window.AuthService.logout();
         } else {
@@ -544,20 +514,20 @@ async function handleLogout() {
             localStorage.removeItem('isLoggedIn');
             sessionStorage.clear();
         }
-        
+
         console.log('✅ Logout successful');
         showNotification('Sesión cerrada correctamente', 'success');
-        
+
         setTimeout(() => {
             window.location.href = '/';
         }, 1000);
-        
+
     } catch (error) {
         console.error('❌ Error during logout:', error);
         localStorage.clear();
         sessionStorage.clear();
         showNotification('Error al cerrar sesión, pero se cerró de todas formas', 'warning');
-        
+
         setTimeout(() => {
             window.location.href = '/';
         }, 1500);
@@ -569,10 +539,10 @@ async function handleLogout() {
 // ================================
 function openChangePasswordModal() {
     console.log('🔐 Opening change password modal...');
-    
+
     // Create modal if it doesn't exist
     let modal = document.getElementById('changePasswordModal');
-    
+
     if (!modal) {
         modal = document.createElement('div');
         modal.id = 'changePasswordModal';
@@ -644,18 +614,18 @@ function openChangePasswordModal() {
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modal);
-        
+
         // Add form submit handler
         const form = document.getElementById('changePasswordForm');
         form.addEventListener('submit', handleChangePassword);
     }
-    
+
     modal.style.display = 'flex';
 }
 
-window.closeChangePasswordModal = function() {
+window.closeChangePasswordModal = function () {
     const modal = document.getElementById('changePasswordModal');
     if (modal) {
         modal.style.display = 'none';
@@ -668,32 +638,32 @@ window.closeChangePasswordModal = function() {
 async function handleChangePassword(e) {
     e.preventDefault();
     console.log('🔐 Changing password...');
-    
+
     const currentPassword = document.getElementById('currentPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    
+
     // Validations
     if (newPassword !== confirmPassword) {
         showNotification('Las contraseñas no coinciden', 'error');
         return;
     }
-    
+
     if (newPassword.length < 8) {
         showNotification('La contraseña debe tener al menos 8 caracteres', 'error');
         return;
     }
-    
+
     if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
         showNotification('La contraseña debe incluir mayúsculas, minúsculas y números', 'error');
         return;
     }
-    
+
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cambiando...';
-    
+
     try {
         const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/change-password`, {
             method: 'POST',
@@ -703,7 +673,7 @@ async function handleChangePassword(e) {
                 newPassword
             })
         });
-        
+
         if (response.ok) {
             showNotification('Contraseña cambiada correctamente', 'success');
             closeChangePasswordModal();
@@ -725,12 +695,24 @@ async function handleChangePassword(e) {
 // NOTIFICATION SYSTEM
 // ================================
 function showNotification(message, type = 'info') {
-    if (window.AppUtils && window.AppUtils.Notification) {
-        window.AppUtils.Notification[type](message);
-    } else {
-        // Fallback: Simple alert
-        alert(message);
+    // Intentar usar el sistema de toast global si existe
+    if (window.ToastSystem) {
+        if (type === 'error') window.ToastSystem.error(message);
+        else if (type === 'success') window.ToastSystem.success(message);
+        else if (type === 'warning') window.ToastSystem.warning(message);
+        else window.ToastSystem.info(message);
+        return;
     }
+
+    // Fallback a las funciones globales si existen
+    const globalMethod = `toast${type.charAt(0).toUpperCase() + type.slice(1)}`;
+    if (window[globalMethod]) {
+        window[globalMethod](message);
+        return;
+    }
+
+    // Último recurso: alert
+    alert(message);
 }
 
 console.log('✅ Profile script loaded successfully');

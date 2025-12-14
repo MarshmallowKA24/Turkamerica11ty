@@ -94,6 +94,15 @@ async function openExplanation(topic) {
             editBtn.href = '#';
             editBtn.onclick = (e) => {
                 e.preventDefault();
+                // Check Auth before opening editor
+                if (window.AuthService && !window.AuthService.isLoggedIn()) {
+                    if (window.toastWarning) {
+                        window.toastWarning("Debes registrarte o iniciar sesión para corregir esta lección", "Acceso Restringido");
+                    } else {
+                        alert("Debes registrarte o iniciar sesión para corregir esta lección");
+                    }
+                    return;
+                }
                 openInlineEditor(topic);
             };
         });
@@ -209,7 +218,8 @@ function openInlineEditor(topic) {
     // Get lesson data from cache
     getExplanations().then(explanations => {
         if (!explanations || !explanations[topic]) {
-            alert('Error al cargar la lección');
+            if (window.toastError) window.toastError('Error al cargar la lección', 'Error');
+            else alert('Error al cargar la lección');
             return;
         }
 
@@ -259,7 +269,8 @@ async function handleInlineSubmit(e) {
     const content = window.inlineLessonEditor ? window.inlineLessonEditor.getContent() : '';
 
     if (!content || content.trim() === '') {
-        alert('Por favor añade contenido a la lección');
+        if (window.toastWarning) window.toastWarning('Por favor añade contenido a la lección', 'Campo Requerido');
+        else alert('Por favor añade contenido a la lección');
         return;
     }
 
@@ -278,8 +289,8 @@ async function handleInlineSubmit(e) {
             await window.ContributionService.submitLessonEdit(lessonData);
 
             // Show success message
-            if (window.ToastManager) {
-                window.ToastManager.show('¡Propuesta de edición enviada!', 'success');
+            if (window.ToastSystem) {
+                window.ToastSystem.success('¡Propuesta de edición enviada! Gracias por contribuir.', 'Enviado');
             } else {
                 alert('¡Propuesta de edición enviada!');
             }
@@ -287,10 +298,12 @@ async function handleInlineSubmit(e) {
             closeInlineEditor();
         } else {
             console.error('ContributionService not found');
-            alert('Error: Servicio de contribución no disponible');
+            if (window.toastError) window.toastError('Servicio de contribución no disponible', 'Error Sistema');
+            else alert('Error: Servicio de contribución no disponible');
         }
     } catch (error) {
         console.error('Error submitting edit:', error);
-        alert('Error al enviar la edición');
+        if (window.toastError) window.toastError('Error al enviar la edición. Intenta de nuevo.', 'Error');
+        else alert('Error al enviar la edición');
     }
 }

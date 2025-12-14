@@ -51,7 +51,7 @@
         display: none !important;
     }
 
-    /* Navigation Tabs - Horizontal Carousel (Safe & Compact) */
+    /* Navigation Tabs - Horizontal Carousel (Center aligned if fit, scroll if not) */
     .header .tabs {
         display: flex !important;
         flex-direction: row !important;
@@ -59,12 +59,20 @@
         overflow-x: auto !important;
         white-space: nowrap !important;
         width: 100% !important;
-        padding: 0 10px !important;
-        gap: 5px !important;
+        padding: 5px 0 !important;
+        /* No side padding to maximize space */
+        gap: 2px !important;
+        /* Minimal gap */
         justify-content: flex-start !important;
+        /* FIXES SCROLL BUG */
         margin: 0 !important;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+    }
+
+    /* Remove extra centering */
+    .header .tabs {
+        justify-content: flex-start !important;
     }
 
     .header .tabs::-webkit-scrollbar {
@@ -77,56 +85,76 @@
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 4px 8px !important;
-        /* Smaller padding */
-        min-width: 50px !important;
+        padding: 5px 8px !important;
+        /* Minimal padding */
+        min-width: auto !important;
+        /* Allow shrinking */
+        width: auto !important;
         background: transparent !important;
         border: none !important;
-        color: rgba(255, 255, 255, 0.9) !important;
+        color: rgba(255, 255, 255, 0.95) !important;
         text-decoration: none !important;
-        font-size: 0.65rem !important;
-        /* Smaller font */
+        font-size: 0.75rem !important;
         font-weight: 500 !important;
-        border-radius: 8px;
-        line-height: 1 !important;
+        border-radius: 10px;
+        line-height: 1.1 !important;
+        transition: transform 0.2s ease;
+        margin: 0 2px !important;
+        /* Tiny margin */
     }
 
     .header .tab i {
-        font-size: 0.9rem !important;
-        /* Smaller icon */
-        margin-bottom: 2px !important;
+        font-size: 1.3rem !important;
+        /* Good size icon */
+        margin-bottom: 4px !important;
         display: block !important;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .header .tab i {
+        font-size: 1.4rem !important;
+        /* Larger icon */
+        margin-bottom: 6px !important;
+        display: block !important;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     .header .tab.active {
-        background: rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.25) !important;
         color: white !important;
-        font-weight: 700 !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
     }
 
     html.dark-mode .header .tab.active {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: rgba(255, 255, 255, 0.2) !important;
         color: white !important;
     }
 
-    /* Row 3: Auth Button - Centered */
+    /* Row 3: Auth Button - Big Pill Style */
     .auth-buttons {
         display: block !important;
         width: 100%;
         text-align: center;
-        margin-top: 5px;
+        margin-top: 15px;
+        margin-bottom: 10px;
     }
 
     .auth-buttons a {
         color: white !important;
         text-decoration: none;
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.2);
-        padding: 8px 25px;
-        border-radius: 20px;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.25);
+        /* Lighter transparent bg */
+        padding: 12px 40px;
+        border-radius: 30px;
         display: inline-block;
-        font-size: 0.95rem;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: 80%;
+        /* Make it wide */
+        max-width: 300px;
     }
 
     body {
@@ -250,4 +278,39 @@
     .auth-buttons a:hover {
         background: rgba(255, 255, 255, 0.3);
     }
+}
+
+/* ========================================
+   DARK MODE OVERRIDES (Unified Colors)
+   ======================================== */
+html.dark-mode .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4c1d95 100%) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Fix Logo Visibility in Dark Mode */
+html.dark-mode .header-logo {
+    filter: brightness(0) invert(1);
+}
+
+/* Fix "Container" Separation Issue - Ensure container is transparent */
+html.dark-mode .level-actions {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Fix Button Styles - Ensure no dark background behind button and correct color */
+html.dark-mode .level-actions .btn {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%) !important;
+    border-color: #4A90E2 !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3) !important;
+    margin: 0 !important;
+    /* Reset margins just in case */
+}
+
+html.dark-mode .level-actions .btn:hover {
+    background: linear-gradient(135deg, #357ABD 0%, #2968A3 100%) !important;
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4) !important;
 }

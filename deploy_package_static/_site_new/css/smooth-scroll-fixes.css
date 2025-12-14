@@ -36,7 +36,7 @@ html {
         gap: 25px;
         overflow: visible !important;
     }
-    
+
     /* Hide carousel indicators on desktop */
     .carousel-indicators {
         display: none !important;
@@ -45,6 +45,7 @@ html {
 
 /* Mobile: Smooth Scrolling Carousel */
 @media (max-width: 768px) {
+
     .levels-carousel-container .levels-grid,
     .carousel-container .levels-grid,
     .carousel-container .features-grid {
@@ -59,18 +60,18 @@ html {
         padding: 10px 15px 25px 15px !important;
         margin: 0 -15px !important;
         width: calc(100% + 30px) !important;
-        
+
         /* Hide scrollbar but keep functionality */
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
     }
-    
+
     .levels-carousel-container .levels-grid::-webkit-scrollbar,
     .carousel-container .levels-grid::-webkit-scrollbar,
     .carousel-container .features-grid::-webkit-scrollbar {
         display: none !important;
     }
-    
+
     /* Card sizing for smooth scroll */
     .levels-carousel-container .level-card:not(.special),
     .carousel-container .level-card:not(.special),
@@ -82,58 +83,29 @@ html {
         scroll-snap-stop: always;
         transition: transform 0.3s ease, box-shadow 0.3s ease !important;
     }
-    
+
     /* Add subtle scroll padding */
     .levels-carousel-container .levels-grid,
     .carousel-container .levels-grid {
         scroll-padding: 15px;
     }
-    
+
     /* Fade edges */
     .levels-carousel-container .levels-grid,
     .carousel-container .levels-grid {
-        -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0px,
-            black 20px,
-            black calc(100% - 20px),
-            transparent 100%
-        ) !important;
-        mask-image: linear-gradient(
-            to right,
-            transparent 0px,
-            black 20px,
-            black calc(100% - 20px),
-            transparent 100%
-        ) !important;
+        -webkit-mask-image: linear-gradient(to right,
+                transparent 0px,
+                black 20px,
+                black calc(100% - 20px),
+                transparent 100%) !important;
+        mask-image: linear-gradient(to right,
+                transparent 0px,
+                black 20px,
+                black calc(100% - 20px),
+                transparent 100%) !important;
     }
-    
-    /* Carousel indicators */
-    .carousel-indicators {
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-        gap: 8px !important;
-        margin-top: 15px !important;
-        padding: 10px !important;
-    }
-    
-    .carousel-indicator {
-        width: 6px !important;
-        height: 6px !important;
-        border-radius: 50% !important;
-        background: rgba(255, 255, 255, 0.4) !important;
-        border: none !important;
-        padding: 0 !important;
-        transition: all 0.3s ease !important;
-        cursor: pointer;
-    }
-    
-    .carousel-indicator.active {
-        width: 20px !important;
-        border-radius: 3px !important;
-        background: rgba(255, 255, 255, 0.9) !important;
-    }
+
+    /* Carousel indicators removed to favor progress bar */
 }
 
 /* ========================================
@@ -420,6 +392,7 @@ html.dark-mode .section-title i {
    ======================================== */
 
 @media (max-width: 768px) {
+
     /* Consistent section spacing */
     .hero-dashboard,
     .mission-section,
@@ -432,7 +405,7 @@ html.dark-mode .section-title i {
         padding: 25px 20px !important;
         margin-bottom: 20px !important;
     }
-    
+
     /* Card spacing */
     .feature-card,
     .developer-card,
@@ -441,20 +414,20 @@ html.dark-mode .section-title i {
     .channel-category {
         padding: 20px !important;
     }
-    
+
     /* Remove extra margins */
-    .content > * {
+    .content>* {
         margin-bottom: 0 !important;
     }
-    
+
     /* Section gaps */
-    .content > section,
-    .content > div {
+    .content>section,
+    .content>div {
         margin-bottom: 20px;
     }
-    
-    .content > section:last-child,
-    .content > div:last-child {
+
+    .content>section:last-child,
+    .content>div:last-child {
         margin-bottom: 0;
     }
 }
@@ -473,7 +446,7 @@ html.dark-mode .section-title i {
 .time-block,
 .activity-item,
 .channel-item {
-    transition: 
+    transition:
         transform 0.3s ease,
         box-shadow 0.3s ease,
         background-color 0.3s ease,
@@ -482,9 +455,10 @@ html.dark-mode .section-title i {
 
 /* Prevent layout shift during transitions */
 @media (max-width: 768px) {
+
     .carousel-container .level-card,
     .carousel-container .feature-card {
-        transition: 
+        transition:
             transform 0.3s ease,
             box-shadow 0.3s ease !important;
         /* NO width/height transitions */
@@ -497,22 +471,26 @@ html.dark-mode .section-title i {
 
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 768px) {
+
         /* Fix iOS scroll */
         .levels-carousel-container .levels-grid,
         .carousel-container .levels-grid {
             -webkit-overflow-scrolling: touch !important;
         }
-        
+
         /* Fix iOS mask */
         .levels-carousel-container .levels-grid,
         .carousel-container .levels-grid {
-            -webkit-mask-image: -webkit-linear-gradient(
-                left,
-                transparent 0px,
-                black 20px,
-                black 90%,
-                transparent 100%
-            ) !important;
+            -webkit-mask-image: -webkit-linear-gradient(left,
+                    transparent 0px,
+                    black 20px,
+                    black 90%,
+                    transparent 100%) !important;
+            mask-image: linear-gradient(to right,
+                    transparent 0px,
+                    black 20px,
+                    black 90%,
+                    transparent 100%) !important;
         }
     }
 }
@@ -539,6 +517,7 @@ html.dark-mode .section-title i {
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
+
     .level-card,
     .feature-card,
     .grammar-card {

@@ -76,10 +76,14 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Hash password before saving
-userSchema.pre('save', async function(next) {
+// ==========================================
+// MIDDLEWARE Y MÉTODOS DE SEGURIDAD
+// ==========================================
+
+// Encriptar contraseña antes de guardar
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   try {
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
@@ -89,16 +93,63 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Compare password method
-userSchema.methods.comparePassword = async function(candidatePassword) {
+// Comparar contraseñas
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Remove password from JSON output
-userSchema.methods.toJSON = function() {
+// Ocultar contraseña al enviar datos al frontend (JSON)
+userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
   return userObject;
+};
+
+// ==========================================
+// MÉTODOS FALTANTES (AGREGADOS)
+// ==========================================
+
+// 1. Método de instancia: Actualizar Racha (Streak)
+userSchema.methods.updateStreak = function () {
+  const now = new Date();
+  const lastActivity = this.stats.lastActivity ? new Date(this.stats.lastActivity) : null;
+
+  // Si ya hubo actividad hoy, no hacemos nada
+  if (lastActivity && lastActivity.toDateString() === now.toDateString()) {
+    return this.stats.streak;
+  }
+
+  // Si la última actividad fue ayer, sumamos 1
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (lastActivity && lastActivity.toDateString() === yesterday.toDateString()) {
+    this.stats.streak = (this.stats.streak || 0) + 1;
+  } else {
+    // Si pasó más tiempo (se rompió la racha) o es el primer día
+    this.stats.streak = 1;
+  }
+
+  this.stats.lastActivity = now;
+  return this.stats.streak;
+};
+
+// 2. Método de instancia: Obtener info de racha
+userSchema.methods.getStreakInfo = function () {
+  return {
+    count: this.stats.streak || 0,
+    lastActivity: this.stats.lastActivity
+  };
+};
+
+// 3. Método Estático: Buscar usuario por Email o Username (CRUCIAL PARA LOGIN)
+userSchema.statics.findByEmailOrUsername = async function (identifier) {
+  return this.findOne({
+    $or: [
+      { email: identifier.toLowerCase() },
+      { username: identifier.toLowerCase() }
+    ]
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);

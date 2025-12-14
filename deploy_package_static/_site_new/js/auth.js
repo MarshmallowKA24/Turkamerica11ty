@@ -1,4 +1,4 @@
-const ENABLE_MOCK = true;
+const ENABLE_MOCK = false;
 
 if (ENABLE_MOCK) {
     const mockUsers = JSON.parse(localStorage.getItem('mockUsers') || '[{"id":1,"username":"demo","email":"demo@test.com","password":"demo123"}]');
@@ -416,6 +416,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // UPDATE UI BASED ON AUTH STATE
+    function updateAuthUI(isLoggedIn, user) {
+        const authButton = document.getElementById('authButton');
+        const adminTab = document.getElementById('adminTab');
+
+        if (authButton) {
+            if (isLoggedIn && user) {
+                authButton.innerHTML = `
+                    <div class="user-menu">
+                        <span class="username"><i class="fas fa-user-circle"></i> ${user.username}</span>
+                        <button id="logoutBtn" class="btn-logout" title="Cerrar Sesión">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Add logout handler
+                document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                    window.AuthService.logout();
+                });
+
+                // Show admin tab if user is admin
+                if (adminTab && window.ContributionService && window.ContributionService.isAdmin()) {
+                    adminTab.style.setProperty('display', 'inline-flex', 'important');
+                } else if (adminTab) {
+                    adminTab.style.setProperty('display', 'none', 'important');
+                }
+
+            } else {
+                authButton.innerHTML = `
+                    <div class="auth-buttons-container">
+                        <a href="/login/" class="btn-auth-dark">Inicia Sesión</a>
+                        <a href="/register/" class="btn-auth-dark">Registrarme</a>
+                    </div>
+                `;
+                if (adminTab) adminTab.style.setProperty('display', 'none', 'important');
+            }
+        }
+    }
+
+    // Listen for auth changes
+    window.addEventListener('authStateChanged', (e) => {
+        updateAuthUI(e.detail.isLoggedIn, e.detail.user);
+    });
+
+    // Initial check
+    const currentUser = window.AuthService.getCurrentUser();
+    updateAuthUI(window.AuthService.isLoggedIn(), currentUser);
 });
 
 console.log('✅ Authentication system loaded');

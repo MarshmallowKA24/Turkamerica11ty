@@ -1,15 +1,29 @@
 /* ========================================
    INLINE EDITOR MOBILE FIXES
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        margin-bottom: 20px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        gap: 10px !important;
-    }
+   ======================================== */
 
-    /* Title should take available space */
+/* === FIX: CONTAINER LAYOUT === */
+#inlineEditorContainer {
+    padding: 15px !important;
+    margin: 20px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* Header layout fixes */
+#inlineEditorContainer>div:first-child {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 10px !important;
+}
+
+/* Title should take available space */
 #inlineEditorContainer h2 {
     flex: 1 !important;
     margin: 0 !important;
@@ -118,20 +132,35 @@
 /* === FIX: TOOLBAR WRAPPING === */
 .editor-toolbar {
     display: flex !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     gap: 8px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
     padding: 10px !important;
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+}
+
+.editor-toolbar::-webkit-scrollbar {
+    display: none !important;
 }
 
 .toolbar-group {
     display: flex !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     gap: 5px !important;
-    flex-shrink: 1 !important;
+    flex-shrink: 0 !important;
+    border-right: 1px solid #e2e8f0 !important;
+    padding-right: 8px !important;
+    margin-right: 8px !important;
+}
+
+.toolbar-group:last-child {
+    border-right: none !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
 }
 
 .toolbar-btn {

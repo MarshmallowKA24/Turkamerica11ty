@@ -15,8 +15,13 @@ class LessonEditor {
     }
 
     setupToolbar() {
+        // Create Carousel Container
+        const carouselContainer = document.createElement('div');
+        carouselContainer.className = 'editor-carousel-container';
+
+        // Toolbar serves as the grid
         const toolbar = document.createElement('div');
-        toolbar.className = 'editor-toolbar';
+        toolbar.className = 'editor-toolbar editor-grid';
         toolbar.innerHTML = `
             <!-- Text Formatting -->
             <div class="toolbar-group">
@@ -68,7 +73,21 @@ class LessonEditor {
             </div>
         `;
 
-        this.editor.parentNode.insertBefore(toolbar, this.editor);
+        // Add Indicators
+        const indicators = document.createElement('div');
+        indicators.className = 'carousel-indicators';
+        // We have 4 groups
+        indicators.innerHTML = `
+            <button class="carousel-indicator active" aria-label="Grupo 1"></button>
+            <button class="carousel-indicator" aria-label="Grupo 2"></button>
+            <button class="carousel-indicator" aria-label="Grupo 3"></button>
+            <button class="carousel-indicator" aria-label="Grupo 4"></button>
+        `;
+
+        carouselContainer.appendChild(toolbar);
+        carouselContainer.appendChild(indicators);
+
+        this.editor.parentNode.insertBefore(carouselContainer, this.editor);
 
         // Add event listeners
         toolbar.querySelectorAll('.toolbar-btn').forEach(btn => {

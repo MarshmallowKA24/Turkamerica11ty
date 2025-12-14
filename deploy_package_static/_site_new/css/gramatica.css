@@ -1,26 +1,11 @@
 /* ================================
    GRAMATICA PAGE STYLES (Cleaned)
    ================================ */
-
-/* Grammar Section */
-.grammar-section {
-    margin-bottom: 50px;
-}
-
-.grammar-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
-}
-
-.grammar-card {
-    background: white;
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 25px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+border-radius: 16px;
+padding: 25px;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
 }
 
 /* Dark mode grammar card */
@@ -252,30 +237,30 @@
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .grammar-card {
         padding: 20px;
     }
-    
+
     .card-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
-    
+
     .card-header h3 {
         font-size: 1.2rem;
     }
-    
+
     .resources-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .resource-category {
         padding: 20px;
     }
-    
+
     .category-title {
         font-size: 1.2rem;
     }
@@ -285,11 +270,11 @@
     .grammar-cards {
         gap: 15px;
     }
-    
+
     .grammar-card {
         padding: 15px;
     }
-    
+
     .resource-link {
         padding: 10px 14px;
         font-size: 0.9rem;

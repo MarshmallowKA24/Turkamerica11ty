@@ -31,83 +31,89 @@ class ToastSystem {
                 pointer-events: none;
             }
 
-            .toast {
-                background: white;
-                border-radius: 12px;
-                padding: 16px 20px;
-                min-width: 300px;
-                max-width: 400px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-                display: flex;
-                align-items: flex-start;
-                gap: 12px;
-                pointer-events: all;
-                animation: slideInRight 0.3s ease-out;
-                position: relative;
-                overflow: hidden;
-            }
-
-            body.dark-mode .toast {
-                background: #1e293b;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            }
-
-            .toast.closing {
-                animation: slideOutRight 0.3s ease-in;
-            }
-
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
+                .toast {
+                    background: rgba(255, 255, 255, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border-radius: 16px;
+                    padding: 16px 20px;
+                    min-width: 320px;
+                    max-width: 420px;
+                    box-shadow: 
+                        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 15px;
+                    pointer-events: all;
+                    animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    position: relative;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
                 }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
+    
+                body.dark-mode .toast {
+                    background: rgba(30, 41, 59, 0.85);
+                    border-color: rgba(255, 255, 255, 0.1);
+                    box-shadow: 
+                        0 10px 40px rgba(0, 0, 0, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
                 }
-            }
-
-            @keyframes slideOutRight {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
+    
+                .toast.closing {
+                    animation: toastSlideOut 0.3s ease-in forwards;
                 }
-                to {
-                    transform: translateX(400px);
-                    opacity: 0;
+    
+                @keyframes toastSlideIn {
+                    from {
+                        transform: translateX(120%) scale(0.95);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0) scale(1);
+                        opacity: 1;
+                    }
                 }
-            }
-
-            .toast-icon {
-                flex-shrink: 0;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 14px;
-            }
-
-            .toast.success .toast-icon {
-                background: #10b981;
-                color: white;
-            }
-
-            .toast.error .toast-icon {
-                background: #ef4444;
-                color: white;
-            }
-
-            .toast.warning .toast-icon {
-                background: #f59e0b;
-                color: white;
-            }
-
-            .toast.info .toast-icon {
-                background: #3b82f6;
-                color: white;
-            }
+    
+                @keyframes toastSlideOut {
+                    to {
+                        transform: translateX(120%) scale(0.95);
+                        opacity: 0;
+                    }
+                }
+    
+                .toast-icon {
+                    flex-shrink: 0;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                }
+    
+                .toast.success .toast-icon {
+                    background: linear-gradient(135deg, #10b981, #059669);
+                    color: white;
+                }
+    
+                .toast.error .toast-icon {
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                }
+    
+                .toast.warning .toast-icon {
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                    color: white;
+                }
+    
+                .toast.info .toast-icon {
+                    background: linear-gradient(135deg, #3b82f6, #2563eb);
+                    color: white;
+                }
 
             .toast-content {
                 flex: 1;
@@ -308,7 +314,7 @@ class ToastSystem {
         clearTimeout(toast.timeout);
 
         toast.classList.add('closing');
-        
+
         setTimeout(() => {
             if (toast.parentElement) {
                 toast.parentElement.removeChild(toast);
@@ -347,6 +353,8 @@ window.ToastSystem = new ToastSystem();
 window.toast = (message, type = 'info', duration) => {
     return window.ToastSystem.show({ type, message, duration });
 };
+
+
 window.toastSuccess = (message, title, duration) => window.ToastSystem.success(message, title, duration);
 window.toastError = (message, title, duration) => window.ToastSystem.error(message, title, duration);
 window.toastWarning = (message, title, duration) => window.ToastSystem.warning(message, title, duration);

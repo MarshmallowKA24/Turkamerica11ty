@@ -28,7 +28,8 @@ function initAllCarousels() {
     console.log('📱 Modo móvil detectado - activando carousels');
 
     // Buscar todos los containers de carousel
-    const carouselContainers = document.querySelectorAll('.carousel-container, .levels-carousel-container, .contribution-carousel-container');
+    // Buscar todos los containers de carousel
+    const carouselContainers = document.querySelectorAll('.carousel-container, .levels-carousel-container, .contribution-carousel-container, .preferences-carousel-container, .editor-carousel-container');
 
     console.log(`✅ Encontrados ${carouselContainers.length} contenedores de carousel`);
 
@@ -51,7 +52,7 @@ function initAllCarousels() {
 }
 
 function initCarousel(container) {
-    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid');
+    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid, .preferences-grid, .editor-grid');
     const indicators = container.querySelectorAll('.carousel-indicator');
 
     if (!grid) {
@@ -64,7 +65,7 @@ function initCarousel(container) {
         return;
     }
 
-    const gridType = grid.className.match(/(levels|features|tech|screenshots|contribution-types)-grid/)[0];
+    const gridType = grid.className.match(/(levels|features|tech|screenshots|contribution-types|preferences|editor)-grid/)[0];
     console.log(`   ✓ Grid tipo: ${gridType}`);
     console.log(`   ✓ Indicadores: ${indicators.length}`);
 
@@ -144,12 +145,17 @@ function getVisibleCards(grid) {
         return grid.querySelectorAll('.tech-item');
     } else if (grid.classList.contains('contribution-types-grid')) {
         return grid.querySelectorAll('.type-card');
+    } else if (grid.classList.contains('preferences-grid')) {
+        return grid.querySelectorAll('.pref-item');
+    } else if (grid.classList.contains('editor-grid')) {
+        return grid.querySelectorAll('.toolbar-group');
     }
     return [];
 }
 
+
 function updateIndicators(container) {
-    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid');
+    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid, .preferences-grid, .editor-grid');
     const indicators = container.querySelectorAll('.carousel-indicator');
     const currentIndex = getCurrentCardIndex(grid);
 

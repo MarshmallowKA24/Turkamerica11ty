@@ -658,55 +658,30 @@ html.dark-mode .close-btn:hover {
 /* ========================================
    SETTINGS PANEL
    ======================================== */
-.settings-overlay {
-    background: var(--modal-backdrop);
-    backdrop-filter: blur(8px);
-}
-
-.settings-panel {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-}
-
 html.dark-mode .settings-panel {
     background: #2d2d2d;
     color: white;
 }
 
-.settings-header {
-    border-bottom: 1px solid var(--border-color);
-}
+
 
 html.dark-mode .settings-header {
     border-bottom-color: #404040;
 }
 
-.settings-header h2 {
-    color: var(--text-primary);
-}
+
 
 html.dark-mode .settings-header h2 {
     color: white;
 }
 
-.setting-item {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-}
+
 
 html.dark-mode .setting-item {
     background: #2d2d2d;
     border-color: #404040;
 }
 
-.setting-content h3 {
-    color: var(--text-primary);
-}
-
-.setting-content p {
-    color: var(--text-secondary);
-}
 
 html.dark-mode .setting-content h3 {
     color: white;

@@ -3,15 +3,15 @@
 // Funciona en todas las páginas
 // ================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('🎠 Inicializando sistema de carousel universal...');
     initAllCarousels();
-    
+
     // Reinicializar en resize
     let resizeTimer;
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
+        resizeTimer = setTimeout(function () {
             console.log('🔄 Re-inicializando carousels después de resize...');
             initAllCarousels();
         }, 250);
@@ -24,19 +24,19 @@ function initAllCarousels() {
         console.log('💻 Modo desktop detectado - carousels desactivados');
         return;
     }
-    
+
     console.log('📱 Modo móvil detectado - activando carousels');
-    
+
     // Buscar todos los containers de carousel
-    const carouselContainers = document.querySelectorAll('.carousel-container, .levels-carousel-container');
-    
+    const carouselContainers = document.querySelectorAll('.carousel-container, .levels-carousel-container, .contribution-carousel-container');
+
     console.log(`✅ Encontrados ${carouselContainers.length} contenedores de carousel`);
-    
+
     carouselContainers.forEach((container, index) => {
         console.log(`🎯 Inicializando carousel ${index + 1}/${carouselContainers.length}`);
         initCarousel(container);
     });
-    
+
     // Ocultar hints después de 5 segundos
     setTimeout(() => {
         document.querySelectorAll('.swipe-hint').forEach(hint => {
@@ -51,28 +51,28 @@ function initAllCarousels() {
 }
 
 function initCarousel(container) {
-    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid');
+    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid');
     const indicators = container.querySelectorAll('.carousel-indicator');
-    
+
     if (!grid) {
         console.warn('⚠️ No se encontró grid en el container:', container);
         return;
     }
-    
+
     if (indicators.length === 0) {
         console.warn('⚠️ No se encontraron indicadores en el container:', container);
         return;
     }
-    
-    const gridType = grid.className.match(/(levels|features|tech|screenshots)-grid/)[0];
+
+    const gridType = grid.className.match(/(levels|features|tech|screenshots|contribution-types)-grid/)[0];
     console.log(`   ✓ Grid tipo: ${gridType}`);
     console.log(`   ✓ Indicadores: ${indicators.length}`);
-    
+
     // Actualizar indicadores en scroll
     grid.addEventListener('scroll', debounce(() => {
         updateIndicators(container);
     }, 100));
-    
+
     // Click en indicadores
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
@@ -80,20 +80,20 @@ function initCarousel(container) {
             scrollToCard(grid, index);
         });
     });
-    
+
     // Touch swipe support
     let touchStartX = 0;
     let touchEndX = 0;
-    
+
     grid.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
-    
+
     grid.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe(grid, indicators.length, touchStartX, touchEndX);
     }, { passive: true });
-    
+
     // Actualizar indicador inicial
     updateIndicators(container);
     console.log('   ✓ Carousel inicializado correctamente');
@@ -102,10 +102,10 @@ function initCarousel(container) {
 function handleSwipe(grid, totalCards, startX, endX) {
     const swipeThreshold = 50;
     const diff = startX - endX;
-    
+
     if (Math.abs(diff) > swipeThreshold) {
         const currentIndex = getCurrentCardIndex(grid);
-        
+
         if (diff > 0) {
             // Swipe left - next card
             const newIndex = Math.min(currentIndex + 1, totalCards - 1);
@@ -122,15 +122,15 @@ function handleSwipe(grid, totalCards, startX, endX) {
 
 function getCurrentCardIndex(grid) {
     const cards = getVisibleCards(grid);
-    
+
     if (!cards.length) {
         console.warn('⚠️ No se encontraron cards visibles');
         return 0;
     }
-    
+
     const scrollLeft = grid.scrollLeft;
     const cardWidth = cards[0].offsetWidth + 15; // incluye el gap
-    
+
     return Math.round(scrollLeft / cardWidth);
 }
 
@@ -142,17 +142,17 @@ function getVisibleCards(grid) {
         return grid.querySelectorAll('.feature-card');
     } else if (grid.classList.contains('tech-grid')) {
         return grid.querySelectorAll('.tech-item');
-    } else if (grid.classList.contains('screenshots-grid')) {
-        return grid.querySelectorAll('.screenshot-placeholder');
+    } else if (grid.classList.contains('contribution-types-grid')) {
+        return grid.querySelectorAll('.type-card');
     }
     return [];
 }
 
 function updateIndicators(container) {
-    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid');
+    const grid = container.querySelector('.levels-grid, .features-grid, .tech-grid, .screenshots-grid, .contribution-types-grid');
     const indicators = container.querySelectorAll('.carousel-indicator');
     const currentIndex = getCurrentCardIndex(grid);
-    
+
     indicators.forEach((indicator, index) => {
         if (index === currentIndex) {
             indicator.classList.add('active');
@@ -164,20 +164,20 @@ function updateIndicators(container) {
 
 function scrollToCard(grid, index) {
     const cards = getVisibleCards(grid);
-    
+
     if (!cards[index]) {
         console.warn(`⚠️ No se encontró la card en índice ${index}`);
         return;
     }
-    
+
     const cardWidth = cards[0].offsetWidth + 15; // incluye el gap
     const scrollPosition = cardWidth * index;
-    
+
     grid.scrollTo({
         left: scrollPosition,
         behavior: 'smooth'
     });
-    
+
     console.log(`📍 Scrolleando a card ${index + 1}`);
 }
 

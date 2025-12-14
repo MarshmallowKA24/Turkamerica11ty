@@ -75,9 +75,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Reset Logic ---
-    if (resetSettingsBtn) {
-        resetSettingsBtn.addEventListener('click', () => {
-            if (confirm('¿Restaurar todos los ajustes a valores predeterminados?')) {
+    // --- Reset Logic (Custom Modal) ---
+    // --- Reset Logic (Custom Modal) ---
+    const customConfirmModal = document.getElementById('customConfirmModal');
+    const cancelResetBtn = document.getElementById('cancelResetBtn');
+    const confirmResetBtn = document.getElementById('confirmResetBtn');
+
+    if (resetSettingsBtn && customConfirmModal) {
+        console.log('✅ Custom Modal logic initialized');
+
+        // Show modal
+        resetSettingsBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Safety
+            console.log('🔘 Reset button clicked');
+            customConfirmModal.classList.add('active');
+        });
+
+        // Hide modal on Cancel
+        if (cancelResetBtn) {
+            cancelResetBtn.addEventListener('click', () => {
+                customConfirmModal.classList.remove('active');
+            });
+        }
+
+        // Hide modal on background click
+        customConfirmModal.addEventListener('click', (e) => {
+            if (e.target === customConfirmModal) {
+                customConfirmModal.classList.remove('active');
+            }
+        });
+
+        // Confirm logic
+        if (confirmResetBtn) {
+            confirmResetBtn.addEventListener('click', () => {
                 // Clear settings from localStorage
                 localStorage.removeItem('darkMode');
                 localStorage.removeItem('notifications');
@@ -91,12 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (notificationsToggle) notificationsToggle.checked = true;
                 if (languageSelect) languageSelect.value = 'es';
 
-                // Close panel
-                settingsOverlay.classList.remove('active');
+                // Close panel AND modal
+                if (settingsOverlay) settingsOverlay.classList.remove('active');
+                customConfirmModal.classList.remove('active');
 
                 console.log('🔄 Settings reset to default');
-            }
-        });
+
+                // Optional: Show a success toast if available
+                if (window.toastSuccess) {
+                    window.toastSuccess('Ajustes restaurados correctamente');
+                }
+            });
+        }
+    } else {
+        console.error('❌ Could not find reset button or custom modal element');
     }
 
     console.log('⚙️ Settings Panel loaded');

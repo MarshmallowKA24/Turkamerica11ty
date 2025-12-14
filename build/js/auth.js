@@ -1,4 +1,4 @@
-const ENABLE_MOCK = true;
+const ENABLE_MOCK = false;
 
 if (ENABLE_MOCK) {
     const mockUsers = JSON.parse(localStorage.getItem('mockUsers') || '[{"id":1,"username":"demo","email":"demo@test.com","password":"demo123"}]');
@@ -439,9 +439,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Show admin tab if user is admin
                 if (adminTab && window.ContributionService && window.ContributionService.isAdmin()) {
-                    adminTab.style.display = 'flex';
+                    adminTab.style.setProperty('display', 'inline-flex', 'important');
                 } else if (adminTab) {
-                    adminTab.style.display = 'none';
+                    adminTab.style.setProperty('display', 'none', 'important');
                 }
 
             } else {
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a href="/register/" class="btn-auth-dark">Registrarme</a>
                     </div>
                 `;
-                if (adminTab) adminTab.style.display = 'none';
+                if (adminTab) adminTab.style.setProperty('display', 'none', 'important');
             }
         }
     }

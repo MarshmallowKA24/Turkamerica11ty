@@ -708,6 +708,14 @@ html.dark-mode .setting-item {
     color: var(--text-secondary);
 }
 
+.setting-info h3 {
+    color: var(--text-primary);
+}
+
+.setting-info p {
+    color: var(--text-secondary);
+}
+
 html.dark-mode .setting-content h3 {
     color: white;
 }

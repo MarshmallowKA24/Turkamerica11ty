@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script>
+    <script>
         (function() {
             const savedTheme = localStorage.getItem('darkMode');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -10,9 +10,6 @@
             // aplica la clase 'dark-mode' inmediatamente.
             if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
                 document.documentElement.classList.add('dark-mode');
-                // Se usa document.documentElement (<html>) en lugar de <body> 
-                // para asegurar que el fondo de la página se aplique antes
-                // de que cualquier contenido se cargue.
             }
         })();
     </script>
@@ -30,65 +27,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
-   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
     
-    <link rel="stylesheet" href="/css/styles.css?v=1764713951701">
-    <link rel="stylesheet" href="/css/darkmode.css?v=1764713951701">
+    <link rel="stylesheet" href="/css/styles.css?v=1765738087856">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1765738087856">
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1765738087856">
     <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
-
-    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1764713951701">
-    
-    <link rel="stylesheet" href="/css/fix.css?v=1764713951701">
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1765738087856">
+    <link rel="stylesheet" href="/css/mobile-nav.css?v=1765738087856">
+    <link rel="stylesheet" href="/css/fix.css?v=1765738087856">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     
     
-    <link rel="stylesheet" href="/css/index.css?v=1764713951701">
+    <link rel="stylesheet" href="/css/index.css?v=1765738087856">
     
-    <link rel="stylesheet" href="/css/Consejos.css?v=1764713951701">
+    <link rel="stylesheet" href="/css/Consejos.css?v=1765738087856">
     
-    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1764713951701">
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1765738087856">
     
     
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
-            <div class="tabs">
-                <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
-                <a href="/Consejos/" class="tab">Consejos</a>
-                <a href="/Gramatica/" class="tab">Gramática</a>
-                <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+            <div class="header-title-row">
+                <h1 class="main-title">Turco para Latinos</h1>
             </div>
-            <div id="authButton" class="auth-buttons">
-                <a href="/login/">Iniciar Sesión</a>
-            </div>
+            <div class="header-nav-row">
+                <img src="/assets/logoTurkamerica.png" alt="TurkAmerica Logo" class="header-logo">
+                <div class="tabs">
+                    <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
+                    <a href="/Consejos/" class="tab"><i class="fas fa-lightbulb"></i>Consejos</a>
+                    <a href="/Gramatica/" class="tab"><i class="fas fa-book"></i>Gramática</a>
+                  
+                    <a href="/admin-contributions/" class="tab admin-tab" id="adminTab" style="display: none;"><i class="fas fa-shield-alt"></i>Admin</a>
+                    <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+                </div>
+            </div> 
         </header>
-
         
-<div class="notice">
+       <div class="notice">
     <i class="fas fa-info-circle"></i>
-    <span>Regístrate para guardar tu progreso y sincronizar con la app móvil</span>
+    
     <a href="/register/">Registrarme</a>
-</div>
+    
+    <span style="margin: 0 4px;">/</span>
 
+    <span id="authButton">
+        <a href="/login/">Iniciar Sesión</a>
+    </span>
+</div>
+        <div class="content">
+            
 <div class="content">
     <section class="schedule-section">
         <h2 class="section-title">
             <i class="fas fa-clock"></i>
             Horario de Estudio Intensivo
         </h2>
-        
+
         <div class="schedule-grid">
             <div class="time-block morning">
                 <div class="time-period">
                     <i class="fas fa-sun"></i>
                     <span>Mañana</span>
                 </div>
-                
+
                 <div class="activities">
                     <div class="activity-item">
                         <div class="time-slot">7:30 - 8:15</div>
@@ -100,7 +107,7 @@
                             <i class="fas fa-book-open"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">8:15 - 8:45</div>
                         <div class="activity-content">
@@ -111,7 +118,7 @@
                             <i class="fas fa-language"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">9:00 - 9:45</div>
                         <div class="activity-content">
@@ -122,7 +129,7 @@
                             <i class="fas fa-podcast"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">9:45 - 10:30</div>
                         <div class="activity-content">
@@ -130,7 +137,7 @@
                             <p>Usar una web de gramática o texto o clases</p>
                         </div>
                         <div class="activity-icon">
-                             <i class="fas fa-book"></i>
+                            <i class="fas fa-book"></i>
                         </div>
                     </div>
                 </div>
@@ -141,7 +148,7 @@
                     <i class="fas fa-cloud"></i>
                     <span>Tarde</span>
                 </div>
-                
+
                 <div class="activities">
                     <div class="activity-item">
                         <div class="time-slot">11:15 - 12:00</div>
@@ -153,7 +160,7 @@
                             <i class="fas fa-pen"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">13:00 - 13:45</div>
                         <div class="activity-content">
@@ -164,7 +171,7 @@
                             <i class="fas fa-book"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">13:45 - 14:15</div>
                         <div class="activity-content">
@@ -175,7 +182,7 @@
                             <i class="fas fa-video"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">14:15 - 14:45</div>
                         <div class="activity-content">
@@ -186,7 +193,7 @@
                             <i class="fas fa-quote-right"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">15:00 - 15:45</div>
                         <div class="activity-content">
@@ -197,7 +204,7 @@
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                     </div>
-                    
+
                     <div class="activity-item">
                         <div class="time-slot">17:15 - 18:00</div>
                         <div class="activity-content">
@@ -218,7 +225,7 @@
             <i class="fab fa-youtube"></i>
             Canales de YouTube
         </h2>
-        
+
         <div class="channels-grid">
             <div class="channel-category">
                 <h3 class="category-title">
@@ -232,7 +239,8 @@
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/c/sumeyracenetvideolari" target="_blank">Sümeyra Çenet Videoları</a>
+                        <a href="https://www.youtube.com/c/sumeyracenetvideolari" target="_blank">Sümeyra Çenet
+                            Videoları</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
@@ -240,7 +248,8 @@
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/channel/UCWpk9PSGHoJW1hZT4egxTNQ" target="_blank">Ruhi Çenet</a>
+                        <a href="https://www.youtube.com/channel/UCWpk9PSGHoJW1hZT4egxTNQ" target="_blank">Ruhi
+                            Çenet</a>
                     </li>
                 </ul>
             </div>
@@ -274,11 +283,13 @@
                 <ul class="channel-list">
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@learnturkishlanguagesandmusic" target="_blank">learnturkishlanguagesandmusic</a>
+                        <a href="https://www.youtube.com/@learnturkishlanguagesandmusic"
+                            target="_blank">learnturkishlanguagesandmusic</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@TurkishClass101" target="_blank">Learn Turkish with TurkishClass101</a>
+                        <a href="https://www.youtube.com/@TurkishClass101" target="_blank">Learn Turkish with
+                            TurkishClass101</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
@@ -294,15 +305,18 @@
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@LearnTurkishTheEasyWay" target="_blank">Learn Turkish The Easy Way</a>
+                        <a href="https://www.youtube.com/@LearnTurkishTheEasyWay" target="_blank">Learn Turkish The Easy
+                            Way</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@LearnTurkishwithJihan" target="_blank">Learn Turkish with Jihan</a>
+                        <a href="https://www.youtube.com/@LearnTurkishwithJihan" target="_blank">Learn Turkish with
+                            Jihan</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@LearnTurkishWithTurkishCoffee" target="_blank">Learn Turkish with Turkish Coffee</a>
+                        <a href="https://www.youtube.com/@LearnTurkishWithTurkishCoffee" target="_blank">Learn Turkish
+                            with Turkish Coffee</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
@@ -310,7 +324,8 @@
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@budapesteyunusemre" target="_blank">Budapeşte Yunus Emre Enstitüsü</a>
+                        <a href="https://www.youtube.com/@budapesteyunusemre" target="_blank">Budapeşte Yunus Emre
+                            Enstitüsü</a>
                     </li>
                 </ul>
             </div>
@@ -323,7 +338,8 @@
                 <ul class="channel-list">
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
-                        <a href="https://www.youtube.com/@estambulmagico" target="_blank">ESTAMBUL MÁGICO vivir en TURQUÍA</a>
+                        <a href="https://www.youtube.com/@estambulmagico" target="_blank">ESTAMBUL MÁGICO vivir en
+                            TURQUÍA</a>
                     </li>
                     <li class="channel-item">
                         <i class="fab fa-youtube"></i>
@@ -338,118 +354,132 @@
         </div>
     </section>
 </div>
-
-        <div class="settings-overlay" id="settingsOverlay">
-            <div class="settings-panel">
-                <div class="settings-header">
-                    <h2>Configuración</h2>
-                    <button class="close-btn" id="closeSettings" type="button"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="settings-content">
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-user"></i></div>
-                        <div class="setting-content">
-                            <h3>Perfil</h3>
-                            <p>Ver tu racha y configuración personal</p>
-                        </div>
-                        <div class="setting-action">
-                            <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-bell"></i></div>
-                        <div class="setting-content">
-                            <h3>Notificaciones</h3>
-                            <p>Configurar recordatorios de estudio</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-moon"></i></div>
-                        <div class="setting-content">
-                            <h3>Tema Oscuro</h3>
-                            <p>Cambiar apariencia de la aplicación</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
-                        <div class="setting-content">
-                            <h3>Sonido</h3>
-                            <p>Configurar efectos de sonido</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-icon"><i class="fas fa-font"></i></div>
-                        <div class="setting-content">
-                            <h3>Tamaño de Fuente</h3>
-                            <p>Ajustar tamaño del texto</p>
-                        </div>
-                        <div class="setting-action">
-                            <select class="setting-select">
-                                <option value="small">Pequeño</option>
-                                <option value="medium" selected>Medio</option>
-                                <option value="large">Grande</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <footer class="footer">
             <div class="footer-content">
-                <span class="made-with">Made with</span>
-                <i class="fas fa-heart heart-icon"></i>
-                <span class="made-with">by LatinCTC</span>
-            </div>
-            <div class="footer-links">
-                <span>•</span>
-                <a href="/Dashboard/">Sobre el Proyecto</a>
-                <span>•</span>
-                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
-              
+                <p>&copy; 2024 TurkAmerica. Todos los derechos reservados.</p>
+                <div class="footer-links" style="margin: 10px 0;">
+                    <a href="/Dashboard/">Sobre el Proyecto</a>
+                    <span>•</span>
+                    <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+                </div>
+                <p class="made-with">Hecho con <i class="fas fa-heart heart-icon"></i> para la comunidad latina</p>
             </div>
         </footer>
     </div>
+
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2>Configuración</h2>
+                <button class="close-btn" id="closeSettingsBtn"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="settings-content">
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-user"></i></div>
+                    <div class="setting-content"> <h3>Perfil</h3>
+                         <p>Ver tu racha y datos</p>
+                    </div>
+                    <div class="setting-action">
+                        <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-moon"></i></div>
+                    <div class="setting-info">
+                        <h3>Modo Oscuro</h3>
+                        <p>Cambiar apariencia</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-bell"></i></div>
+                    <div class="setting-info">
+                        <h3>Notificaciones</h3>
+                        <p>Activar alertas</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notificationsToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="setting-info">
+                        <h3>Sonido</h3>
+                        <p>Efectos de sonido</p>
+                    </div>
+                    <label class="toggle-switch">
+                         <input type="checkbox" checked><span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-font"></i></div>
+                    <div class="setting-info">
+                        <h3>Tamaño Fuente</h3>
+                        <p>Ajustar texto</p>
+                    </div>
+                    <select class="setting-select">
+                        <option value="small">Pequeño</option>
+                        <option value="medium" selected>Medio</option>
+                        <option value="large">Grande</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-globe"></i></div>
+                    <div class="setting-info">
+                        <h3>Idioma</h3>
+                        <p>Español / Turco</p>
+                    </div>
+                    <select class="setting-select">
+                        <option value="es">Español</option>
+                        <option value="tr">Turco</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-footer">
+                <button class="btn btn-secondary" id="resetSettingsBtn">Restaurar valores</button>
+            </div>
+        </div>
+    </div>
     
-    <!-- CRITICAL: Load in this exact order -->
-    <!-- 1. Cache Manager FIRST (detects updates) -->
-    <script src="/js/cache-manager.js?v=1764713951701"></script>
+    <script src="/js/cache-manager.js?v=1765738087856"></script>
     
-    <!-- 2. General utilities (settings, dark mode, etc) -->
-    <script src="/js/general.js?v=1764713951701"></script>
+    <script src="/js/general.js?v=1765738087856"></script>
     
-    <!-- 3. Core systems -->
-    <script src="/js/config.js?v=1764713951701"></script>
-    <script src="/js/cache.js?v=1764713951701"></script>
-    <script src="/js/loader.js?v=1764713951701"></script>
-    <script src="/js/toast.js?v=1764713951701"></script>
-    <script src="/js/analytics.js?v=1764713951701"></script>
-    <script src="/js/search.js?v=1764713951701"></script>
+    <script src="/js/config.js?v=1765738087856"></script>
+    <script src="/js/cache.js?v=1765738087856"></script>
+    <script src="/js/loader.js?v=1765738087856"></script>
+    <script src="/js/toast.js?v=1765738087856"></script>
+    <script src="/js/analytics.js?v=1765738087856"></script>
+    <script src="/js/search.js?v=1765738087856"></script>
     
-    <!-- 4. Auth & page-specific -->
-    <script src="/js/auth.js?v=1764713951701"></script>
-    <script src="/js/index.js?v=1764713951701"></script>
-    <script src="/js/app.js?v=1764713951701"></script>
-    
-    <!-- Page-specific scripts -->
-    
-    
-    <script src="/js/consejos.js?v=1764713951701"></script>
-    
-    <script src="/js/index.js?v=1764713951701"></script>
+    <script src="/js/contribution-service.js?v=1765738087856"></script>
+    <script src="/js/auth.js?v=1765738087856"></script>
+    <script src="/js/index.js?v=1765738087856"></script>
+    <script src="/js/app.js?v=1765738087856"></script>
+
+    <script src="/js/settings-panel.js?v=1765738087856"></script>
     
     
     
-    <!-- Load indicator -->
+    <script src="/js/consejos.js?v=1765738087856"></script>
+    
+    <script src="/js/index.js?v=1765738087856"></script>
+    
+    
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('loaded');

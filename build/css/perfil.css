@@ -194,6 +194,8 @@
 
 .profile-form {
     max-width: 600px;
+    margin: 0 auto;
+    /* Center the form */
 }
 
 .form-row {
@@ -385,6 +387,7 @@
         font-size: 1.2rem;
     }
 }
+
 .avatar-section {
     display: flex;
     justify-content: center;
@@ -450,9 +453,80 @@
     gap: 20px;
 }
 
+/* Desktop: Improve Grid to be less stacked */
 .preferences-grid {
     display: grid;
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 100%;
+    /* Fix: Allow full width */
+    justify-content: center;
+    /* Fix: Center content */
+    margin: 0 auto;
+    /* Ensure container is centered */
+}
+
+/* Mobile: Carousel */
+@media (max-width: 768px) {
+    .preferences-carousel-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 40px;
+    }
+
+    .preferences-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 15px;
+        padding: 0 20px 20px 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .preferences-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pref-item {
+        flex: 0 0 85%;
+        /* Shows part of next card */
+        scroll-snap-align: center;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+        height: auto;
+        margin: 0;
+    }
+
+    /* Carousel Indicators */
+    .carousel-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .carousel-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .dark-mode .carousel-indicator {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .carousel-indicator.active {
+        background: var(--primary-color, #667eea);
+        transform: scale(1.2);
+    }
 }
 
 .pref-info {
@@ -488,20 +562,20 @@ html.dark-mode .pref-info i {
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .action-buttons {
         flex-direction: column;
     }
-    
+
     .action-buttons .btn {
         width: 100%;
     }
-    
+
     .avatar-container {
         width: 100px;
         height: 100px;
     }
-    
+
     .avatar-container i {
         font-size: 3rem;
     }

@@ -1,49 +1,104 @@
-# build_and_package.ps1
-Write-Host "Iniciando Build Local (Restauración)..."
+# --- CONFIGURACIÓN ---
+$StagingDir = "deploy_package_static"  # Carpeta temporal
+$SiteSource = "_site_tmp"              # Donde Eleventy deja tus archivos (según tu config anterior)
+$ZipFile    = "deploy_static.zip"
 
-# Asegurar que usamos el comando correcto
+Write-Host "🚀 INICIANDO PROCESO MAESTRO..." -ForegroundColor Cyan
+
+# ---------------------------------------------------------
+# PASO 1: LIMPIEZA PREVENTIVA (Evita el loop infinito)
+# ---------------------------------------------------------
+Write-Host "🧹 Limpiando archivos viejos..."
+if (Test-Path $StagingDir) { Remove-Item $StagingDir -Recurse -Force -ErrorAction SilentlyContinue }
+if (Test-Path $ZipFile)    { Remove-Item $ZipFile -Force -ErrorAction SilentlyContinue }
+
+# ---------------------------------------------------------
+# PASO 2: CONSTRUIR EL SITIO (Eleventy)
+# ---------------------------------------------------------
+Write-Host "🏗️  Ejecutando Build de Eleventy..."
 cmd /c "npx @11ty/eleventy"
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Error en el build."
+    Write-Host "❌ Error: El build falló. Deteniendo." -ForegroundColor Red
     exit 1
 }
 
-$PackageDir = "deploy_package_static"
-$SiteDir = "_site_tmp"
-$NewSiteDir = "_site_new"
+# ---------------------------------------------------------
+# PASO 3: PREPARAR EL PAQUETE (Copiar todo a la carpeta temporal)
+# ---------------------------------------------------------
+Write-Host "📦 Organizando archivos para el servidor..."
+New-Item -ItemType Directory -Path $StagingDir | Out-Null
 
-# Limpieza previa
-if (Test-Path $PackageDir) { Remove-Item -Path $PackageDir -Recurse -Force }
-New-Item -ItemType Directory -Path $PackageDir | Out-Null
+# A. Copiar el Frontend (Lo renombramos a '_site' para que Nginx lo quiera)
+if (Test-Path $SiteSource) {
+    Write-Host "   - Copiando Frontend..."
+    Copy-Item -Path $SiteSource -Destination "$StagingDir\_site" -Recurse
+} else {
+    Write-Host "❌ Error: No se encontró la carpeta $SiteSource" -ForegroundColor Red
+    exit 1
+}
 
-# Copiar archivos construidos
-Copy-Item -Path $SiteDir -Destination "$PackageDir\$NewSiteDir" -Recurse
+# B. Copiar el Backend (Server)
+if (Test-Path "server") {
+    Write-Host "   - Copiando Backend..."
+    Copy-Item -Path "server" -Destination "$StagingDir\server" -Recurse
+}
 
-# Crear script de deploy simple
-$DeployScript = @"
+# C. Copiar Assets (Imágenes, logos)
+if (Test-Path "assets") {
+    Write-Host "   - Copiando Assets..."
+    Copy-Item -Path "assets" -Destination "$StagingDir\_site\assets" -Recurse
+}
+
+# D. Copiar Archivos de Configuración Node
+Copy-Item "package.json" "$StagingDir\"
+if (Test-Path "package-lock.json") { Copy-Item "package-lock.json" "$StagingDir\" }
+
+# ---------------------------------------------------------
+# PASO 4: CREAR SCRIPT DE AUTO-INSTALACIÓN (Para Linux)
+# ---------------------------------------------------------
+Write-Host "📝 Generando script de control para Ubuntu..."
+
+$DeployScriptContent = @"
 #!/bin/bash
-# deploy_static.sh
-echo "Restaurando sitio..."
-if [ -d "_site_new" ]; then
-    rm -rf _site
-    mv _site_new _site
-    chown -R www-data:www-data _site
-    chmod -R 755 _site
-    systemctl reload nginx
-    echo "Listo."
-else
-    echo "Error: No se encuentra _site_new"
+# Script generado automáticamente por PowerShell
+
+echo "🚀 Iniciando despliegue en el servidor..."
+
+# 1. Instalar dependencias si cambiaron
+if [ -f "package.json" ]; then
+    echo "📦 Instalando librerías del backend..."
+    npm install --production
 fi
+
+# 2. Reiniciar el Backend (PM2)
+echo "🧠 Reiniciando API..."
+pm2 restart turkamerica-api || pm2 start server/server.js --name "turkamerica-api"
+
+# 3. Ajustar Permisos (Vital para error 403/404)
+# Le damos todo a 'ubuntu' (tu usuario) para que puedas editar, y lectura a otros
+echo "🔒 Ajustando permisos..."
+sudo chown -R ubuntu:ubuntu .
+sudo chmod -R 755 .
+
+# 4. Recargar Nginx
+echo "🌐 Recargando servidor web..."
+sudo systemctl reload nginx
+
+echo "✅ ¡TODO LISTO! Sitio y Backend actualizados."
 "@
-Set-Content -Path "$PackageDir\deploy_static.sh" -Value $DeployScript
-# Asegurar finales de línea LF para Linux
-(Get-Content "$PackageDir\deploy_static.sh") -join "`n" | Set-Content -NoNewline "$PackageDir\deploy_static.sh"
 
-$ZipFile = "deploy_static.zip"
-if (Test-Path $ZipFile) { Remove-Item $ZipFile -Force }
+# Guardar el archivo asegurando formato Unix (LF en vez de CRLF)
+$DeployScriptPath = "$StagingDir\deploy_static.sh"
+[IO.File]::WriteAllText($DeployScriptPath, $DeployScriptContent.Replace("`r`n", "`n"))
 
-Write-Host "Comprimiendo..."
-Compress-Archive -Path "$PackageDir\*" -DestinationPath $ZipFile -Force
+# ---------------------------------------------------------
+# PASO 5: COMPRIMIR
+# ---------------------------------------------------------
+Write-Host "🗜️  Comprimiendo ZIP final..."
+# Comprimimos el CONTENIDO de la carpeta, no la carpeta en sí
+Compress-Archive -Path "$StagingDir\*" -DestinationPath $ZipFile -Force
 
-Write-Host "Paquete de restauración creado: $ZipFile"
+Write-Host "---------------------------------------------------" -ForegroundColor Green
+Write-Host "✅ ÉXITO: Sube '$ZipFile' a tu servidor." -ForegroundColor Green
+Write-Host "---------------------------------------------------"

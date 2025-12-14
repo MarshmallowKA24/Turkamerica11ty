@@ -524,24 +524,59 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+        .editor-carousel-container {
+            position: relative;
+            padding-bottom: 30px;
+            /* Space for indicators */
+        }
+
         .editor-toolbar {
-            flex-wrap: nowrap;
+            display: flex;
+            flex-wrap: nowrap !important;
+            /* Force nowrap */
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 10px;
+            padding-bottom: 20px;
+            /* More space for scrollbar/indicators */
+            scroll-snap-type: x mandatory;
+            gap: 15px;
             scrollbar-width: none;
-            /* Firefox */
+            width: 100%;
+            /* Ensure full width */
+            justify-content: flex-start;
+            /* Alignment start */
         }
 
         .editor-toolbar::-webkit-scrollbar {
             display: none;
-            /* Chrome, Safari */
         }
 
         .toolbar-group {
             border-right: 1px solid var(--border-color);
-            padding-right: 10px;
-            flex-shrink: 0;
+            padding-right: 15px;
+            /* Increase spacing */
+            flex: 0 0 auto;
+            /* Allow group to take natural width */
+            width: auto;
+            /* Remove fixed 85% constraint */
+            scroll-snap-align: start;
+            /* Snap to start of group instead of center */
+            justify-content: flex-start;
+            display: flex;
+            flex-wrap: nowrap;
+            /* Force buttons in one line */
+            align-items: center;
+        }
+
+        /* Indicators for editor */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
         }
 
         .toolbar-group:last-child {
@@ -559,6 +594,16 @@
         word-break: break-word !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+        resize: none !important;
+        /* Disable manual resize */
+        min-height: 500px !important;
+        /* Ensure visibility */
+        display: block !important;
+    }
+
+    /* Also disable resize for the short description */
+    textarea {
+        resize: none !important;
     }
 
 }

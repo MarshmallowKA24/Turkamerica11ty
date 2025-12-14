@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+        (function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si el usuario guardó 'enabled' O no guardó nada y prefiere oscuro,
+            // aplica la clase 'dark-mode' inmediatamente.
+            if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+                // Se usa document.documentElement (<html>) en lugar de <body> 
+                // para asegurar que el fondo de la página se aplique antes
+                // de que cualquier contenido se cargue.
+            }
+        })();
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded { opacity: 1; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1764671087048">
+    
+    <link rel="stylesheet" href="/css/fix.css?v=1764671087048">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Recursos de Aprendizaje de Turco</h1>
+            <div class="tabs">
+                <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
+                <a href="/Consejos/" class="tab">Consejos</a>
+                <a href="/Gramatica/" class="tab">Gramática</a>
+                <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+            </div>
+            <div id="authButton" class="auth-buttons">
+                <a href="/login/">Iniciar Sesión</a>
+            </div>
+        </header>
+
+        
+
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+   <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1764671087048">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1764671087048">
+    
+    <link rel="stylesheet" href="/css/fix.css?v=1764671087048">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<link rel="stylesheet" href="/css/gramatica.css">
+
+<link rel="stylesheet" href="/css/contribute.css?v=1764671087048">
+<link rel="stylesheet" href="/css/nivel-modals.css?v=1764671087048">
+<link rel="stylesheet" href="/css/inline-editor-mobile-fixes.css?v=1764671087048">
+<link rel="stylesheet" href="/css/tip-box-fix.css?v=1764671087048">
+
+<div class="container">
+    <div class="topics-panel" id="topicsPanel" style="margin-bottom: 30px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
+        <div class="panel-header" style="background: #6366f1; padding: 15px 20px; color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+            <h3 style="margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-search"></i>
+                Buscar Temas
+            </h3>
+            <button class="panel-toggle" id="panelToggle" aria-label="Alternar panel" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; padding: 5px;">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="panel-content" id="panelContent" style="background: white; padding: 20px;">
+            <div class="search-box" style="position: relative; width: 100%;">
+                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                <input type="text" id="topicSearch" placeholder="Buscar por tema..." autocomplete="off" 
+                       style="width: 100%; padding: 12px 15px 12px 45px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; transition: all 0.3s ease;"
+                       onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
+            </div>
+        </div>
+    </div>
+
+    
+<section class="grammar-section" style="margin-top: 40px;">
+  <div class="grammar-cards">
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Bildirme Ekleri (-DIr) (Presente)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Expresar hechos, verdades generales y suposiciones (probablemente).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="bildirme-eki-present">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Bildirme Ekleri (-DIydı, -mIştI) (Pasado)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Tiempos compuestos: "iba a...", "había...", "solía...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="bildirme-eki-past">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Zarf-Fiiller (-IncAyA kadar, -dIkçA)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Expresar "hasta que..." y "a medida que...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="zarf-fiil-kadar-dikce">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Sıfat-Fiiller (Ortaçlar) - Parte 1</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Participios adjetivales (que hace): -An, -AsI, -mAz, -Ar.
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="sifat-fiiller-1">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Sıfat-Fiiller (Ortaçlar) - Parte 2</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Participios adjetivales (que hizo/hará): -DIk, -AcAk, -mIş.
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="sifat-fiiller-2">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Edilgen Çatı (Voz Pasiva)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Expresar acciones donde el sujeto recibe la acción ("ser hecho").
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="edilgen-cati">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Ettirgen Çatı (Causativa) - Parte 1</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Hacer que alguien haga algo (Sufijos: -dIr, -t).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="ettirgen-cati-1">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Ettirgen Çatı (Causativa) - Parte 2</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Hacer que alguien haga algo (Sufijos: -Ir, -Ar, -Er, -It).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="ettirgen-cati-2">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Oldurgan Çatı (Factitiva)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Convertir verbos intransitivos en transitivos (ej. dormir -> hacer dormir).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="oldurgan-cati">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Zarf-Fiiller (-mAdAn önce, -dIktAn sonra)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Secuenciación de tiempo: "antes de..." y "después de...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="zarf-fiil-sonra-once">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Zarf-Fiiller (Modo/Secuencia - Repaso)</h3>
+        <div class="difficulty-badge intermediate">Intermedio</div>
+      </div>
+      <p class="card-description">
+        Repaso de B1: -(y)Ip (y), -(y)A...-(y)A (repetición), -(y)ArAk (modo).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="zarf-fiil-ip-arak">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Bağlaçlar (Conjunciones: ki, diye, vb.)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Uso de conjunciones clave: ki (que), diye (diciendo/para), bu yüzden (por eso).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="baglaclar-ki-diye">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Dolaylı Anlatım (Estilo Indirecto) - Afirmativas</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Reportar lo que alguien dijo ("Dijo que..."): -DIğI, -AcAğI.
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="dolayli-anlatim-duz">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Dolaylı Anlatım (Estilo Indirecto) - Preguntas</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Reportar preguntas ("Preguntó si..."): -Ip -mAdIğI.
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="dolayli-anlatim-soru">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Dolaylı Anlatım (Estilo Indirecto) - Órdenes</h3>
+        <div class="difficulty-badge intermediate">Intermedio</div>
+      </div>
+      <p class="card-description">
+        Reportar órdenes ("Dijo que hiciera..."): -mAsI (Repaso B1).
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="dolayli-anlatim-emir">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Zarf-Fiiller (Repaso: -Ir -mAz, -(y)AlI)</h3>
+        <div class="difficulty-badge intermediate">Intermedio</div>
+      </div>
+      <p class="card-description">
+        Repaso de B1: "tan pronto como..." y "desde que...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="zarf-fiil-irmaz-ali">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>İsim Cümleleri (Cláusulas: -mAsI, -DIğI)</h3>
+        <div class="difficulty-badge advanced">Avanzado</div>
+      </div>
+      <p class="card-description">
+        Cláusulas sustantivas: "El hecho de que..." y "Que (alguien) haga...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="isim-cumleleri-masi-digi">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+    <div class="grammar-card">
+      <div class="card-header">
+        <h3>Bağlaçlar (Repaso: hem... hem, ne... ne)</h3>
+        <div class="difficulty-badge intermediate">Intermedio</div>
+      </div>
+      <p class="card-description">
+        Repaso de conjunciones dobles: "tanto... como...", "ni... ni...", "o... o...".
+      </p>
+      <button class="btn btn-primary explanation-btn" data-topic="baglaclar-hem-ne-ya">
+        <i class="fas fa-play"></i>
+        Ver Explicación
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<div id="explanationModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Explicación</h3>
+      <button class="close-modal" id="closeModalBtn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+</div>
+
+    <!-- INLINE LESSON EDITOR -->
+    <div id="inlineEditorContainer" style="display: none; margin: 40px 0; padding: 30px; background: #f8fafc; border-radius: 15px; border: 2px solid #6366f1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <h2 style="color: #6366f1; margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-edit"></i>
+                Editar Lección
+            </h2>
+            <button id="cancelEditBtn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 8px; font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="inlineLessonForm">
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonTitle" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Título de la Lección
+                </label>
+                <input type="text" id="inlineLessonTitle" required 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem;">
+            </div>
+
+            <input type="hidden" id="inlineLessonId">
+
+            <div style="margin-bottom: 20px;">
+                <label for="inlineLessonDescription" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Descripción (opcional)
+                </label>
+                <textarea id="inlineLessonDescription" rows="2" 
+                          style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; resize: vertical;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">
+                    Contenido de la Lección
+                </label>
+                <div id="inlineLessonContentEditor" style="min-height: 300px; background: white; border-radius: 8px; border: 2px solid #e2e8f0;"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button type="submit" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; font-size: 1.2rem;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="level-actions" style="margin-top: 60px; margin-bottom: 60px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px; border: 1px solid #e2e8f0;">
+        <h3 style="margin-bottom: 15px; color: #475569; font-size: 1.1rem;">¿Quieres contribuir?</h3>
+        <a href="/Contribute/" id="createLessonBtn" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fas fa-plus"></i>
+            Crear Nueva Lección
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const panel = document.getElementById('topicsPanel');
+        const panelToggle = document.getElementById('panelToggle');
+        const panelHeader = document.querySelector('.panel-header');
+        const searchInput = document.getElementById('topicSearch');
+        const searchBox = document.querySelector('.search-box');
+        
+        // Function to stop propagation
+        function stop(e) { e.stopPropagation(); }
+        
+        // Prevent search input from closing the panel
+        if (searchInput) {
+            searchInput.addEventListener('click', stop);
+            searchInput.addEventListener('mousedown', stop);
+            searchInput.addEventListener('touchstart', stop);
+            searchInput.addEventListener('keydown', stop);
+        }
+        if (searchBox) {
+            searchBox.addEventListener('click', stop);
+            searchBox.addEventListener('mousedown', stop);
+            searchBox.addEventListener('touchstart', stop);
+        }
+
+        // Toggle Logic
+        function togglePanel(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (panel) {
+                panel.classList.toggle('collapsed');
+            }
+        }
+
+        if (panelToggle) {
+            panelToggle.addEventListener('click', togglePanel);
+        }
+
+        if (panelHeader) {
+            panelHeader.addEventListener('click', function(e) {
+                // Only toggle if the click wasn't on the toggle button (handled above)
+                // or the search input (handled by stop propagation)
+                if (!e.target.closest('.panel-toggle') && !e.target.closest('.search-box')) {
+                    togglePanel(e);
+                }
+            });
+        }
+
+        // Detect current level from page URL and update contribute button
+        const createLessonBtn = document.getElementById('createLessonBtn');
+        if (createLessonBtn) {
+            // Extract level from current page path (e.g., /NivelA1.html -> A1)
+            const currentPath = window.location.pathname;
+            const levelMatch = currentPath.match(/Nivel([A-C][12])/i);
+            
+            if (levelMatch) {
+                const level = levelMatch[1].toUpperCase(); // A1, A2, B1, B2, or C1
+                // Update the href to include the level parameter
+                createLessonBtn.href = `/Contribute/?level=${level}`;
+                console.log(`✅ Contribute button updated for level: ${level}`);
+            }
+        }
+    });
+</script>
+
+<div id="explanationModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Explicación</h3>
+      <button class="close-modal" id="closeModalBtn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/nivel-common.js?v=1764671087048"></script>
+    <script src="/js/lesson-editor.js?v=1764671087048"></script>
+    <script src="/js/contribute.js?v=1764671087048"></script>
+    <script src="/js/admin-contributions.js?v=1764671087048"></script>
+    
+
+</div>
+
+
+        <div class="settings-overlay" id="settingsOverlay">
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h2>Configuración</h2>
+                    <button class="close-btn" id="closeSettings" type="button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-user"></i></div>
+                        <div class="setting-content">
+                            <h3>Perfil</h3>
+                            <p>Ver tu racha y configuración personal</p>
+                        </div>
+                        <div class="setting-action">
+                            <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-bell"></i></div>
+                        <div class="setting-content">
+                            <h3>Notificaciones</h3>
+                            <p>Configurar recordatorios de estudio</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-moon"></i></div>
+                        <div class="setting-content">
+                            <h3>Tema Oscuro</h3>
+                            <p>Cambiar apariencia de la aplicación</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="setting-content">
+                            <h3>Sonido</h3>
+                            <p>Configurar efectos de sonido</p>
+                        </div>
+                        <div class="setting-action">
+                            <label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-icon"><i class="fas fa-font"></i></div>
+                        <div class="setting-content">
+                            <h3>Tamaño de Fuente</h3>
+                            <p>Ajustar tamaño del texto</p>
+                        </div>
+                        <div class="setting-action">
+                            <select class="setting-select">
+                                <option value="small">Pequeño</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <span class="made-with">Made with</span>
+                <i class="fas fa-heart heart-icon"></i>
+                <span class="made-with">by LatinCTC</span>
+            </div>
+            <div class="footer-links">
+                <span>•</span>
+                <a href="/Dashboard/">Sobre el Proyecto</a>
+                <span>•</span>
+                <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+              
+            </div>
+        </footer>
+    </div>
+    
+    <!-- CRITICAL: Load in this exact order -->
+    <!-- 1. Cache Manager FIRST (detects updates) -->
+    <script src="/js/cache-manager.js?v=1764671087048"></script>
+    
+    <!-- 2. General utilities (settings, dark mode, etc) -->
+    <script src="/js/general.js?v=1764671087048"></script>
+    
+    <!-- 3. Core systems -->
+    <script src="/js/config.js?v=1764671087048"></script>
+    <script src="/js/cache.js?v=1764671087048"></script>
+    <script src="/js/loader.js?v=1764671087048"></script>
+    <script src="/js/toast.js?v=1764671087048"></script>
+    <script src="/js/analytics.js?v=1764671087048"></script>
+    <script src="/js/search.js?v=1764671087048"></script>
+    
+    <!-- 4. Auth & page-specific -->
+    <script src="/js/auth.js?v=1764671087048"></script>
+    <script src="/js/index.js?v=1764671087048"></script>
+    <script src="/js/app.js?v=1764671087048"></script>
+    
+    <!-- Page-specific scripts -->
+    
+    
+    <!-- Load indicator -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
