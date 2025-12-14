@@ -4,16 +4,25 @@
    ======================================== */
 
 .lesson-editor {
-    background: var(--bg-card);
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
+    background: transparent;
+    /* Remove card bg */
+    border-radius: 0;
+    padding: 0;
+    /* Remove padding to match width of inputs */
+    margin-bottom: 20px;
 }
 
 .editor-toolbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    /* Force single line globally */
+    gap: 15px;
+    overflow-x: auto;
+    /* Enable scroll globally */
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    justify-content: flex-start;
     padding: 15px;
     background: var(--bg-secondary);
     border-radius: 10px;
@@ -26,6 +35,15 @@
     gap: 5px;
     padding-right: 15px;
     border-right: 2px solid var(--border-color);
+    padding-right: 15px;
+    flex: 0 0 auto;
+    /* No shrink, auto width */
+    width: auto;
+    scroll-snap-align: start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    /* Prevent buttons wrapping */
+    align-items: center;
 }
 
 .toolbar-group:last-child {
