@@ -9,7 +9,7 @@ const booksData = {
     'A1': [
         {
             title: 'İstanbul A1 Ders Kitabı',
-            url: '/ISTANBUL_A1_DERS_KITABI_104S_compressed.pdf',
+            url: '/A1.pdf',
             size: '~8 MB',
             pages: '104',
             description: 'Libro oficial de texto para nivel A1'
@@ -18,7 +18,7 @@ const booksData = {
     'A2': [
         {
             title: 'A2 Türkçe Kitabı',
-            url: '/A2-Turkce-kitabı-yeni_compressed.pdf',
+            url: '/A2.pdf',
             size: '~10 MB',
             pages: '120',
             description: 'Libro de texto para nivel A2'
@@ -27,7 +27,7 @@ const booksData = {
     'B1': [
         {
             title: 'B1 Ders Kitabı',
-            url: '/B1-DERS-KITABI_compressed.pdf',
+            url: '/B1.pdf',
             size: '~12 MB',
             pages: '150',
             description: 'Libro de texto para nivel B1'
@@ -36,7 +36,7 @@ const booksData = {
     'B2': [
         {
             title: 'B2 Ders Kitabı',
-            url: '/B2-ders-kitabı_compressed.pdf',
+            url: '/B2.pdf',
             size: '~14 MB',
             pages: '160',
             description: 'Libro de texto para nivel B2'
@@ -45,7 +45,7 @@ const booksData = {
     'C1': [
         {
             title: 'C1 Ders Kitabı',
-            url: '/C1-DERS-KITABI_compressed.pdf',
+            url: '/C1.pdf',
             size: '~15 MB',
             pages: '180',
             description: 'Libro de texto para nivel C1'

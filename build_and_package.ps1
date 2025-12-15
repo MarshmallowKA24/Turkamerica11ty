@@ -1,7 +1,7 @@
-# --- CONFIGURACIÓN ---
+﻿# --- CONFIGURACIÓN ---
 $StagingDir = "deploy_package_static"  # Carpeta temporal
 $SiteSource = "_site_tmp"              # Donde Eleventy deja tus archivos (según tu config anterior)
-$ZipFile    = "deploy_static.zip"
+$ZipFile = "deploy_static.zip"
 
 Write-Host "🚀 INICIANDO PROCESO MAESTRO..." -ForegroundColor Cyan
 
@@ -10,7 +10,7 @@ Write-Host "🚀 INICIANDO PROCESO MAESTRO..." -ForegroundColor Cyan
 # ---------------------------------------------------------
 Write-Host "🧹 Limpiando archivos viejos..."
 if (Test-Path $StagingDir) { Remove-Item $StagingDir -Recurse -Force -ErrorAction SilentlyContinue }
-if (Test-Path $ZipFile)    { Remove-Item $ZipFile -Force -ErrorAction SilentlyContinue }
+if (Test-Path $ZipFile) { Remove-Item $ZipFile -Force -ErrorAction SilentlyContinue }
 
 # ---------------------------------------------------------
 # PASO 2: CONSTRUIR EL SITIO (Eleventy)
@@ -29,11 +29,20 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "📦 Organizando archivos para el servidor..."
 New-Item -ItemType Directory -Path $StagingDir | Out-Null
 
-# A. Copiar el Frontend (Lo renombramos a '_site' para que Nginx lo quiera)
+# A. Copiar el Frontend
 if (Test-Path $SiteSource) {
     Write-Host "   - Copiando Frontend..."
     Copy-Item -Path $SiteSource -Destination "$StagingDir\_site" -Recurse
-} else {
+    
+    # --- FIX CRITICO: Aplanar estructura ---
+    # Si Eleventy generó las cosas en _site/build/, las subimos a _site/
+    if (Test-Path "$StagingDir\_site\build") {
+        Write-Host "   - 🔧 Aplanando estructura de directorios..."
+        Get-ChildItem -Path "$StagingDir\_site\build" | Move-Item -Destination "$StagingDir\_site" -Force
+        Remove-Item "$StagingDir\_site\build" -Recurse -Force
+    }
+}
+else {
     Write-Host "❌ Error: No se encontró la carpeta $SiteSource" -ForegroundColor Red
     exit 1
 }
@@ -57,36 +66,17 @@ if (Test-Path "package-lock.json") { Copy-Item "package-lock.json" "$StagingDir\
 # ---------------------------------------------------------
 # PASO 4: CREAR SCRIPT DE AUTO-INSTALACIÓN (Para Linux)
 # ---------------------------------------------------------
-Write-Host "📝 Generando script de control para Ubuntu..."
+Write-Host "📝 Integrando script de control (deploy_static_source.sh)..."
 
-$DeployScriptContent = @"
-#!/bin/bash
-# Script generado automáticamente por PowerShell
-
-echo "🚀 Iniciando despliegue en el servidor..."
-
-# 1. Instalar dependencias si cambiaron
-if [ -f "package.json" ]; then
-    echo "📦 Instalando librerías del backend..."
-    npm install --production
-fi
-
-# 2. Reiniciar el Backend (PM2)
-echo "🧠 Reiniciando API..."
-pm2 restart turkamerica-api || pm2 start server/server.js --name "turkamerica-api"
-
-# 3. Ajustar Permisos (Vital para error 403/404)
-# Le damos todo a 'ubuntu' (tu usuario) para que puedas editar, y lectura a otros
-echo "🔒 Ajustando permisos..."
-sudo chown -R ubuntu:ubuntu .
-sudo chmod -R 755 .
-
-# 4. Recargar Nginx
-echo "🌐 Recargando servidor web..."
-sudo systemctl reload nginx
-
-echo "✅ ¡TODO LISTO! Sitio y Backend actualizados."
-"@
+# LEER EL SCRIPT EXTERNO (Para no perder los fixes)
+$SourceScriptPath = "deploy_static_source.sh"
+if (Test-Path $SourceScriptPath) {
+    $DeployScriptContent = Get-Content -Path $SourceScriptPath -Raw
+}
+else {
+    Write-Host "❌ ERROR CRÍTICO: No se encuentra $SourceScriptPath" -ForegroundColor Red
+    exit 1
+}
 
 # Guardar el archivo asegurando formato Unix (LF en vez de CRLF)
 $DeployScriptPath = "$StagingDir\deploy_static.sh"

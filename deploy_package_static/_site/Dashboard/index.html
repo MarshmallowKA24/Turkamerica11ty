@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si el usuario guardó 'enabled' O no guardó nada y prefiere oscuro,
+            // aplica la clase 'dark-mode' inmediatamente.
+            if (savedTheme === 'enabled' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded { opacity: 1; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Aprendizaje de Turco - TurkAmerica</title>
+    <link rel="icon" type="image/x-icon" href="/assets/TurkAmerica.ico">
+    
+    <link rel="stylesheet" href="/css/styles.css?v=custom_fix_css_1">
+    <link rel="stylesheet" href="/css/darkmode.css?v=1765757418908">
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1765757418908">
+    <link rel="stylesheet" href="/css/smooth-scroll-fixes.css">
+    <link rel="stylesheet" href="/css/settings-panel-mobile.css?v=1765757418908">
+    <link rel="stylesheet" href="/css/mobile-nav.css?v=1765757418908">
+    <link rel="stylesheet" href="/css/fix.css?v=1765757418908">
+    <link rel="stylesheet" href="/css/custom-modal.css?v=5">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    
+    <link rel="stylesheet" href="/css/dashboard.css?v=1765757418908">
+    
+    <link rel="stylesheet" href="/css/mobile-visual-fixes.css?v=1765757418908">
+    
+    <link rel="stylesheet" href="/css/critical-fixes.css?v=1765757418908">
+    
+    
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-title-row">
+                <h1 class="main-title">Turco para Latinos</h1>
+            </div>
+            <div class="header-nav-row">
+                <img src="/assets/logoTurkamerica.png" alt="TurkAmerica Logo" class="header-logo">
+                <div class="tabs">
+                    <a href="/" class="tab active"><i class="fas fa-home"></i>Inicio</a>
+                    <a href="/Consejos/" class="tab"><i class="fas fa-lightbulb"></i>Consejos</a>
+                    <a href="/Gramatica/" class="tab"><i class="fas fa-book"></i>Gramática</a>
+                  
+                    <a href="/admin-contributions/" class="tab admin-tab" id="adminTab" style="display: none;"><i class="fas fa-shield-alt"></i>Admin</a>
+                    <button class="tab settings-tab" id="settingsTab" type="button"><i class="fas fa-cog"></i>Ajustes</button>
+                </div>
+            </div> 
+        </header>
+        
+       <div class="notice">
+    <i class="fas fa-info-circle"></i>
+    
+    <a href="/register/">Registrarme</a>
+    
+    <span style="margin: 0 4px;">/</span>
+
+    <span id="authButton">
+        <a href="/login/">Iniciar Sesión</a>
+    </span>
+</div>
+        <div class="content">
+            <div class="content">
+    <div class="hero-dashboard">
+        <div class="hero-icon">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h2>Una Plataforma para la Comunidad</h2>
+        <p class="hero-subtitle">Aprendizaje de turco accesible para todos los hispanohablantes</p>
+    </div>
+
+    <div class="mission-section">
+        <h2>
+            <i class="fas fa-bullseye"></i>
+            La Misión
+        </h2>
+        <p class="mission-text">
+            TurkAmerica nació con el objetivo de crear recursos de calidad para aprender turco 
+            dirigidos específicamente a la comunidad hispanohablante. El idioma 
+            no debe ser una barrera para conectar culturas.
+        </p>
+    </div>
+
+    <div class="features-dashboard">
+        <h2>
+            <i class="fas fa-star"></i>
+            Lo que proporciona la Página Web
+        </h2>
+        <div class="carousel-container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Recursos Educativos</h3>
+                    <p>PDFs oficiales, gramática detallada y guías de estudio organizadas por niveles</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-laptop"></i>
+                    <h3>App Móvil</h3>
+                    <p>Flashcards con sincronización en la nube y repetición espaciada</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-youtube"></i>
+                    <h3>Contenido Variado</h3>
+                    <p>Enlaces a canales de YouTube, podcasts y recursos externos</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Plan de Estudio</h3>
+                    <p>Horario intensivo con recomendaciones diarias de actividades</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-fire"></i>
+                    <h3>Sistema de Rachas</h3>
+                    <p>Mantén tu motivación con seguimiento de días consecutivos</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-moon"></i>
+                    <h3>Personalizable</h3>
+                    <p>Modo oscuro, ajustes de fuente y preferencias en la nube</p>
+                </div>
+            </div>
+            <div class="carousel-indicators">
+                <button class="carousel-indicator active" aria-label="Página 1"></button>
+                <button class="carousel-indicator" aria-label="Página 2"></button>
+                <button class="carousel-indicator" aria-label="Página 3"></button>
+                <button class="carousel-indicator" aria-label="Página 4"></button>
+                <button class="carousel-indicator" aria-label="Página 5"></button>
+                <button class="carousel-indicator" aria-label="Página 6"></button>
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="developer-section">
+        <h2>
+            <i class="fas fa-code"></i>
+            Sobre el Desarrollador
+        </h2>
+        <div class="developer-card">
+            <div class="dev-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="dev-info">
+                <h3>LatinCTC</h3>
+                <p class="dev-title">Developer & Language Enthusiast</p>
+                <p class="dev-bio">
+                    Apasionado por crear herramientas educativas que faciliten el aprendizaje 
+                    de idiomas y mejoren la calidad de vida. TurkAmerica es un proyecto personal 
+                    que busca llenar el vacío de recursos de turco para hispanohablantes.
+                </p>
+                <div class="dev-stats">
+                    <div class="stat">
+                        <i class="fas fa-code"></i>
+                        <span>Developer</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-language"></i>
+                        <span>5 Idiomas</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-heart"></i>
+                        <span>Open Source</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="collaboration-section">
+        <h2>
+            <i class="fas fa-users"></i>
+            Colaboración y Enseñanza
+        </h2>
+        <div class="collab-content">
+            <p>
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Abierto a colaboraciones:</strong> Si eres desarrollador, diseñador o educador y quieres contribuir al proyecto, ¡contáctame!</span>
+            </p>
+            <p>
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Equipos de trabajo:</strong> Interesado en formar equipos para proyectos educativos y tecnológicos similares.</span>
+            </p>
+            <p>
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Mentoría:</strong> Dispuesto a enseñar y compartir conocimientos sobre desarrollo web, apps móviles y sistemas de aprendizaje.</span>
+            </p>
+            <p>
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Proyectos futuros:</strong> Expansión a otros idiomas, más funcionalidades en la app, sistema de comunidad y más.</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="roadmap-section">
+        <h2>
+            <i class="fas fa-road"></i>
+            Roadmap del Proyecto
+        </h2>
+        <div class="roadmap-timeline">
+            <div class="timeline-item completed">
+                <div class="timeline-marker">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="timeline-content">
+                    <h4>Fase 1: MVP Completado ✅</h4>
+                    <p>Web app con recursos, sistema de usuarios, autenticación y sincronización</p>
+                </div>
+            </div>
+            <div class="timeline-item completed">
+                <div class="timeline-marker">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="timeline-content">
+                    <h4>Fase 2: App de Escritorio  </h4>
+                    <p>Flashcards app con modo offline y sincronización de Cuenta</p>
+                </div>
+            </div>
+            <div class="timeline-item completed">
+                <div class="timeline-marker">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <div class="timeline-content">
+                    <h4>Fase 2: App Mobil  </h4>
+                    <p>Flashcards app con modo offline y sincronización en la nube</p>
+                </div>
+            </div>
+            <div class="timeline-item in-progress">
+                <div class="timeline-marker">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <div class="timeline-content">
+                    <h4>Fase 3: En Desarrollo </h4>
+                    <p>Sistema de comunidad, foros, intercambio de mazos y gamificación avanzada</p>
+                </div>
+            </div>
+            <div class="timeline-item planned">
+                <div class="timeline-marker">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="timeline-content">
+                    <h4>Fase 4: Planificado 📋</h4>
+                    <p>Clases en vivo, tutores nativos, certificaciones y app para iOS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="support-project-section">
+        <h2>
+            <i class="fas fa-heart"></i>
+            Apoya el Proyecto
+        </h2>
+        <div class="support-content">
+            <p class="support-text">
+                TurkAmerica es un proyecto gratuito y de código abierto. Si te ha sido útil 
+                y quieres apoyar su desarrollo continuo, considera hacer una donación. 
+                Tu apoyo ayuda a mantener los servidores, desarrollar nuevas funciones y 
+                crear más contenido educativo de calidad.
+            </p>
+            
+            <div class="donation-card">
+                <div class="donation-icon">
+                    <i class="fas fa-donate"></i>
+                </div>
+                <div class="donation-info">
+                    <h3>¿Por qué donar?</h3>
+                    <ul class="donation-benefits">
+                        <li><i class="fas fa-check"></i> Mantén el proyecto gratuito para todos</li>
+                        <li><i class="fas fa-check"></i> Acelera el desarrollo de nuevas funciones</li>
+                        <li><i class="fas fa-check"></i> Apoya la creación de más contenido educativo</li>
+                        <li><i class="fas fa-check"></i> Ayuda a expandir a más idiomas</li>
+                        <li><i class="fas fa-check"></i> Contribuye al mantenimiento de servidores</li>
+                    </ul>
+                </div>
+            </div>
+
+            <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="donate-btn">
+                <i class="fas fa-hand-holding-heart"></i>
+                <div class="btn-content">
+                    <span class="btn-title">Apoyar en WhyDonate</span>
+                    <span class="btn-subtitle">Cada contribución cuenta</span>
+                </div>
+            </a>
+
+            <p class="support-thanks">
+                <i class="fas fa-star"></i>
+                <strong>¡Gracias por tu apoyo!</strong> Cada donación, sin importar el monto, 
+                hace una diferencia real en el proyecto.
+            </p>
+        </div>
+    </div>
+
+    <div class="tech-stack-section">
+        <h2>
+            <i class="fas fa-laptop-code"></i>
+            Stack Tecnológico
+        </h2>
+        <div class="carousel-container">
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML5</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS3</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-node-js"></i>
+                    <span>Node.js</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span>MongoDB</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-react"></i>
+                    <span>React Native</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-nginx"></i>
+                    <span>Nginx</span>
+                </div>
+            </div>
+            <div class="carousel-indicators">
+                <button class="carousel-indicator active" aria-label="Tech 1"></button>
+                <button class="carousel-indicator" aria-label="Tech 2"></button>
+                <button class="carousel-indicator" aria-label="Tech 3"></button>
+                <button class="carousel-indicator" aria-label="Tech 4"></button>
+                <button class="carousel-indicator" aria-label="Tech 5"></button>
+                <button class="carousel-indicator" aria-label="Tech 6"></button>
+                <button class="carousel-indicator" aria-label="Tech 7"></button>
+                <button class="carousel-indicator" aria-label="Tech 8"></button>
+            </div>
+         
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>
+            <i class="fas fa-envelope"></i>
+            Contacto
+        </h2>
+        <p>¿Tienes preguntas, sugerencias o quieres colaborar?</p>
+        <div class="contact-methods">
+            <a href="mailto:contact@turkamerica.com" class="contact-btn">
+                <i class="fas fa-envelope"></i>
+                Email
+            </a>
+            <a href="#" class="contact-btn">
+                <i class="fab fa-telegram"></i>
+                Telegram
+            </a>
+            <a href="#" class="contact-btn">
+                <i class="fab fa-github"></i>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+    <div class="credits-section">
+        <h2>
+            <i class="fas fa-award"></i>
+            Agradecimientos
+        </h2>
+        <p>
+            Gracias a todos los usuarios, colaboradores y a la comunidad de aprendices 
+            de turco que hacen este proyecto posible. Especial agradecimiento a:
+        </p>
+        <ul class="credits-list">
+            <li><i class="fas fa-check-circle"></i> La comunidad de desarrolladores open source</li>
+            <li><i class="fas fa-check-circle"></i> Cada usuario que confía en TurkAmerica para su aprendizaje</li>
+        </ul>
+    </div>
+
+    <div class="back-to-top-container">
+        <a href="/" class="btn btn-primary">
+            <i class="fas fa-home"></i>
+            Volver al Inicio
+        </a>
+    </div>
+</div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links" style="margin: 10px 0;">
+                    <span>•</span>
+                    <a href="/Dashboard/">Sobre el Proyecto</a>
+                    <span>•</span>
+                    <a href="https://whydonate.com/fundraising/-apoya-mas-desarollos-para-nuestra-comunidad" target="_blank">Apoyar</a>
+                </div>
+                <span>•</span>
+                <p class="made-with">Hecho con <i class="fas fa-heart heart-icon"></i> para la comunidad latina por ODL</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2>Configuración</h2>
+                <button class="close-btn" id="closeSettingsBtn"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="settings-content">
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-user"></i></div>
+                    <div class="setting-content"> <h3>Perfil</h3>
+                         <p>Ver tu racha y datos</p>
+                    </div>
+                    <div class="setting-action">
+                        <a href="/Perfil/" class="btn btn-outline"><i class="fas fa-cog"></i></a>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-moon"></i></div>
+                    <div class="setting-info">
+                        <h3>Modo Oscuro</h3>
+                        <p>Cambiar apariencia</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-bell"></i></div>
+                    <div class="setting-info">
+                        <h3>Notificaciones</h3>
+                        <p>Activar alertas</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notificationsToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="setting-info">
+                        <h3>Sonido</h3>
+                        <p>Efectos de sonido</p>
+                    </div>
+                    <label class="toggle-switch">
+                         <input type="checkbox" checked><span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-font"></i></div>
+                    <div class="setting-info">
+                        <h3>Tamaño Fuente</h3>
+                        <p>Ajustar texto</p>
+                    </div>
+                    <select class="setting-select">
+                        <option value="small">Pequeño</option>
+                        <option value="medium" selected>Medio</option>
+                        <option value="large">Grande</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-icon"><i class="fas fa-globe"></i></div>
+                    <div class="setting-info">
+                        <h3>Idioma</h3>
+                        <p>Español / Turco</p>
+                    </div>
+                    <select class="setting-select">
+                        <option value="es">Español</option>
+                        <option value="tr">Turco</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-footer">
+                <button class="btn btn-secondary" id="resetSettingsBtn">Restaurar valores</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="custom-modal-overlay" id="customConfirmModal">
+        <div class="custom-modal">
+            <div class="custom-modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="custom-modal-content">
+                <h3 class="custom-modal-title">¿Estás seguro?</h3>
+                <p class="custom-modal-message">¿Restaurar todos los ajustes a valores predeterminados?</p>
+                <div class="custom-modal-actions">
+                    <button class="btn-modal-cancel" id="cancelResetBtn">Cancelar</button>
+                    <button class="btn-modal-confirm" id="confirmResetBtn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/cache-manager.js?v=1765757418908"></script>
+    
+    <script src="/js/general.js?v=1765757418908"></script>
+    
+    <script src="/js/config.js?v=1765757418908"></script>
+    <script src="/js/cache.js?v=1765757418908"></script>
+    <script src="/js/loader.js?v=1765757418908"></script>
+    <script src="/js/toast.js?v=1765757418908"></script>
+    <script src="/js/analytics.js?v=1765757418908"></script>
+    <script src="/js/search.js?v=1765757418908"></script>
+    
+    <script src="/js/contribution-service.js?v=1765757418908"></script>
+    <script src="/js/auth.js?v=1765757418908"></script>
+    <script src="/js/index.js?v=1765757418908"></script>
+    <script src="/js/app.js?v=1765757418908"></script>
+
+    <script src="/js/settings-panel.js?v=custom_fix_3"></script>
+    
+    
+    
+    <script src="/js/carousel-universal.js?v=1765757418908"></script>
+    
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>

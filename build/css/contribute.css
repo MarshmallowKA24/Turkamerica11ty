@@ -69,6 +69,8 @@
     background: var(--input-bg);
     color: var(--text-primary);
     transition: all 0.3s ease;
+    resize: none;
+    /* Disable manual resize */
 }
 
 .form-group input:focus,

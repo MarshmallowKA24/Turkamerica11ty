@@ -231,6 +231,7 @@ async function loadStreakData() {
     try {
         console.log('📊 Loading streak data...');
 
+        /*
         // MOCK STREAK DATA FOR TEST MODE
         if (window.AuthService && window.AuthService.isLoggedIn() && window.AuthService.getCurrentUser().username === 'TestUser') {
             console.log('🚧 Test Mode: Returning mock streak data');
@@ -242,6 +243,7 @@ async function loadStreakData() {
             });
             return;
         }
+        */
 
         const updateResponse = await fetch(`${window.APP_CONFIG.API_BASE_URL}/auth/update-streak`, {
             method: 'POST',
